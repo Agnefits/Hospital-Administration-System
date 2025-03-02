@@ -1,0 +1,35 @@
+﻿using Hospital_Administration_System.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+public class User
+{
+    [Key]
+    public int UserID { get; set; }
+
+    [Required, MaxLength(100)]
+    public string Username { get; set; }
+
+    [Required]
+    public string PasswordHash { get; set; }
+
+    [Required, EmailAddress]
+    public string Email { get; set; }
+
+    [Required]
+    public string Role { get; set; }  
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public string? AdditionalData { get; set; }
+
+    public bool Deleted { get; set; } = false;
+    
+    public Admin Admin { get; set; }
+    public Doctor Doctor { get; set; }
+    public Nurse Nurse { get; set; }
+    public Pharmacist Pharmacist { get; set; }
+    public Patient Patient { get; set; }
+    public ICollection<Log> Logs { get; set; }
+}

@@ -1,0 +1,79 @@
+﻿@model Hospital_Administration_System.Models.Billing
+
+@{
+    ViewData["Title"] = "Add";
+}
+<style>
+    .container {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        max-width: 700px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        max-height: 100vh; 
+    }
+
+    .form-group {
+        margin-top: 10px;
+    }
+</style>
+
+<h1>Add</h1>
+
+<h4>Billing</h4>
+<hr />
+<div class="row">
+    <div class="container">
+        <form method="post" @*action="@Url.Action("Index", "Billing")"*@>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BillID" class="control-label"></label>
+                <input asp-for="BillID" class="form-control" />
+                <span asp-validation-for="BillID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Patient" class="control-label"></label>
+                <input asp-for="Patient" class="form-control" />
+                <span asp-validation-for="Patient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-select">
+                    <option>Pending</option>
+                    <option>Unpaid</option>
+                    <option>Paid</option>
+                </select>
+                @* <input asp-for="Status" class="form-control" /> *@
+                @* <span asp-validation-for="Status" class="text-danger"></span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalData" class="control-label"></label>
+                <input asp-for="AdditionalData" class="form-control" />
+                <span asp-validation-for="AdditionalData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
