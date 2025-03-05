@@ -27,6 +27,6 @@ namespace Hospital_Administration_System.Models
 
         [Required]
         public DateTime IssuedDate { get; set; }
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
     }
 }

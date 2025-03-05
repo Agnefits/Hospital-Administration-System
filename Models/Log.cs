@@ -21,8 +21,8 @@ namespace Hospital_Administration_System.Models
         public DateTime Timestamp { get; set; } = DateTime.Now;
 
         [MaxLength(50)]
-        public string IPAddress { get; set; }
-        public string DeviceInfo { get; set; }
-        public string AdditionalData { get; set; }
+        public string? IPAddress { get; set; }
+        public string? DeviceInfo { get; set; }
+        public string? AdditionalData { get; set; }
     }
 }

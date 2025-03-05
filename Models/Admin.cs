@@ -18,9 +18,7 @@ namespace Hospital_Administration_System.Models
         [Required, MaxLength(20)]
         public string ContactNumber { get; set; }
 
-        [Required, EmailAddress, MaxLength(255)]
-        public string Email { get; set; }
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
         public bool Deleted { get; set; } = false;
     }
 }

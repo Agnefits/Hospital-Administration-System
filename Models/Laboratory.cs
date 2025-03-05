@@ -18,7 +18,7 @@ namespace Hospital_Administration_System.Models
         [Required, MaxLength(255)]
         public string Location { get; set; }
 
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
 
         public bool Deleted { get; set; } = false;
 

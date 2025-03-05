@@ -22,6 +22,6 @@ namespace Hospital_Administration_System.Models
         [Required]
         public string Treatment { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
     }
 }

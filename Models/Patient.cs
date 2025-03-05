@@ -32,7 +32,7 @@ namespace Hospital_Administration_System.Models
 
         [Required, MaxLength(10)]
         public string BloodType { get; set; }
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
         public bool Deleted { get; set; } = false;
         // one to many
         public ICollection<Reservation> Reservations { get; set; }
