@@ -3,9 +3,6 @@ using Hospital_Administration_System.Models;
 
 namespace Hospital_Administration_System.Data
 {
-    using Microsoft.CodeAnalysis.Scripting;
-    using Microsoft.EntityFrameworkCore;
-
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
