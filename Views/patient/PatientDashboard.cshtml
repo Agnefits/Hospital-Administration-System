@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2a5c82;
+            --secondary-color: #5ba4e6;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--primary-color);
+            color: white;
+            position: fixed;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover,
+            .nav-link.active {
+                background: var(--secondary-color);
+                color: white;
+                transform: translateX(10px);
+            }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            transition: margin 0.3s ease;
+        }
+
+        .dashboard-card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+            .dashboard-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .guide-card {
+            background: white;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+            .guide-card:hover {
+                transform: translateX(5px);
+            }
+
+        @@media (max-width: 768px) {
+            .sidebar
+
+        {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0 !important;
+        }
+
+        }
+
+        .hospital-overview {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('hospital-image.jpg');
+            background-size: cover;
+            color: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Toggle Button -->
+    <button class="btn btn-primary d-lg-none position-fixed"
+            style="z-index: 1100; top: 1rem; left: 1rem"
+            onclick="document.querySelector('.sidebar').classList.toggle('active')">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="mb-0">
+                <i class="fas fa-user-injured me-2"></i>
+                Patient Portal
+            </h2>
+        </div>
+        <nav class="nav flex-column mt-3">
+            <a class="nav-link active" href="#">
+                <i class="fas fa-home me-2"></i>Overview
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-calendar-check me-2"></i>Appointments
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-file-medical me-2"></i>Medical History
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-prescription me-2"></i>Prescriptions
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-file-invoice-dollar me-2"></i>Billing
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fas fa-user-md me-2"></i>Our Doctors
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-fluid">
+            <!-- Hospital Overview -->
+            <div class="hospital-overview text-center">
+                <h3>Welcome to Our Medical Center</h3>
+                <p class="lead">Your health is our priority - 24/7 quality care</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-4">
+                <div class="col">
+                    <div class="card dashboard-card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Upcoming Appointments</h5>
+                                    <h2 class="mb-0">2</h2>
+                                </div>
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card dashboard-card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Lab Results Available</h5>
+                                    <h2 class="mb-0">4</h2>
+                                </div>
+                                <i class="fas fa-file-medical-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card dashboard-card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Pending Bills</h5>
+                                    <h2 class="mb-0">$300</h2>
+                                </div>
+                                <i class="fas fa-receipt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card dashboard-card bg-danger text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">New Prescriptions</h5>
+                                    <h2 class="mb-0">1</h2>
+                                </div>
+                                <i class="fas fa-prescription-bottle-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guides Section -->
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white border-0">
+                    <h3 class="mb-0">Patient Quick Guides</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="guide-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-plus me-3 text-primary fs-4"></i>
+                                    <span>How to Book an Appointment</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="guide-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-file-medical me-3 text-success fs-4"></i>
+                                    <span>Access Medical Reports</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="guide-card p-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-pills me-3 text-danger fs-4"></i>
+                                    <span>Understanding Prescriptions</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

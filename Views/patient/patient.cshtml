@@ -1,0 +1,190 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Patient";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Patient</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(162 188 243 / 50%);
+        }
+
+        .container {
+            margin-left: 15%;
+            width: 70%;
+        }
+
+        .photo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .photo img {
+                width: 300px;
+                height: 300px;
+                /* border-radius: 50%; */
+                margin-right: 20px;
+            }
+
+        h1 {
+            font-weight: bold;
+            font-size: 50px;
+            margin: auto;
+            color: #131314;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <div class="card shadow-lg p-4"> -->
+        <div class="card shadow-lg p-5">
+            <div class="photo">
+                <img src="~/css/images/medical.65d592a94c9a25.07563121.png" alt="Doctor Image">
+                <h1>New Patient Enrollment</h1>
+            </div>
+            <form action="enroll_patient.php" method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="first-name" class="form-label">First Name</label>
+                        <input type="text" id="first-name" name="first_name" required class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="last-name" class="form-label">Last Name</label>
+                        <input type="text" id="last-name" name="last_name" required class="form-control" placeholder="Last name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" required class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select id="gender" name="gender" required class="form-select">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="height" class="form-label">Height</label>
+                        <input type="text" id="height" name="height" class="form-control" placeholder="Enter height">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="weight" class="form-label">Weight</label>
+                        <input type="text" id="weight" name="weight" class="form-control" placeholder="Enter weight">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="marital-status" class="form-label">Marital Status</label>
+                        <select id="marital-status" name="marital_status" class="form-select">
+                            <option value="">Select</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" id="phone" name="phone" required class="form-control" pattern="[0-9]{10}" placeholder="10-digit phone number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="address" class="form-label">City</label>
+                        <input type="text" id="address" name="address" required class="form-control" placeholder="Enter city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="street-address" class="form-label">Street Address</label>
+                        <input type="text" id="street-address" name="street_address" required class="form-control" placeholder="Enter street address">
+                    </div>
+                    <hr>
+                    <h2>Diseases</h2>
+                    <p>Do you have any of the following conditions? If yes, please select them:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="checkbox" name="diseases[]" value="Stroke" id="Stroke">
+                            <label for="Stroke">Stroke</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Cough" id="Cough">
+                            <label for="Cough">Cough</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Gastritis" id="Gastritis">
+                            <label for="Gastritis">Gastritis</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Asthma" id="Asthma">
+                            <label for="Asthma">Asthma</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Rickets" id="Rickets">
+                            <label for="Rickets">Rickets</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Diarrhoea" id="Diarrhoea">
+                            <label for="Diarrhoea">Diarrhoea</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Appendicitis" id="Appendicitis">
+                            <label for="Appendicitis">Appendicitis</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Trachoma" id="Trachoma">
+                            <label for="Trachoma">Trachoma</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Cancer" id="Cancer">
+                            <label for="Cancer">Cancer</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Varicose veins " id="Varicose veins ">
+                            <label for="Varicose veins ">Varicose veins </label> <br>
+                            <input type="checkbox" name="diseases[]" value="Tonsillitis" id="Tonsillitis">
+                            <label for="Tonsillitis">Tonsillitis</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Malnutrition" id="Malnutrition">
+                            <label for="Malnutrition">Malnutrition</label> <br>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" name="diseases[]" value="Renal Failure" id="Renal Failure">
+                            <label for="Renal Failure">Renal Failure</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Hernia" id="Hernia">
+                            <label for="Hernia">Hernia</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Sore throat" id="Sore throat">
+                            <label for="Sore throat">Sore throat</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Anaphylaxis" id="Anaphylaxis">
+                            <label for="Anaphylaxis">Anaphylaxis</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Coma" id="Coma">
+                            <label for="Coma">Coma</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Gout" id="Gout">
+                            <label for="Gout">Gout</label> <br>
+                            <input type="checkbox" name="diseases[]" value="HIV/AIDS" id="HIV/AIDS">
+                            <label for="HIV/AIDS">HIV/AIDS</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Squint" id="Squint">
+                            <label for="Squint">Squint</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Vertigo" id="Vertigo">
+                            <label for="Vertigo">Vertigo</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Color blindness" id="Color blindness">
+                            <label for="Color blindness">Color blindness</label> <br>
+                            <input type="checkbox" name="diseases[]" value="Other" id="Other">
+                            <label for="Other">Other</label> <br>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="col-md-6">
+                        <label for="medical-history" class="form-label">Medical History</label>
+                        <textarea id="medical-history" name="medical_history" rows="4" class="form-control" placeholder="Enter medical history"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="allergies" class="form-label">Allergies</label>
+                        <input type="text" id="allergies" name="allergies" class="form-control" placeholder="Enter allergies if any">
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Enroll Patient</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

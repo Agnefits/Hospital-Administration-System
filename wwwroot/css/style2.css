@@ -1,0 +1,345 @@
+#Hospital{
+    font-size: 30px;
+    font-weight: bold;
+    color:#00bcd4;
+}
+#active{
+    text-decoration: underline #00bcd4 5px;
+    font-size: 15px;
+    text-underline-offset: 14px;
+    color: #00bcd4;
+}
+a.nav-link:hover{
+    text-decoration: underline solid #00bcd4 5px;
+    font-size: 18px;
+    text-underline-offset: 14px;
+    color: #00bcd4;
+    transition: color 0.5s ease-in-out;
+}
+a.nav-link {
+    font-weight: bold;
+}
+/* ===== Carousel Styles ===== */
+.carousel-item img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    text-align: left;
+    transform: translateX(-50px); /* Moves it left by 50px */
+    margin-bottom: 150px;
+}
+
+
+.carousel-caption h1 {
+    font-size: 55px;
+    color: black;
+}
+
+.carousel-caption h6 {
+    font-size: 20px;
+    color: #00bcd4;
+}
+
+.carousel-caption button {
+    margin: 10px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 35px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#btn1, #btn3, #btn4 {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: black;
+}
+
+#btn2 {
+    background-color: white;
+    color: black;
+}
+
+#btn1:hover, #btn3:hover, #btn4:hover {
+    opacity: 0.7;
+}
+/* ===== Our Doctors Section ===== */
+#our-doctors {
+    background-color: #1A2A4D;
+    padding: 80px 0;
+    text-align: center;
+}
+
+#our-doctors h2 {
+    color: white;
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+#our-doctors p {
+    color: rgb(200, 198, 198);
+    margin-bottom: 30px;
+}
+
+/* ===== Doctor Cards ===== */
+.doctor-card {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.doctor-card:hover {
+    transform: scale(1.05);
+}
+
+.doctor-card img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.doctor-card h3 {
+    font-size: 22px;
+    color: #1A2A4D;
+    margin-top: 10px;
+}
+
+.doctor-card p {
+    color: rgb(151, 149, 149);
+}
+
+.doctor-card a {
+    color: rgb(233, 219, 20);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.doctor-card a:hover {
+    color: rgb(83, 29, 134);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .doctor-card {
+        margin-bottom: 20px;
+    }
+
+    .doctor-card img {
+        height: 400px;
+    }
+}
+
+@media (max-width: 576px) {
+    .doctor-card img {
+        height: 350px;
+    }
+
+    #our-doctors h2 {
+        font-size: 28px;
+    }
+}
+/* About Us Section */
+.AboutUs {
+    background-color: white;
+    padding: 80px 0;
+}
+
+/* Responsive Image */
+.about-image {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Headings */
+.AboutUs h1 {
+    color: rgb(24, 202, 233);
+    text-transform: uppercase;
+    font-size: 40px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.AboutUs h2 {
+    color: rgb(40, 40, 59);
+    text-transform: uppercase;
+    font-size: 32px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.AboutUs p {
+    color: rgb(139, 136, 136);
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Learn More Button */
+.about-btn {
+    background-color: rgb(233, 112, 13);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
+
+.about-btn:hover {
+    background-color: rgb(200, 90, 10);
+}
+
+/* Services Section */
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+.service-box {
+    text-align: center;
+    background-color: #eef5fa;
+    border-radius: 10px;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service-box i {
+    font-size: 40px;
+    color: #00bcd4;
+    margin-bottom: 10px;
+}
+
+.service-box h3 {
+    font-size: 20px;
+    color: #1A2A4D;
+    margin-bottom: 5px;
+}
+
+.service-box p {
+    color: #00bcd4;
+    font-size: 16px;
+}
+
+.service-box:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .AboutUs h1, .AboutUs h2 {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .AboutUs p {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .about-btn {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .services-container {
+        justify-content: center;
+    }
+}
+
+/* ===== Find Doctor Section ===== */
+#find-doctor {
+    background-color: #00bcd4;
+    padding: 150px 0;
+    text-align: center;
+}
+
+#find-doctor h3 {
+    color: white;
+}
+
+#find-doctor h1 {
+    font-size: 40px;
+}
+
+#find-doctor p {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+}
+
+.form-select {
+    border-right: 1px solid #ddd;
+    max-width: 150px;
+    background-color: #00bcd4;
+}
+
+.btn-dark {
+    background-color: #1A2A4D;
+    border: none;
+}
+
+.btn-dark:hover {
+    background-color: #14203D;
+}
+
+/* ===== Footer Styles ===== */
+footer {
+    background-color: #1A2A4D;
+    padding: 10px 0;
+    color: white;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-section h2 {
+    color: #00bcd4;
+    margin-bottom: 20px;
+}
+
+.footer-section a {
+    color: white;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.footer-section a:hover {
+    color: #00bcd4;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #818181;
+}
+
+.footer-bottom h6 {
+    color: white;
+    font-size: 16px;
+}
+
+.footer-bottom span {
+    color: #00bcd4;
+}
