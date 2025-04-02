@@ -1,4 +1,5 @@
 ﻿using Hospital_Administration_System.Models;
+using Hospital_Administration_System.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 
@@ -6,16 +7,36 @@ namespace H.Controllers
 {
     public class BillingController : Controller
     {
-        public static List<Billing> BillingModel = new List<Billing>();
-        public IActionResult Index()
+        private readonly BillingService _billingService;
+
+        public BillingController(BillingService billingService)
         {
-            var model = new Billing {} ;
-            return View(); 
+            _billingService = billingService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var billing = await _billingService.GetAllBillingsAsync();
+            return View(billing); 
         }
 
         public IActionResult Add()
         {
             return View(); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Billing billing)
+        {
+            try
+            {
+                await _billingService.AddBillingAsync(billing);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
         
         

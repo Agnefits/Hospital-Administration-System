@@ -1,6 +1,9 @@
-﻿@{
+﻿@model IEnumerable<Prescription>
+
+@{
     ViewData["Title"] = "Prescription";
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,36 +81,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>4</td>
-                    <td>100</td>
-                    <td>3</td>
-                    <td>Aspirin</td>  
-                    <td>75mg</td>  
-                    <td>Take once daily after meals.</td>  
-                    <td>2025-08-12</td>  
-                    <td>Follow-up required in 2 weeks.</td> 
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>102</td>
-                    <td>2</td>
-                    <td>Metformin</td>
-                    <td>500mg</td>
-                    <td>Take twice daily with food.</td>
-                    <td>2025-09-18</td>
-                    <td>Monitor blood sugar levels.</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>107</td>
-                    <td>3</td>
-                    <td>Atorvastatin</td>
-                    <td>10mg</td>
-                    <td>Take at bedtime.</td>
-                    <td>2025-08-12</td>
-                    <td>Check cholesterol after 3 months.</td>
-                </tr>
+                @foreach (var item in Model){
+                    <tr>
+                        <td>@item.PrescriptionID</td>
+                        <td>@item.PatientID</td>
+                        <td>@item.DoctorID</td>
+                        <td>@item.MedicationName</td>
+                        <td>@item.Dosage</td>
+                        <td>@item.Instructions</td>
+                        <td>@item.IssuedDate</td>
+                        <td>@item.AdditionalData</td>
+                    </tr>
+                }
             </tbody>
         </table>
 

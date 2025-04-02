@@ -1,3 +1,8 @@
+using Hospital_Administration_System.Data;
+using Hospital_Administration_System.Repository;
+using Hospital_Administration_System.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace Hospital_Administration_System
 {
     public class Program
@@ -6,8 +11,20 @@ namespace Hospital_Administration_System
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<PatientService>();
+            builder.Services.AddScoped<DoctorService>();
+            builder.Services.AddScoped<NurseService>();
+            builder.Services.AddScoped<PharmacistService>();
+            builder.Services.AddScoped<ReservationService>();
+            builder.Services.AddScoped<BillingService>();
+            builder.Services.AddScoped<PrescriptionService>();
 
             var app = builder.Build();
 

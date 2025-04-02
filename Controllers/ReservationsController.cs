@@ -1,14 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hospital_Administration_System.Models;
+using Hospital_Administration_System.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospital_Administration_System.Controllers
 {
-    public class Reservations : Controller
+    public class ReservationsController : Controller
     {
-        // GET: Reservations
-        public ActionResult Index()
+        private readonly ReservationService _reservationService;
+
+        public ReservationsController(ReservationService reservationService)
         {
-            return View();
+            _reservationService = reservationService;
+        }
+        // GET: Reservations
+        public async Task<ActionResult> Index()
+        {
+            var Res = await _reservationService.GetAllReservationsAsync();
+            return View(Res);
         }
 
         //// GET: Reservations/Details/5
@@ -26,10 +35,11 @@ namespace Hospital_Administration_System.Controllers
         // POST: Reservations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Reservation reservation)
         {
             try
             {
+                await _reservationService.AddReservationAsync(reservation);
                 return RedirectToAction(nameof(Index));
             }
             catch
