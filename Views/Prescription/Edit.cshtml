@@ -1,5 +1,11 @@
 ﻿@model Hospital_Administration_System.Models.Prescription
 
+@{
+    ViewData["Title"] = "Edit";
+    SelectList patients = new SelectList(ViewBag.Patients, "PatientID", "FullName");
+    SelectList doctors = new SelectList(ViewBag.Doctors, "DoctorID", "FullName");
+
+}
 <h4>Prescription</h4>
 <hr />
 <div class="row">
@@ -9,12 +15,12 @@
             <input type="hidden" asp-for="PrescriptionID" />
             <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
-                <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
+                <select asp-for="PatientID" class="form-control" asp-items="patients"></select>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DoctorID" class="control-label"></label>
-                <select asp-for="DoctorID" class="form-control" asp-items="ViewBag.DoctorID"></select>
+                <select asp-for="DoctorID" class="form-control" asp-items="doctors"></select>
                 <span asp-validation-for="DoctorID" class="text-danger"></span>
             </div>
             <div class="form-group">

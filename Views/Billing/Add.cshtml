@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Add";
+    SelectList patients = new SelectList(ViewBag.Patients, "PatientID", "FullName");
 }
 <style>
     .container {
@@ -12,7 +13,7 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        max-height: 100vh; 
+        max-height: 100vh;
     }
 
     .form-group {
@@ -28,15 +29,15 @@
     <div class="container">
         <form method="post" @*action="@Url.Action("Index", "Billing")"*@>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="BillID" class="control-label"></label>
                 <input asp-for="BillID" class="form-control" />
                 <span asp-validation-for="BillID" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <label asp-for="Patient" class="control-label"></label>
-                <input asp-for="Patient" class="form-control" />
-                <span asp-validation-for="Patient" class="text-danger"></span>
+                <label asp-for="PatientID" class="control-label"></label>
+                <select asp-for="PatientID" class="form-control" asp-items="patients"></select>
+                <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TotalAmount" class="control-label"></label>
@@ -55,7 +56,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
+                <input asp-for="CreatedAt" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
                 <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,5 +76,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

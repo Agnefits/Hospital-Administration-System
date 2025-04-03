@@ -23,24 +23,7 @@ namespace Hospital_Administration_System.Data
         public DbSet<Billing> Billings { get; set; }
         public DbSet<Log> Logs { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppContext.BaseDirectory) // Ensures the correct path
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .Build();
-
-                string connectionString = configuration.GetConnectionString("DefaultConnection"); // Use the correct key name
-                if (string.IsNullOrEmpty(connectionString))
-                {
-                    throw new InvalidOperationException("Database connection string is missing.");
-                }
-
-                optionsBuilder.UseSqlServer(connectionString);
-            }
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    SelectList patients = new SelectList(ViewBag.Patients, "PatientID", "FullName");
+    SelectList doctors = new SelectList(ViewBag.Doctors, "DoctorID", "FullName");
 }
 <style>
     .container {
@@ -15,7 +17,7 @@
         max-height: 100vh;
     }
 
-    .form-group{
+    .form-group {
         margin-top: 10px;
     }
 </style>
@@ -28,24 +30,24 @@
     <div class="container">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="ReservationID" class="control-label"></label>
                 <input asp-for="ReservationID" class="form-control" />
                 <span asp-validation-for="ReservationID" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="PatientID" class="control-label"></label>
-                <input asp-for="PatientID" class="form-control" />
+                <select asp-for="PatientID" class="form-control" asp-items="patients"></select>
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DoctorID" class="control-label"></label>
-                <input asp-for="DoctorID" class="form-control" />
+                <select asp-for="DoctorID" class="form-control" asp-items="doctors"></select>
                 <span asp-validation-for="DoctorID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ReservationDate" class="control-label"></label>
-                <input asp-for="ReservationDate" class="form-control" />
+                <input asp-for="ReservationDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
                 <span asp-validation-for="ReservationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,5 +77,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

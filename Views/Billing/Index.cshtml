@@ -1,6 +1,9 @@
-﻿@{
-    
+﻿@model IEnumerable<Billing>
+
+@{
+    ViewData["Title"] = "Billing";
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,22 +80,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mostafa</td>
-                    <td>$50</td>
-                    <td>2025-03-2</td>
-                    <td>Paid</td>
-                    <td>This is Dr. Magdi Yacoub's check-up bill.</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Salah</td>
-                    <td>$150</td>
-                    <td>2025-03-2</td>
-                    <td>Paid</td>
-                    <td>This is a medical bill..</td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.BillID</td>
+                        <td>@item.PatientID</td>
+                        <td>@item.TotalAmount</td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.Status</td>
+                        <td>@item.AdditionalData</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
