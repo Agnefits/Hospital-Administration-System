@@ -4,6 +4,7 @@ using Hospital_Administration_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Administration_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403094333_Nullable_AdditionalData")]
+    partial class Nullable_AdditionalData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -687,10 +690,10 @@ namespace Hospital_Administration_System.Migrations
                         new
                         {
                             UserID = 1,
-                            CreatedAt = new DateTime(2025, 3, 29, 10, 7, 24, 322, DateTimeKind.Utc).AddTicks(4630),
+                            CreatedAt = new DateTime(2025, 4, 3, 9, 43, 33, 278, DateTimeKind.Utc).AddTicks(3132),
                             Deleted = false,
                             Email = "admin@example.com",
-                            PasswordHash = "$2a$11$Cacn6C1MfLCxCWX6uhkzfuN2BudsfRMQcUaWLq3uiuwlAKyq3eHRS",
+                            PasswordHash = "$2a$11$V32L2fzO4C7JH07bTERtWOIIlUe3xTKEi4fc0p77q.o7Pybq.l1HK",
                             Role = "Admin",
                             Username = "admin"
                         });
@@ -798,13 +801,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("MedicalRecords")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("MedicalRecords")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -877,13 +880,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("Prescriptions")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("Prescriptions")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -907,13 +910,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("Reservations")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("Reservations")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");

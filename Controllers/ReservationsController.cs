@@ -8,10 +8,15 @@ namespace Hospital_Administration_System.Controllers
     public class ReservationsController : Controller
     {
         private readonly ReservationService _reservationService;
+        private readonly PatientService _patientService;
+        private readonly DoctorService _doctorService;
 
-        public ReservationsController(ReservationService reservationService)
+        public ReservationsController(ReservationService reservationService, 
+            PatientService patientService, DoctorService doctorService)
         {
             _reservationService = reservationService;
+            _patientService = patientService;
+            _doctorService = doctorService;
         }
         // GET: Reservations
         public async Task<ActionResult> Index()
@@ -27,8 +32,10 @@ namespace Hospital_Administration_System.Controllers
         //}
 
         // GET: Reservations/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
+            ViewData["Doctors"] = await _doctorService.GetAllDoctorsAsync();
             return View();
         }
 
@@ -49,8 +56,10 @@ namespace Hospital_Administration_System.Controllers
         }
 
         // GET: Reservations/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
+            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
+            ViewData["Doctors"] = await _doctorService.GetAllDoctorsAsync();
             return View();
         }
 

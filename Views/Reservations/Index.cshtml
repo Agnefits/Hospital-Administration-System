@@ -79,13 +79,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model){
-                <td>@item.ReservationID</td>
-                <td>@item.PatientID</td>
-                <td>@item.DoctorID</td>
-                <td>@item.ReservationDate</td>
-                <td><span class="badge bg-success">@item.Status</span></td>
-                <td>@item.AdditionalData</td>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ReservationID</td>
+                        <td>@item.PatientID</td>
+                        <td>@item.DoctorID</td>
+                        <td>@item.ReservationDate</td>
+                        <td><span class="badge bg-success">@item.Status</span></td>
+                        <td>@item.AdditionalData</td>
+                    </tr>
                 }
             </tbody>
         </table>

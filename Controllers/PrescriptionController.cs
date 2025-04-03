@@ -33,8 +33,10 @@ namespace Hospital_Administration_System.Controllers
         }
 
         // GET: Prescription/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
+            ViewData["Doctors"] = await _doctorService.GetAllDoctorsAsync();
             return View();
         }
 

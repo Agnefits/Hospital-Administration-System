@@ -22,6 +22,6 @@ namespace Hospital_Administration_System.Models
 
         [Required]
         public DateTime TestDate { get; set; }
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
     }
 }

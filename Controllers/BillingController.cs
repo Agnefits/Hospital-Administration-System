@@ -8,10 +8,12 @@ namespace H.Controllers
     public class BillingController : Controller
     {
         private readonly BillingService _billingService;
+        private readonly PatientService _patientService;
 
-        public BillingController(BillingService billingService)
+        public BillingController(BillingService billingService, PatientService patientService)
         {
             _billingService = billingService;
+            _patientService = patientService;
         }
 
         public async Task<IActionResult> Index()
@@ -20,8 +22,9 @@ namespace H.Controllers
             return View(billing); 
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
             return View(); 
         }
 
