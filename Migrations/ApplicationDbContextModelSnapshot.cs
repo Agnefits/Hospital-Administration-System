@@ -691,10 +691,10 @@ namespace Hospital_Administration_System.Migrations
                         new
                         {
                             UserID = 1,
-                            CreatedAt = new DateTime(2025, 3, 5, 18, 31, 26, 36, DateTimeKind.Utc).AddTicks(915),
+                            CreatedAt = new DateTime(2025, 3, 29, 9, 37, 1, 81, DateTimeKind.Utc).AddTicks(4979),
                             Deleted = false,
                             Email = "admin@example.com",
-                            PasswordHash = "$2a$11$4UYXPe5ZeeJdxvbK9LU5fuB0F.zuhcq.geWgQ8iiCwx6WdqBZrnEC",
+                            PasswordHash = "$2a$11$kFKortwuip46wQRZt9ekMutZ/K8QKjkLwI24v8DPnuQFcl7f61Dyi",
                             Role = "Admin",
                             Username = "admin"
                         });
@@ -802,13 +802,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("MedicalRecords")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("MedicalRecords")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -881,13 +881,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("Prescriptions")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("Prescriptions")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
@@ -911,13 +911,13 @@ namespace Hospital_Administration_System.Migrations
                     b.HasOne("Hospital_Administration_System.Models.Doctor", "Doctor")
                         .WithMany("Reservations")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Hospital_Administration_System.Models.Patient", "Patient")
                         .WithMany("Reservations")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Doctor");
