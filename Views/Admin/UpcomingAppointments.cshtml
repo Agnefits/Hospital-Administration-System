@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Hospital_Administration_System.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Upcoming Appointments (Next Two Weeks)";
+}
+
+<h2>@ViewData["Title"]</h2>
+<p class="text-muted">Rescheduling is not allowed for these appointments.</p>
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No upcoming appointments found.</div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Appointment Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.Patient?.FullName</td>
+                    <td>@appointment.Doctor?.FullName</td>
+                    <td>@appointment.ReservationDate.ToString("MM/dd/yyyy hh:mm tt")</td>
+                    <td>
+                        <span class="badge @(appointment.Status == "Confirmed" ? "badge-success" : "badge-warning")">
+                            @appointment.Status
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
