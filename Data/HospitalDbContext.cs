@@ -27,6 +27,62 @@ namespace Hospital_Administration_System.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure relationships that are known to cause cascade issues:
+            modelBuilder.Entity<MedicalRecord>()
+                .HasOne(m => m.Patient)
+                .WithMany(p => p.MedicalRecords)  // Ensure your Patient model has a MedicalRecords collection
+                .HasForeignKey(m => m.PatientID)
+                .OnDelete(DeleteBehavior.Restrict); // Avoids multiple cascade paths
+
+            modelBuilder.Entity<MedicalRecord>()
+                .HasOne(m => m.Doctor)
+                .WithMany(d => d.MedicalRecords)  // Ensure your Doctor model has a MedicalRecords collection
+                .HasForeignKey(m => m.DoctorID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Prescription relationships (avoiding cascade delete issues)
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Patient)
+                .WithMany(pat => pat.Prescriptions)
+                .HasForeignKey(p => p.PatientID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Prescription>()
+                .HasOne(p => p.Doctor)
+                .WithMany(d => d.Prescriptions)
+                .HasForeignKey(p => p.DoctorID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Reservation relationships updated to avoid multiple cascade paths
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Patient)
+                .WithMany(p => p.Reservations)
+                .HasForeignKey(r => r.PatientID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Doctor)
+                .WithMany(d => d.Reservations)
+                .HasForeignKey(r => r.DoctorID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure decimal precision to avoid silent truncation
+            modelBuilder.Entity<Billing>()
+                .Property(b => b.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Receipt>()
+                .Property(r => r.Amount)
+                .HasColumnType("decimal(18,2)");
+
+            // Configure decimal precision to avoid silent truncation
+            modelBuilder.Entity<Billing>()
+                .Property(b => b.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Receipt>()
+                .Property(r => r.Amount)
+                .HasColumnType("decimal(18,2)");
             /*
             //User unique values
             modelBuilder.Entity<User>().HasIndex(u => new { u.Username, u.Email }).IsUnique();

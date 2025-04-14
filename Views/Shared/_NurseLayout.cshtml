@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] - Hospital_Administration_System_Nurse</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2a5c82;
+            --secondary-color: #5ba4e6;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--primary-color);
+            color: white;
+            position: fixed;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover,
+            .nav-link.active {
+                background: var(--secondary-color);
+                color: white;
+                transform: translateX(10px);
+            }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            transition: margin 0.3s ease;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .upcoming {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+                .sidebar.active {
+                    transform: translateX(0);
+                }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+
+        .dashboard-card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+            .dashboard-card:hover {
+                transform: translateY(-5px);
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Mobile Toggle Button -->
+        <button class="btn btn-primary d-lg-none position-fixed"
+                style="z-index: 1100; top: 1rem; left: 1rem"
+                onclick="document.querySelector('.sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3 class="mb-0">
+                    <i class="fas fa-user-nurse me-2"></i>
+                    Nurse Dashboard
+                </h3>
+            </div>
+            <nav class="nav flex-column mt-3">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-home me-2"></i>Overview
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-calendar-check me-2"></i>Appointments
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-file-medical me-2"></i>Patient Records
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-prescription me-2"></i>Prescriptions
+                </a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-user-md me-2"></i>Refer Patients
+                </a>
+            </nav>
+        </aside>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

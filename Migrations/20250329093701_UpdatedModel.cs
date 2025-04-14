@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hospital_Administration_System.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdatedModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,7 +67,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.BranchID,
                         principalTable: "Branches",
                         principalColumn: "BranchID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,7 +90,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.BranchID,
                         principalTable: "Branches",
                         principalColumn: "BranchID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +113,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,13 +136,12 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.BranchID,
                         principalTable: "Branches",
                         principalColumn: "BranchID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Departments_Users_HeadDoctorID",
                         column: x => x.HeadDoctorID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -167,8 +166,7 @@ namespace Hospital_Administration_System.Migrations
                         name: "FK_Logs_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +194,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,13 +218,13 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.PharmacyID,
                         principalTable: "Pharmacies",
                         principalColumn: "PharmacyID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Pharmacists_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,13 +249,13 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
                         principalColumn: "DepartmentID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Doctors_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -281,13 +279,13 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
                         principalColumn: "DepartmentID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Nurses_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -311,13 +309,13 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.LabID,
                         principalTable: "Laboratories",
                         principalColumn: "LabID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Analyses_Patients_PatientID",
                         column: x => x.PatientID,
                         principalTable: "Patients",
                         principalColumn: "PatientID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -340,7 +338,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.PatientID,
                         principalTable: "Patients",
                         principalColumn: "PatientID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -363,7 +361,7 @@ namespace Hospital_Administration_System.Migrations
                         column: x => x.PatientID,
                         principalTable: "Patients",
                         principalColumn: "PatientID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -459,7 +457,7 @@ namespace Hospital_Administration_System.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserID", "AdditionalData", "CreatedAt", "Deleted", "Email", "PasswordHash", "Role", "Username" },
-                values: new object[] { 1, null, new DateTime(2025, 3, 5, 18, 31, 26, 36, DateTimeKind.Utc).AddTicks(915), false, "admin@example.com", "$2a$11$4UYXPe5ZeeJdxvbK9LU5fuB0F.zuhcq.geWgQ8iiCwx6WdqBZrnEC", "Admin", "admin" });
+                values: new object[] { 1, null, new DateTime(2025, 3, 29, 9, 37, 1, 81, DateTimeKind.Utc).AddTicks(4979), false, "admin@example.com", "$2a$11$kFKortwuip46wQRZt9ekMutZ/K8QKjkLwI24v8DPnuQFcl7f61Dyi", "Admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "Admins",

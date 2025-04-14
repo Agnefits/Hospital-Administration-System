@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hospital_Administration_System_Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --sidebar-bg: #2c3e50;
+            --content-bg: #f8f9fa;
+            --card-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            background-color: var(--content-bg);
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            position: fixed;
+            height: 100vh;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-link {
+            color: #ecf0f1;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .sidebar-link:hover {
+                background: #34495e;
+                color: #fff;
+            }
+
+        .content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            transition: margin 0.3s ease;
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+            .card-stat:hover {
+                transform: translateY(-5px);
+            }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar-active .sidebar {
+                transform: translateX(0);
+            }
+
+            .sidebar-active .content {
+                margin-left: var(--sidebar-width);
+            }
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        .table-responsive {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        /* Add to your CSS */
+        .action-badge {
+            cursor: help;
+            transition: opacity 0.2s;
+        }
+
+            .action-badge:hover {
+                opacity: 0.8;
+            }
+
+        .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .modal-content {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <header class="container-fluid p-2">
+        <!-- Keep existing sidebar and header content -->
+        <!-- Mobile Menu Toggle -->
+        <button class="btn btn-dark d-md-none position-fixed"
+                style="z-index: 1001; top: 1rem; left: 1rem"
+                onclick="document.body.classList.toggle('sidebar-active')">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="p-3">
+                <h4 class="text-center text-white mb-4">
+                    <i class="fas fa-hospital me-2"></i>Admin Panel
+                </h4>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-procedures"></i> Patients</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-clipboard-list"></i> Logs</a></li>
+                    <li><a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="p-1">
+        @RenderBody()
+    </main>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

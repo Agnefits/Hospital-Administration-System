@@ -14,14 +14,39 @@
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         max-height: 100vh;
+    <style >
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
     }
 
-    .form-group {
-        margin-top: 10px;
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .input-group-text {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+
+    .needs-validation .form-control:invalid,
+    .needs-validation .form-select:invalid {
+        border-color: #dc3545;
     }
 </style>
+</style>
 
-<h1>Add</h1>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Create New Billing Record</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Add" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
 <h4>Billing</h4>
 <hr />
@@ -68,13 +93,75 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+                        <div class="row g-3">
+                            <!-- Auto-generated Bill ID (hidden field) -->
+                            <input type="hidden" asp-for="BillID" />
+                            <div class="col-md-6">
+                                <label asp-for="PatientID" class="form-label">Patient</label>
+                                <input asp-for="Patient" class="form-control" />
+                                @* <select asp-for="PatientID" class="form-select" *@
+                                @*         asp-items="@(new SelectList(ViewBag.Patients, "PatientID", "FullName"))" *@
+                                @*         required> *@
+                                @*     <option value="">Select Patient</option> *@
+
+                                @* </select> *@
+                                <span asp-validation-for="PatientID" class="text-danger"></span>
+                            </div>
+                            <!-- Amount Input -->
+                            <div class="col-md-6">
+                                <label asp-for="TotalAmount" class="form-label">Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="TotalAmount" class="form-control"
+                                           type="number" min="0.01" step="0.01" required>
+                                </div>
+                                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                            </div>
+                            <!-- Status Selection -->
+                            <div class="col-md-6">
+                                <label asp-for="Status" class="form-label">Payment Status</label>
+                                <select asp-for="Status" class="form-select" required>
+                                    <option value="">Select Status</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Overdue">Overdue</option>
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+
+                            <!-- Date Input -->
+                            <div class="col-md-6">
+                                <label asp-for="CreatedAt" class="form-label">Billing Date</label>
+                                <input asp-for="CreatedAt" class="form-control"
+                                       type="date"
+                                       value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                       max="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                       required>
+                                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+                            </div>
+                            <!-- Additional Details -->
+                            <div class="col-12">
+                                <label asp-for="AdditionalData" class="form-label">Notes</label>
+                                <textarea asp-for="AdditionalData" class="form-control"
+                                          rows="3"
+                                          placeholder="Enter additional billing details..."></textarea>
+                                <span asp-validation-for="AdditionalData" class="text-danger"></span>
+                            </div>
+						</div>
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Create Record
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

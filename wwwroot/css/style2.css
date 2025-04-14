@@ -1,23 +1,9 @@
-#Hospital{
-    font-size: 30px;
-    font-weight: bold;
-    color:#00bcd4;
-}
-#active{
-    text-decoration: underline #00bcd4 5px;
-    font-size: 15px;
-    text-underline-offset: 14px;
-    color: #00bcd4;
-}
 a.nav-link:hover{
     text-decoration: underline solid #00bcd4 5px;
     font-size: 18px;
     text-underline-offset: 14px;
     color: #00bcd4;
     transition: color 0.5s ease-in-out;
-}
-a.nav-link {
-    font-weight: bold;
 }
 /* ===== Carousel Styles ===== */
 .carousel-item img {
@@ -290,7 +276,7 @@ a.nav-link {
 .form-select {
     border-right: 1px solid #ddd;
     max-width: 150px;
-    background-color: #00bcd4;
+
 }
 
 .btn-dark {
