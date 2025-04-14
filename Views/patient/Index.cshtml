@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Patient Enrollment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1F2B6C;
+            --secondary-color: #159EEC;
+            --accent-color: #BFD2F8;
+            --text-color: #2C3E50;
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #F8F9FA;
+            color: var(--text-color);
+        }
+
+        .form-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+            .form-header img {
+                width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+                border-radius: var(--border-radius);
+            }
+
+            .form-header h1 {
+                position: absolute;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                color: white;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            }
+
+        .form-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: var(--secondary-color);
+                box-shadow: 0 0 8px rgba(21,158,236,0.2);
+            }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .form-check-label {
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        .checkbox-group, .radio-group {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-right: 0.5rem;
+            border: 2px solid var(--accent-color);
+        }
+
+            .form-check-input:checked {
+                background-color: var(--secondary-color);
+                border-color: var(--secondary-color);
+            }
+
+        .signature-container {
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        #signatureCanvas {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+
+        .submit-btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+            margin: 2rem auto;
+            display: block;
+        }
+
+            .submit-btn:hover {
+                background: var(--primary-color);
+                transform: translateY(-2px);
+            }
+
+        @@media (max-width: 768px) {
+            .form-container
+
+        {
+            margin: 1rem;
+            padding: 1rem;
+        }
+
+        .form-header h1 {
+            font-size: 1.5rem;
+            bottom: 1rem;
+        }
+
+        .row {
+            gap: 1rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <img src="~/css/images/medical.65d592a94c9a25.07563121.png" alt="Medical illustration">
+            <h1>New Patient Enrollment</h1>
+        </div>
+
+        <form>
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h4 class="form-label">Personal Information</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Gender</label>
+                        <select class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Information -->
+            <div class="form-section">
+                <h4 class="form-label">Health Information</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Height (cm)</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Weight (kg)</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Medical Conditions</label>
+                        <div class="checkbox-grid">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="stroke">
+                                        <label class="form-check-label" for="stroke">Stroke</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Cough">
+                                        <label class="form-check-label" for="Cough">Cough</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Gastritis">
+                                        <label class="form-check-label" for="Gastritis">Gastritis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="asthma">
+                                        <label class="form-check-label" for="asthma">Asthma</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="diabetes">
+                                        <label class="form-check-label" for="diabetes">Diabetes</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Rickets">
+                                        <label class="form-check-label" for="Rickets">Rickets</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Diarrhoea">
+                                        <label class="form-check-label" for="Diarrhoea">Diarrhoea</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Appendicitis">
+                                        <label class="form-check-label" for="Appendicitis">Appendicitis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Trachoma">
+                                        <label class="form-check-label" for="Trachoma">Trachoma</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Cancer">
+                                        <label class="form-check-label" for="Cancer">Cancer</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Varicose_veins">
+                                        <label class="form-check-label" for="Varicose_veins">Varicose veins</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="diabetes">
+                                        <label class="form-check-label" for="diabetes">Tonsillitis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Tonsillitis">
+                                        <label class="form-check-label" for="Tonsillitis">Tonsillitis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Appendicitis">
+                                        <label class="form-check-label" for="Appendicitis">Appendicitis</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Renal_Failure">
+                                        <label class="form-check-label" for="Renal_Failure">Renal Failure</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Hernia">
+                                        <label class="form-check-label" for="Hernia">Hernia</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Sore_throat">
+                                        <label class="form-check-label" for="Sore_throat">Sore throat</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Anaphylaxis">
+                                        <label class="form-check-label" for="Anaphylaxis">Anaphylaxis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Coma">
+                                        <label class="form-check-label" for="Coma">Coma</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Gout">
+                                        <label class="form-check-label" for="Gout">Gout</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="HIV_AIDS">
+                                        <label class="form-check-label" for="HIV_AIDS">HIV/AIDS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Squint">
+                                        <label class="form-check-label" for="Squint">Squint</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Vertigo">
+                                        <label class="form-check-label" for="Vertigo">Vertigo</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Color_blindness">
+                                        <label class="form-check-label" for="Color_blindness">Color blindness</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="Other">
+                                        <label class="form-check-label" for="Other">Other</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Health History Section -->
+            <div class="form-section">
+                <h4 class="form-label">Health History</h4>
+                <div class="radio-group">
+                    <div class="mb-3">
+                        <label class="form-label">Currently taking any medications?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="medications" id="medYes" required>
+                            <label class="form-check-label" for="medYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="medications" id="medNo" required>
+                            <label class="form-check-label" for="medNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Previous surgeries?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="surgeries" id="surgeryYes" required>
+                            <label class="form-check-label" for="surgeryYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="surgeries" id="surgeryNo" required>
+                            <label class="form-check-label" for="surgeryNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Do you smoke?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="smoking" id="smokeYes" required>
+                            <label class="form-check-label" for="smokeYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="smoking" id="smokeNo" required>
+                            <label class="form-check-label" for="smokeNo">No</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alcohol consumption?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="alcohol" id="alcoholYes" required>
+                            <label class="form-check-label" for="alcoholYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="alcohol" id="alcoholNo" required>
+                            <label class="form-check-label" for="alcoholNo">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature Section -->
+            <div class="form-section">
+                <h4 class="form-label">Signature</h4>
+                <div class="signature-container">
+                    <canvas id="signatureCanvas"></canvas>
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="button" class="btn btn-outline-secondary" id="clearBtn">
+                            Clear Signature
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Enrollment</button>
+        </form>
+    </div>
+
+    <script>
+        // Add your signature pad JavaScript here
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

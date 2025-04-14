@@ -5,42 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Hospital_Administration_System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Hospital_Administration_System.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hospital_Administration_System</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+    <header class="container-fluid p-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="text-center my-2" id="Hospital_logo">
+                <a href="#" id="Hospital"><i class="fa-solid fa-house-chimney-medical" style="color:#00bcd4;font-size: 30px; "></i> Hospital </a>
+            </div>
+            <div class="container">
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                               href="@Url.Action("Index", "Home")">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="doctorsDropdown" data-bs-toggle="dropdown">Doctors</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Amera Mostafa</a></li>
+                                <li><a class="dropdown-item" href="#">Rehab Emad</a></li>
+                                <li><a class="dropdown-item" href="#">Alaa Yousy</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="departmentsDropdown" data-bs-toggle="dropdown">Departments</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Neurology</a></li>
+                                <li><a class="dropdown-item" href="#">Dental</a></li>
+                                <li><a class="dropdown-item" href="#">Cardiology</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")"
+                               href="@Url.Action("Services","Home")">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link href="@Url.Action("Contact", "Home")">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-info" type="button" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    @* <footer class="border-top footer text-muted"> *@
-    @*     <div class="container"> *@
-    @*         &copy; 2025 - Hospital_Administration_System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
-    @*     </div> *@
-    @* </footer> *@
+    <main role="main" class="p-1">
+        @RenderBody()
+    </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

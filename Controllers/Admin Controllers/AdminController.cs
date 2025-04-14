@@ -1,36 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Hospital_Administration_System.Models;
-using Hospital_Administration_System.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Hospital_Administration_System.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Hospital_Administration_System.Controllers.Admin_Controllers
 {
     public class AdminController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public AdminController(ApplicationDbContext context)
+        private readonly UserService _userService;
+
+        public AdminController(UserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
+
         public IActionResult Index()
         {
             return View();
-        }
-
-        public async Task<IActionResult> UpcomingAppointments()
-        {
-            var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(14).AddDays(1);
-
-            var appointments = await _context.Reservations
-                .Include(r => r.Patient)
-                .Include(r => r.Doctor)
-                .Where(r => r.ReservationDate >= startDate && 
-                            r.ReservationDate < endDate &&
-                            r.Status != "Cancelled")
-                .OrderBy(r => r.ReservationDate)
-                .ToListAsync();
-            return View(appointments);
         }
     }
 }

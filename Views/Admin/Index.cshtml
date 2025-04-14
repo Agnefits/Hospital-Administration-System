@@ -1,0 +1,306 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Keep existing head content -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Add tooltip initialization -->
+    <script> 
+        document.addEventListener('DOMContentLoaded', function() {
+			// Initialize Bootstrap tooltips
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+			var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+				return new bootstrap.Tooltip(tooltipTriggerEl)
+			})
+		})
+	</script>
+</head>
+<body>
+<<<<<<< HEAD
+    <!-- Keep existing sidebar and header content -->
+    <!-- Mobile Menu Toggle -->
+    <button class="btn btn-dark d-md-none position-fixed" 
+            style="z-index: 1001; top: 1rem; left: 1rem"
+            onclick="document.body.classList.toggle('sidebar-active')">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="p-3">
+            <h4 class="text-center text-white mb-4">
+                <i class="fas fa-hospital me-2"></i>Admin Panel
+            </h4>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="sidebar-link"><i class="fas fa-users"></i> Users</a></li>
+                <li>
+                    <a href="https://localhost:7059/Doctor/Index" class="sidebar-link"><i class="fas fa-user-md"></i> Doctors</a>
+                </li>
+                <li>
+                    <a href="https://localhost:7059/Patient/PatientDashboard" class="sidebar-link"><i class="fas fa-procedures"></i> Patients</a>
+                </li>
+                <li><a href="#" class="sidebar-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li>
+                    <a href="https://localhost:7059/Patient/Index" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Billing</a>
+                </li>
+                <li><a href="#" class="sidebar-link"><i class="fas fa-clipboard-list"></i> Logs</a></li>
+                <li><a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            </ul>
+        </div>
+    </nav>
+=======
+    
+>>>>>>> Mostafa
+    <!-- Main Content -->
+    <main class="content">
+        <div class="container-fluid">
+            <!-- Statistics Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card card-stat bg-primary text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Total Users</h5>
+                                    <h2 class="mb-0">150</h2>
+                                </div>
+                                <i class="stat-icon fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card card-stat bg-success text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Total Doctors</h5>
+                                    <h2 class="mb-0">30</h2>
+                                </div>
+                                <i class="stat-icon fas fa-user-md"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card card-stat bg-warning text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Appointments Today</h5>
+                                    <h2 class="mb-0">60</h2>
+                                </div>
+                                <i class="stat-icon fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card card-stat bg-danger text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Pending Bills</h5>
+                                    <h2 class="mb-0">$4500</h2>
+                                </div>
+                                <i class="stat-icon fas fa-file-invoice-dollar"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Updated Activities Table -->
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0">Recent User Activities</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Last Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample User 1 -->
+                                <tr>
+                                    <td>Admin</td>
+                                    <td><span class="badge bg-danger">Super Admin</span></td>
+                                    <td><time datetime="2023-09-20">Today</time></td>
+                                    <td>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <span class="badge bg-success action-badge" 
+                                                  data-bs-toggle="tooltip" 
+                                                  title="Active session">
+                                                <i class="fas fa-circle"></i>
+                                            </span>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        data-bs-toggle="dropdown"
+                                                        aria-label="User actions">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#auditModal"
+                                                                data-user="Admin">
+                                                            <i class="fas fa-history me-2"></i>View Activity
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item text-danger" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#deleteModal"
+                                                                data-user="Admin">
+                                                            <i class="fas fa-trash-alt me-2"></i>Delete
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Sample User 2 -->
+                                <tr>
+                                    <td>Dr. Smith</td>
+                                    <td><span class="badge bg-primary">Doctor</span></td>
+                                    <td><time datetime="2023-09-19">Yesterday</time></td>
+                                    <td>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <span class="badge bg-warning action-badge" 
+                                                  data-bs-toggle="tooltip" 
+                                                  title="Inactive for 7 days">
+                                                <i class="fas fa-circle"></i>
+                                            </span>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        data-bs-toggle="dropdown"
+                                                        aria-label="User actions">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#disableModal"
+                                                                data-user="Dr. Smith">
+                                                            <i class="fas fa-user-slash me-2"></i>Disable
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#auditModal"
+                                                                data-user="Dr. Smith">
+                                                            <i class="fas fa-history me-2"></i>View Activity
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#editModal"
+                                                                data-user="Dr. Smith">
+                                                            <i class="fas fa-edit me-2"></i>Edit
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals (Place at bottom of body) -->
+    <!-- Disable Modal -->
+    <div class="modal fade" id="disableModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Disable User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Disabling <strong><span id="disableUserName"></span></strong> will:</p>
+                    <ul>
+                        <li>Prevent system access</li>
+                        <li>Preserve all records</li>
+                        <li>Allow reactivation</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Confirm Disable</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Audit Modal -->
+    <div class="modal fade" id="auditModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Activity Audit - <span id="auditUserName"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Activity timeline would go here -->
+                    <div class="activity-timeline">
+                        <p>Last login: 2023-09-20 14:30</p>
+                        <p>Recent actions: 5 profile views</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add JavaScript for dynamic modal content -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle disable modal
+            var disableModal = document.getElementById('disableModal')
+            disableModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget
+                var userName = button.getAttribute('data-user')
+                var modalTitle = disableModal.querySelector('#disableUserName')
+                modalTitle.textContent = userName
+            })
+
+            // Handle audit modal
+            var auditModal = document.getElementById('auditModal')
+            auditModal.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget
+                var userName = button.getAttribute('data-user')
+                var modalTitle = auditModal.querySelector('#auditUserName')
+                modalTitle.textContent = userName
+            })
+        })
+    </script>
+</body>
+</html>

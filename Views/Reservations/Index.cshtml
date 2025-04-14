@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Reservation>
+
+@{
     ViewData["Title"] = "Reservations";
 }
 <!DOCTYPE html>
@@ -77,30 +79,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>4</td>
-                    <td>100</td>
-                    <td>3</td>
-                    <td>2025-08-12</td>
-                    <td><span class="badge bg-success">Confirmed</span></td>
-                    <td>Appointment with cardiologist.</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>102</td>
-                    <td>2</td>
-                    <td>2025-09-18</td>
-                    <td><span class="badge bg-danger">Cancelled</span></td>
-                    <td>Cancelled due to emergency.</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>107</td>
-                    <td>3</td>
-                    <td>2025-08-12</td>
-                    <td><span class="badge bg-primary">pending</span></td>
-                    <td>Annual health screening.</td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ReservationID</td>
+                        <td>@item.PatientID</td>
+                        <td>@item.DoctorID</td>
+                        <td>@item.ReservationDate</td>
+                        <td><span class="badge bg-success">@item.Status</span></td>
+                        <td>@item.AdditionalData</td>
+                    </tr>
+                }
             </tbody>
         </table>
 
