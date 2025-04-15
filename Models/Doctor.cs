@@ -9,7 +9,7 @@ namespace Hospital_Administration_System.Models
         public int DoctorID { get; set; }
 
         [Required, ForeignKey("User")]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public User User { get; set; }
 
         [Required, MaxLength(255)]

@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Hospital_Administration_System.Models.Log>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main class="content">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="fw-bold">System Logs</h2>
+                <p class="text-muted">Review all system-level activities.</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <form method="get" asp-action="Logs" class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" class="form-control" name="startDate" value="@ViewData["StartDate"]" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">End Date</label>
+                <input type="date" class="form-control" name="endDate" value="@ViewData["EndDate"]" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Search</label>
+                <input type="text" class="form-control" name="search" placeholder="Search logs..." value="@ViewData["Search"]" />
+            </div>
+            <div class="col-md-2 align-self-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter me-1"></i> Filter</button>
+            </div>
+        </form>
+
+        <!-- Logs Table -->
+        <div class="card border-0 shadow">
+            <div class="card-header bg-white">
+                <h3 class="mb-0">Recent Logs</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in Model)
+                            {
+                                string icon = "fas fa-cogs";
+                                string color = "text-primary";
+
+                                switch (log.Action?.ToLower())
+                                {
+                                    case "login":
+                                        icon = "fas fa-sign-in-alt";
+                                        color = "text-success";
+                                        break;
+                                    case "logout":
+                                        icon = "fas fa-sign-out-alt";
+                                        color = "text-secondary";
+                                        break;
+                                    case "delete":
+                                        icon = "fas fa-trash";
+                                        color = "text-danger";
+                                        break;
+                                    case "update":
+                                        icon = "fas fa-edit";
+                                        color = "text-warning";
+                                        break;
+                                    case "create":
+                                    case "insert":
+                                        icon = "fas fa-plus-circle";
+                                        color = "text-info";
+                                        break;
+                                }
+                                <tr>
+                                    <td>@log.Timestamp.ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>@log.User?.UserName</td>
+                                    <td>
+                                        <span class="@color">
+                                            <i class="@icon me-1"></i> @log.Action
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @($"Table: {log.TableName}, Record ID: {log.RecordID}")
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary" data-bs-toggle="tooltip" title="@log.IPAddress">
+                                            <i class="fas fa-network-wired"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-info"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#logDetailModal"
+                                                data-user="@log.User?.UserName"
+                                                data-time="@log.Timestamp.ToString("yyyy-MM-dd HH:mm")"
+                                                data-action="@log.Action"
+                                                data-desc="@log.AdditionalData"
+                                                data-status="@log.TableName"
+                                                data-ip="@log.IPAddress"
+                                                data-device="@log.DeviceInfo"
+                                                data-recordid="@log.RecordID">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Log Details Modal -->
+<div class="modal fade" id="logDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Log Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>User:</strong> <span id="logUser"></span></li>
+                    <li class="list-group-item"><strong>Time:</strong> <span id="logTime"></span></li>
+                    <li class="list-group-item"><strong>Action:</strong> <span id="logAction"></span></li>
+                    <li class="list-group-item"><strong>Table:</strong> <span id="logStatus"></span></li>
+                    <li class="list-group-item"><strong>Record ID:</strong> <span id="logRecordID"></span></li>
+                    <li class="list-group-item"><strong>IP Address:</strong> <span id="logIP"></span></li>
+                    <li class="list-group-item"><strong>Device Info:</strong> <span id="logDevice"></span></li>
+                    <li class="list-group-item"><strong>Description:</strong> <p id="logDescription" class="mb-0"></p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const logModal = document.getElementById('logDetailModal');
+        logModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            document.getElementById('logUser').textContent = button.getAttribute('data-user');
+            document.getElementById('logTime').textContent = button.getAttribute('data-time');
+            document.getElementById('logAction').textContent = button.getAttribute('data-action');
+            document.getElementById('logStatus').textContent = button.getAttribute('data-status');
+            document.getElementById('logDescription').textContent = button.getAttribute('data-desc');
+            document.getElementById('logRecordID').textContent = button.getAttribute('data-recordid');
+            document.getElementById('logIP').textContent = button.getAttribute('data-ip');
+            document.getElementById('logDevice').textContent = button.getAttribute('data-device');
+        });
+
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+    });
+</script>

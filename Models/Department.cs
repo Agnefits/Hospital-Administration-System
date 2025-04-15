@@ -16,7 +16,7 @@ namespace Hospital_Administration_System.Models
         public int BranchID { get; set; }
         public Branch Branch { get; set; }
         // 
-        public int? HeadDoctorID { get; set; }
+        public string? HeadDoctorID { get; set; }
         [ForeignKey("HeadDoctorID")]
         public User HeadDoctor { get; set; }
 
