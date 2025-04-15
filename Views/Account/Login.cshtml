@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+	Layout = null;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,8 +27,6 @@
                 <button type="submit">Login</button>
                 <div class="links">
                     <a href="#">Forgot Password?</a>
-                    <span> • </span>
-                    <a href="Register">Create Account</a>
                     <a href="@Url.Action("Register", "Account")">Create Account</a>
                 </div>
             </form>
