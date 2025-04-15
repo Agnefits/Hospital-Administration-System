@@ -1,25 +1,11 @@
 ﻿using Hospital_Administration_System.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-public class User
+public class User : IdentityUser
 {
-    [Key]
-    public int UserID { get; set; }
-
-    [Required, MaxLength(100)]
-    public string Username { get; set; }
-
-    [Required]
-    public string PasswordHash { get; set; }
-
-    [Required, EmailAddress]
-    public string Email { get; set; }
-
-    [Required]
-    public string Role { get; set; }  
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string? AdditionalData { get; set; }

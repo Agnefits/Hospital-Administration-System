@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Hospital_Administration_System.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_Administration_System.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -25,8 +26,10 @@ namespace Hospital_Administration_System.Data
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             // Configure relationships that are known to cause cascade issues:
             modelBuilder.Entity<MedicalRecord>()
                 .HasOne(m => m.Patient)
@@ -83,9 +86,10 @@ namespace Hospital_Administration_System.Data
             modelBuilder.Entity<Receipt>()
                 .Property(r => r.Amount)
                 .HasColumnType("decimal(18,2)");
+            
             /*
             //User unique values
-            modelBuilder.Entity<User>().HasIndex(u => new { u.Username, u.Email }).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => new { u.UserName, u.Email }).IsUnique();
 
             //User one-to-one relationships
             modelBuilder.Entity<Admin>().HasOne(a => a.User).WithOne().HasForeignKey<Admin>(a => a.UserID).OnDelete(DeleteBehavior.Restrict);
@@ -128,29 +132,6 @@ namespace Hospital_Administration_System.Data
             //Log relationships
             modelBuilder.Entity<Log>().HasOne(l => l.User).WithMany().HasForeignKey(l => l.UserID).OnDelete(DeleteBehavior.Restrict);
             */
-            //Adding Default admin user
-            modelBuilder.Entity<User>().HasData(new User
-            {
-                UserID = 1,
-                Username = "admin",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin"), // Hashing password before adding
-                Email = "admin@example.com",
-                Role = "Admin",
-                CreatedAt = DateTime.UtcNow,
-                AdditionalData = null,
-                Deleted = false
-            });
-
-            modelBuilder.Entity<Admin>().HasData(new Admin
-            {
-                AdminID = 1,
-                UserID = 1,
-                FullName = "Admin",
-                ContactNumber = "0000000000",
-                AdditionalData = null,
-                Deleted = false
-            });
-
         }
     }
 
