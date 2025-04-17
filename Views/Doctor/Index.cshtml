@@ -1,290 +1,122 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #1F2B6C;
-            --secondary-color: #159EEC;
-            --accent-color: #BFD2F8;
-            --text-dark: #2C3E50;
-        }
-
-        body {
-            background: #f8f9fa;
-            min-height: 100vh;
-        }
-
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: var(--primary-color);
-            color: white;
-            padding: 1.5rem;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar-header {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 1rem;
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            padding: 0.75rem 1rem;
-            margin: 0.25rem 0;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-            #nav-link:hover,
-            #nav-link.active {
-                background: var(--secondary-color);
-                color: white;
-            }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            background: white;
-        }
-
-        .patient-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .patient-info-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-        }
-
-        .nav-tabs .nav-link {
-            color: var(--text-dark);
-            border: none;
-            position: relative;
-        }
-
-            .nav-tabs .nav-link.active {
-                color: var(--primary-color);
-                border-bottom: 3px solid var(--secondary-color);
-            }
-
-        .record-card {
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            transition: transform 0.2s ease;
-        }
-
-            .record-card:hover {
-                transform: translateY(-2px);
-            }
-
-        .prescription-editor {
-            border: 2px solid var(--accent-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        @@media (max-width: 768px) {
-            .sidebar
-
-        {
-            position: fixed;
-            transform: translateX(-100%);
-            width: 280px;
-            height: 100vh;
-        }
-
-        .sidebar.active {
-            transform: translateX(0);
-        }
-
-        .main-content {
-            margin-left: 0;
-            padding: 1rem;
-        }
-
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Mobile Toggle Button -->
-        <button class="btn btn-primary d-lg-none position-fixed"
-                style="z-index: 1100; top: 1rem; left: 1rem"
-                onclick="document.querySelector('.sidebar').classList.toggle('active')">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3><i class="fas fa-user-md me-2"></i>Doctor Dashboard</h3>
-            </div>
-            <nav class="nav flex-column">
-                <a class="nav-link active" id="nav-link" href="#">
-                    <i class="fas fa-calendar-check"></i>Appointments
-                </a>
-                <a class="nav-link" id="nav-link" href="https://localhost:7059/Patient/PatientDashboard">
-                    <i class="fas fa-procedures"></i>Patients
-                </a>
-                <a class="nav-link" id="nav-link" href="#">
-                    <i class="fas fa-prescription"></i>Prescriptions
-                </a>
-                <a class="nav-link" id="nav-link" href="#">
-                    <i class="fas fa-file-medical"></i>Medical Records
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-﻿@{
+﻿﻿@{
     Layout = "~/Views/Shared/_DoctorLayout.cshtml";
 }
- <!-- Main Content -->
-        <main class="main-content">
-            <!-- Patient Header -->
-            <div class="patient-header">
-                <div>
-                    <h2 class="text-primary mb-0">Patient Overview</h2>
-                    <div class="d-flex align-items-center gap-2 mt-2">
-                        <button class="btn btn-outline-primary">
-                            <i class="fas fa-chevron-left"></i> Previous
-                        </button>
-                        <button class="btn btn-outline-primary">
-                            Next <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="patient-info-card">
-                    <h5 class="mb-2">Mostafa Mohamed</h5>
-                    <div class="d-flex gap-3">
-                        <div>
-                            <small class="text-muted">Age</small>
-                            <div class="fw-bold">22</div>
-                        </div>
-                        <div>
-                            <small class="text-muted">Patient ID</small>
-                            <div class="fw-bold">#22222</div>
-                        </div>
-                        <div>
-                            <small class="text-muted">Last Visit</small>
-                            <div class="fw-bold">2023-09-20</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Medical Records Tabs -->
-            <ul class="nav nav-tabs" id="patientTabs">
-                <li class="nav-item" id="nav-link">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#">
-                        <i class="fas fa-stethoscope me-2"></i>Examinations
-                    </a>
-                </li>
-                <li class="nav-item" id="nav-link">
-                    <a class="nav-link" data-bs-toggle="tab" href="#analyses">
-                        <i class="fas fa-vial me-2"></i>Analyses
-                    </a>
-                </li>
-                <li class="nav-item" id="nav-link">
-                    <a class="nav-link" data-bs-toggle="tab" href="#xrays">
-                        <i class="fas fa-x-ray me-2"></i>Imaging
-                    </a>
-                </li>
-                <li  id="nav-link">
-                    <a class="nav-link" data-bs-toggle="tab" href="#prescriptions">
-                        <i class="fas fa-prescription-bottle-alt me-2"></i>Prescriptions
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Tab Content -->
-            <div class="tab-content mt-3">
-                <!-- Examinations Tab -->
-                <div class="tab-pane fade show active" id="examinations">
-                    <div class="record-card">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0">General Checkup</h6>
-                            <small class="text-muted">2023-09-20</small>
-                        </div>
-                        <p class="mb-0">Blood pressure: 120/80 mmHg, Pulse: 72 bpm</p>
-                    </div>
-                </div>
-
-                <!-- Analyses Tab -->
-                <div class="tab-pane fade" id="analyses">
-                    <div class="record-card">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0">Blood Test Results</h6>
-                            <small class="text-muted">2023-09-18</small>
-                        </div>
-                        <p class="mb-0">HbA1c: 5.4%, Cholesterol: 180 mg/dL</p>
-                    </div>
-                </div>
-
-                <!-- Imaging Tab -->
-                <div class="tab-pane fade" id="xrays">
-                    <div class="record-card">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0">Chest X-ray</h6>
-                            <small class="text-muted">2023-09-15</small>
-                        </div>
-                        <p class="mb-0">No abnormalities detected</p>
-                    </div>
-                </div>
-
-                <!-- Prescriptions Tab -->
-                <div class="tab-pane fade" id="prescriptions">
-                    <div class="record-card">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0">Amoxicillin 500mg</h6>
-                            <span class="badge bg-success">Active</span>
-                        </div>
-                        <p class="mb-0">Take 1 capsule every 8 hours for 7 days</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Prescription Editor -->
-            <div class="prescription-editor">
-                <h5 class="mb-3"><i class="fas fa-prescription-bottle-alt me-2"></i>New Prescription</h5>
-                <div class="mb-3">
-                    <textarea class="form-control" rows="4"
-                              placeholder="Enter prescription details..."></textarea>
-                </div>
-                <div class="d-flex justify-content-end gap-2">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-paper-plane me-2"></i>Send to Pharmacy
-                    </button>
-                    <button class="btn btn-outline-secondary">
-                        <i class="fas fa-share me-2"></i>Refer Specialist
-                    </button>
-                </div>
-            </div>
-        </main>
+<!-- Patient Header -->
+<div class="patient-header">
+    <div>
+        <h2 class="text-primary mb-0">Patient Overview</h2>
+        <div class="d-flex align-items-center gap-2 mt-2">
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <button class="btn btn-outline-primary">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div class="patient-info-card">
+        <h5 class="mb-2">Mostafa Mohamed</h5>
+        <div class="d-flex gap-3">
+            <div>
+                <small class="text-muted">Age</small>
+                <div class="fw-bold">22</div>
+            </div>
+            <div>
+                <small class="text-muted">Patient ID</small>
+                <div class="fw-bold">#22222</div>
+            </div>
+            <div>
+                <small class="text-muted">Last Visit</small>
+                <div class="fw-bold">2023-09-20</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Medical Records Tabs -->
+<ul class="nav nav-tabs" id="patientTabs">
+    <li class="nav-item" id="nav-link">
+        <a class="nav-link active" data-bs-toggle="tab" href="#">
+            <i class="fas fa-stethoscope me-2"></i>Examinations
+        </a>
+    </li>
+    <li class="nav-item" id="nav-link">
+        <a class="nav-link" data-bs-toggle="tab" href="#analyses">
+            <i class="fas fa-vial me-2"></i>Analyses
+        </a>
+    </li>
+    <li class="nav-item" id="nav-link">
+        <a class="nav-link" data-bs-toggle="tab" href="#xrays">
+            <i class="fas fa-x-ray me-2"></i>Imaging
+        </a>
+    </li>
+    <li  id="nav-link">
+        <a class="nav-link" data-bs-toggle="tab" href="#prescriptions">
+            <i class="fas fa-prescription-bottle-alt me-2"></i>Prescriptions
+        </a>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content mt-3">
+    <!-- Examinations Tab -->
+    <div class="tab-pane fade show active" id="examinations">
+        <div class="record-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">General Checkup</h6>
+                <small class="text-muted">2023-09-20</small>
+            </div>
+            <p class="mb-0">Blood pressure: 120/80 mmHg, Pulse: 72 bpm</p>
+        </div>
+    </div>
+
+    <!-- Analyses Tab -->
+    <div class="tab-pane fade" id="analyses">
+        <div class="record-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Blood Test Results</h6>
+                <small class="text-muted">2023-09-18</small>
+            </div>
+            <p class="mb-0">HbA1c: 5.4%, Cholesterol: 180 mg/dL</p>
+        </div>
+    </div>
+
+    <!-- Imaging Tab -->
+    <div class="tab-pane fade" id="xrays">
+        <div class="record-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Chest X-ray</h6>
+                <small class="text-muted">2023-09-15</small>
+            </div>
+            <p class="mb-0">No abnormalities detected</p>
+        </div>
+    </div>
+
+    <!-- Prescriptions Tab -->
+    <div class="tab-pane fade" id="prescriptions">
+        <div class="record-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Amoxicillin 500mg</h6>
+                <span class="badge bg-success">Active</span>
+            </div>
+            <p class="mb-0">Take 1 capsule every 8 hours for 7 days</p>
+        </div>
+    </div>
+</div>
+
+<!-- Prescription Editor -->
+<div class="prescription-editor">
+    <h5 class="mb-3"><i class="fas fa-prescription-bottle-alt me-2"></i>New Prescription</h5>
+    <div class="mb-3">
+        <textarea class="form-control" rows="4"
+                    placeholder="Enter prescription details..."></textarea>
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-primary">
+            <i class="fas fa-paper-plane me-2"></i>Send to Pharmacy
+        </button>
+        <button class="btn btn-outline-secondary">
+            <i class="fas fa-share me-2"></i>Refer Specialist
+        </button>
+    </div>
+</div>

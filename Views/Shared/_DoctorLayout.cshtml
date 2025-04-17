@@ -61,6 +61,8 @@
             flex: 1;
             padding: 2rem;
             background: white;
+            margin-left: 0;
+            padding: 1rem;
         }
 
         .patient-header {
@@ -115,13 +117,8 @@
                 height: 100vh;
             }
 
-                .sidebar.active {
-                    transform: translateX(0);
-                }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
+            .sidebar.active {
+                transform: translateX(0);
             }
         }
     </style>
@@ -142,6 +139,9 @@
                     <h3><i class="fas fa-user-md me-2"></i>Doctor Dashboard</h3>
                 </div>
                 <nav class="nav flex-column">
+                    <a class="nav-link" href="@Url.Action("Index", "Doctor")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Dashboard
+                    </a>
                     <a class="nav-link" href="@Url.Action("Appointments", "Doctor")" onclick="loadPage(event, this)">
                         <i class="fas fa-calendar-check"></i> Appointments
                     </a>

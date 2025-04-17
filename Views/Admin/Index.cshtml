@@ -2,65 +2,65 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Keep existing head content -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+@* <!DOCTYPE html> *@
+@* <html lang="en"> *@
+@* <head> *@
+@*     <!-- Keep existing head content --> *@
+@*     <meta charset="UTF-8"> *@
+@*     <meta name="viewport" content="width=device-width, initial-scale=1.0"> *@
+@*     <title>Admin Dashboard</title> *@
+@*     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> *@
+@*     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"> *@
     
-    <!-- Add tooltip initialization -->
-    <script> 
-        document.addEventListener('DOMContentLoaded', function() {
-			// Initialize Bootstrap tooltips
-			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-			var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-				return new bootstrap.Tooltip(tooltipTriggerEl)
-			})
-		})
-	</script>
-</head>
-<body>
-<<<<<<< HEAD
-    <!-- Keep existing sidebar and header content -->
-    <!-- Mobile Menu Toggle -->
-    <button class="btn btn-dark d-md-none position-fixed" 
-            style="z-index: 1001; top: 1rem; left: 1rem"
-            onclick="document.body.classList.toggle('sidebar-active')">
-        <i class="fas fa-bars"></i>
-    </button>
+@*     <!-- Add tooltip initialization --> *@
+@*     <script>  *@
+@*         document.addEventListener('DOMContentLoaded', function() { *@
+@* 			// Initialize Bootstrap tooltips *@
+@* 			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')) *@
+@* 			var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) { *@
+@* 				return new bootstrap.Tooltip(tooltipTriggerEl) *@
+@* 			}) *@
+@* 		}) *@
+@* 	</script> *@
+@* </head> *@
+@* <body> *@
+@* <<<<<<< HEAD *@
+@*     <!-- Keep existing sidebar and header content --> *@
+@*     <!-- Mobile Menu Toggle --> *@
+@*     <button class="btn btn-dark d-md-none position-fixed"  *@
+@*             style="z-index: 1001; top: 1rem; left: 1rem" *@
+@*             onclick="document.body.classList.toggle('sidebar-active')"> *@
+@*         <i class="fas fa-bars"></i> *@
+@*     </button> *@
 
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="p-3">
-            <h4 class="text-center text-white mb-4">
-                <i class="fas fa-hospital me-2"></i>Admin Panel
-            </h4>
-            <ul class="sidebar-nav">
-                <li><a href="#" class="sidebar-link"><i class="fas fa-users"></i> Users</a></li>
-                <li>
-                    <a href="https://localhost:7059/Doctor/Index" class="sidebar-link"><i class="fas fa-user-md"></i> Doctors</a>
-                </li>
-                <li>
-                    <a href="https://localhost:7059/Patient/PatientDashboard" class="sidebar-link"><i class="fas fa-procedures"></i> Patients</a>
-                </li>
-                <li><a href="#" class="sidebar-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-                <li>
-                    <a href="https://localhost:7059/Patient/Index" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Billing</a>
-                </li>
-                <li><a href="/admin/logs" class="sidebar-link"><i class="fas fa-clipboard-list"></i> Logs</a></li>
-                <li><a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
-            </ul>
-        </div>
-    </nav>
-=======
+@*     <!-- Sidebar --> *@
+@*     <nav class="sidebar"> *@
+@*         <div class="p-3"> *@
+@*             <h4 class="text-center text-white mb-4"> *@
+@*                 <i class="fas fa-hospital me-2"></i>Admin Panel *@
+@*             </h4> *@
+@*             <ul class="sidebar-nav"> *@
+@*                 <li><a href="#" class="sidebar-link"><i class="fas fa-users"></i> Users</a></li> *@
+@*                 <li> *@
+@*                     <a href="https://localhost:7059/Doctor/Index" class="sidebar-link"><i class="fas fa-user-md"></i> Doctors</a> *@
+@*                 </li> *@
+@*                 <li> *@
+@*                     <a href="https://localhost:7059/Patient/PatientDashboard" class="sidebar-link"><i class="fas fa-procedures"></i> Patients</a> *@
+@*                 </li> *@
+@*                 <li><a href="#" class="sidebar-link"><i class="fas fa-calendar-check"></i> Appointments</a></li> *@
+@*                 <li> *@
+@*                     <a href="https://localhost:7059/Patient/Index" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Billing</a> *@
+@*                 </li> *@
+@*                 <li><a href="/admin/logs" class="sidebar-link"><i class="fas fa-clipboard-list"></i> Logs</a></li> *@
+@*                 <li><a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a></li> *@
+@*             </ul> *@
+@*         </div> *@
+@*     </nav> *@
+@* ======= *@
     
->>>>>>> Mostafa
-    <!-- Main Content -->
-    <main class="content">
+@* >>>>>>> Mostafa *@
+@*     <!-- Main Content --> *@
+@*     <main class="content"> *@
         <div class="container-fluid">
             <!-- Statistics Cards -->
             <div class="row g-4 mb-4">
@@ -281,26 +281,24 @@
     </div>
 
     <!-- Add JavaScript for dynamic modal content -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle disable modal
-            var disableModal = document.getElementById('disableModal')
-            disableModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget
-                var userName = button.getAttribute('data-user')
-                var modalTitle = disableModal.querySelector('#disableUserName')
-                modalTitle.textContent = userName
-            })
+    @* <script> *@
+    @*     document.addEventListener('DOMContentLoaded', function() { *@
+    @*         // Handle disable modal *@
+    @*         var disableModal = document.getElementById('disableModal') *@
+    @*         disableModal.addEventListener('show.bs.modal', function(event) { *@
+    @*             var button = event.relatedTarget *@
+    @*             var userName = button.getAttribute('data-user') *@
+    @*             var modalTitle = disableModal.querySelector('#disableUserName') *@
+    @*             modalTitle.textContent = userName *@
+    @*         }) *@
 
-            // Handle audit modal
-            var auditModal = document.getElementById('auditModal')
-            auditModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget
-                var userName = button.getAttribute('data-user')
-                var modalTitle = auditModal.querySelector('#auditUserName')
-                modalTitle.textContent = userName
-            })
-        })
+    @*         // Handle audit modal *@
+    @*         var auditModal = document.getElementById('auditModal') *@
+    @*         auditModal.addEventListener('show.bs.modal', function(event) { *@
+    @*             var button = event.relatedTarget *@
+    @*             var userName = button.getAttribute('data-user') *@
+    @*             var modalTitle = auditModal.querySelector('#auditUserName') *@
+    @*             modalTitle.textContent = userName *@
+    @*         }) *@
+    @*     }) *@
     </script>
-</body>
-</html>

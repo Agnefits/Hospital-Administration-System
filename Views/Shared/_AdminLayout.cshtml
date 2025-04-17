@@ -1,151 +1,209 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html> 
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Hospital_Administration_System_Admin</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
+ <head> 
+     <meta charset="utf-8" /> 
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+     <title>@ViewData["Title"] - Hospital_Administration_System_Admin</title> 
+     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> 
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
+     <style>
         :root {
-            --sidebar-width: 250px;
-            --sidebar-bg: #2c3e50;
-            --content-bg: #f8f9fa;
-            --card-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --primary-color: #1F2B6C;
+            --secondary-color: #159EEC;
+            --accent-color: #BFD2F8;
+            --text-dark: #2C3E50;
         }
 
         body {
-            background-color: var(--content-bg);
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: flex;
             min-height: 100vh;
         }
 
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            position: fixed;
+            width: 280px;
             height: 100vh;
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
             transition: transform 0.3s ease;
             z-index: 1000;
         }
 
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
+        .sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1rem;
         }
 
-        .sidebar-link {
-            color: #ecf0f1;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 1rem;
-            transition: all 0.3s ease;
         }
 
-            .sidebar-link:hover {
-                background: #34495e;
-                color: #fff;
-            }
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary-color);
+            color: white;
+        }
 
-        .content {
-            margin-left: var(--sidebar-width);
+        .main-content {
+            flex: 1;
             padding: 2rem;
-            transition: margin 0.3s ease;
+            background: white;
+            margin-left: 0;
+            padding: 1rem;
         }
-
-        .card-stat {
-            border: none;
-            border-radius: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-            .card-stat:hover {
-                transform: translateY(-5px);
-            }
 
         @@media (max-width: 768px) {
             .sidebar {
+                position: fixed;
                 transform: translateX(-100%);
+                width: 280px;
+                height: 100vh;
             }
 
-            .content {
-                margin-left: 0;
+                .sidebar.active {
+                    transform: translateX(0);
+                }
+        }
+     </style> 
+ </head> 
+ <body>
+    <div class="dashboard-container">
+        <header> 
+             <!-- Keep existing sidebar and header content --> 
+             <!-- Mobile Menu Toggle -->
+            <button class="btn btn-primary d-lg-none position-fixed"
+                    style="z-index: 1100; top: 1rem; left: 1rem"
+                    onclick="document.querySelector('.sidebar').classList.toggle('active')">
+                <i class="fas fa-bars"></i>
+            </button>
+
+             <!-- Sidebar -->
+             <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-user-shield"></i> Admin Dashboard</h3>
+			    </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="@Url.Action("Index", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Users", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Users
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Doctors", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Doctors
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Patients", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Patients
+                    </a>
+                    <a class="nav-link" href="@Url.Action("UpcomingAppointments", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Upcoming Appointments
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Billing", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Billing
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Logs", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Logs
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Reports", "Admin")" onclick="loadPage(event, this)">
+                        <i class="fas fa-calendar-check"></i> Reports
+                    </a>
+                </nav>
+             </aside> 
+        </header>  
+        <div class="main-content" id="mainContent">
+            @RenderBody()
+        </div>
+    </div>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            highlightActiveLink();
+        });
+
+        function toggleSidebar() {
+            document.querySelector(".sidebar").classList.toggle("active");
+        }
+
+            function highlightActiveLink() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPath = window.location.pathname.toLowerCase();
+
+            navLinks.forEach(link => {
+                const linkPath = new URL(link.href).pathname.toLowerCase();
+                link.classList.toggle('active', linkPath === currentPath);
+            });
+        }
+
+
+            async function loadPage(event, element) {
+            event.preventDefault();
+            try {
+                const response = await fetch(element.href, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.querySelector('#mainContent')?.innerHTML || html;
+
+                document.getElementById('mainContent').innerHTML = content;
+                history.pushState({}, '', element.href);
+                highlightActiveLink(); // Add this here
+
+            } catch (error) {
+                console.error("Error loading page:", error);
             }
+        }
+        // Global error handling
+        window.addEventListener('error', (event) => {
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger';
+            errorContainer.textContent = 'An error occurred: ' + event.message;
+            document.body.prepend(errorContainer);
+            setTimeout(() => errorContainer.remove(), 5000);
+        });
 
-            .sidebar-active .sidebar {
-                transform: translateX(0);
+        window.addEventListener('popstate', async () => {
+            try {
+                const response = await fetch(window.location.href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html'
+                    }
+                });
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.querySelector('#mainContent')?.innerHTML || html;
+
+                document.getElementById('mainContent').innerHTML = content;
+                highlightActiveLink(); // Add this here
+
+            } catch (error) {
+                console.error("Navigation error:", error);
+                window.location.reload();
             }
+        });
 
-            .sidebar-active .content {
-                margin-left: var(--sidebar-width);
-            }
-        }
+    </script>
+     <script src="~/lib/jquery/dist/jquery.min.js"></script> 
+     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+     <script src="~/js/site.js" asp-append-version="true"></script> 
+     @await RenderSectionAsync("Scripts", required: false) 
+ </body> 
+ </html>
 
-        .stat-icon {
-            font-size: 2rem;
-            opacity: 0.7;
-        }
-
-        .table-responsive {
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-        /* Add to your CSS */
-        .action-badge {
-            cursor: help;
-            transition: opacity 0.2s;
-        }
-
-            .action-badge:hover {
-                opacity: 0.8;
-            }
-
-        .dropdown-menu {
-            min-width: 200px;
-        }
-
-        .modal-content {
-            border: none;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body>
-    <header class="container-fluid p-2">
-        <!-- Keep existing sidebar and header content -->
-        <!-- Mobile Menu Toggle -->
-        <button class="btn btn-dark d-md-none position-fixed"
-                style="z-index: 1001; top: 1rem; left: 1rem"
-                onclick="document.body.classList.toggle('sidebar-active')">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="p-3">
-                <h4 class="text-center text-white mb-4">
-                    <i class="fas fa-hospital me-2"></i>Admin Panel
-                </h4>
-                <ul class="sidebar-nav">
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-users"></i> Users</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-user-md"></i> Doctors</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-procedures"></i> Patients</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-clipboard-list"></i> Logs</a></li>
-                    <li><a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <main role="main" class="p-1">
-        @RenderBody()
-    </main>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>

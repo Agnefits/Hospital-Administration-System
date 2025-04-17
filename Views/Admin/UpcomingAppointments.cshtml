@@ -2,39 +2,48 @@
 
 @{
     ViewData["Title"] = "Upcoming Appointments (Next Two Weeks)";
+	Layout = "_AdminLayout";
 }
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-primary">@ViewData["Title"]</h2>
+            <p class="text-muted mb-4">Rescheduling is not allowed for these appointments.</p>
 
-<h2>@ViewData["Title"]</h2>
-<p class="text-muted">Rescheduling is not allowed for these appointments.</p>
-@if (!Model.Any())
-{
-    <div class="alert alert-info">No upcoming appointments found.</div>
-}
-else
-{
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>Patient Name</th>
-                <th>Doctor Name</th>
-                <th>Appointment Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var appointment in Model)
+            @if (!Model.Any())
             {
-                <tr>
-                    <td>@appointment.Patient?.FullName</td>
-                    <td>@appointment.Doctor?.FullName</td>
-                    <td>@appointment.ReservationDate.ToString("MM/dd/yyyy hh:mm tt")</td>
-                    <td>
-                        <span class="badge @(appointment.Status == "Confirmed" ? "badge-success" : "badge-warning")">
-                            @appointment.Status
-                        </span>
-                    </td>
-                </tr>
+                <div class="alert alert-info">No upcoming appointments found.</div>
             }
-        </tbody>
-    </table>
-}
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Patient Name</th>
+                                <th scope="col">Doctor Name</th>
+                                <th scope="col">Appointment Date</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appointment in Model)
+                            {
+                                <tr>
+                                    <td>@appointment.Patient?.FullName</td>
+                                    <td>@appointment.Doctor?.FullName</td>
+                                    <td>@appointment.ReservationDate.ToString("MM/dd/yyyy hh:mm tt")</td>
+                                    <td>
+                                        <span class="badge bg-@(appointment.Status == "Confirmed" ? "success" : appointment.Status == "Pending" ? "warning text-dark" : "secondary")">
+                                            @appointment.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
