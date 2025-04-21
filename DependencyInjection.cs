@@ -1,4 +1,6 @@
-﻿namespace Hospital_Administration_System;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Hospital_Administration_System;
 
 public static class DependencyInjection
 {
@@ -10,6 +12,8 @@ public static class DependencyInjection
         services.AddAuthConfig();
         services.AddControllersWithViews();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IEmailRepository, EmailService>();
+        services.AddScoped<IAuthRepository, AuthService>();
 
         return services;
     }

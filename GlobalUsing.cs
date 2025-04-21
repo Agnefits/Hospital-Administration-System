@@ -12,3 +12,7 @@ global using Hospital_Administration_System.Data;
 global using Hospital_Administration_System.Models;
 global using Hospital_Administration_System.Repository;
 global using Hospital_Administration_System.ViewModels;
+global using Hospital_Administration_System.ViewModels.Auth;
+
+global using System.Net.Mail;
+global using System.Net;
