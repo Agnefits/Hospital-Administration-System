@@ -1,109 +1,100 @@
-﻿using Hospital_Administration_System.Models;
-using Hospital_Administration_System.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿
 
-namespace Hospital_Administration_System.Controllers
+namespace Hospital_Administration_System.Controllers;
+
+public class PrescriptionController : Controller
 {
-    public class PrescriptionController : Controller
+    private readonly IUnitOfWork _unitOfWork;
+
+    public PrescriptionController(IUnitOfWork unitOfWork)
     {
-        private readonly PrescriptionService _prescriptionService;
-        private readonly PatientService _patientService;
-        private readonly DoctorService _doctorService;
+        _unitOfWork = unitOfWork;
+    }
 
-        public PrescriptionController(PrescriptionService prescriptionService, 
-            PatientService patientService, DoctorService doctorService)
+    // GET: Prescription
+    public async Task<IActionResult> Index()
+    {
+        var prescriptions = await _unitOfWork.PrescriptionService.GetAllPrescriptionsAsync();
+        return View(prescriptions);
+    }
+
+    // GET: Prescription/Details/5
+    public ActionResult Details(int id)
+    {
+        return View();
+    }
+
+    // GET: Prescription/Create
+    public async Task<IActionResult> Create()
+    {
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+        return View();
+    }
+
+    // POST: Prescription/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(Prescription prescription)
+    {
+
+        try
         {
-            _prescriptionService = prescriptionService;
-            _patientService = patientService;
-            _doctorService = doctorService;
+            await _unitOfWork.PrescriptionService.AddPrescriptionAsync(prescription);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: Prescription
-        public async Task<IActionResult> Index()
-        {
-            var prescriptions = await _prescriptionService.GetAllPrescriptionsAsync();
-            return View(prescriptions);
-        }
-
-        // GET: Prescription/Details/5
-        public ActionResult Details(int id)
+        catch
         {
             return View();
         }
+        
+    }
 
-        // GET: Prescription/Create
-        public async Task<IActionResult> Create()
+    // GET: Prescription/Edit/5
+    public async Task<IActionResult> Edit(int id)
+    {
+        var pre = await _unitOfWork.PrescriptionService.GetPrescriptionByIdAsync(id);
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+        return View(pre);
+    }
+
+
+    // POST: Prescription/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(Prescription prescription)
+    {
+
+        try
         {
-            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
-            ViewData["Doctors"] = await _doctorService.GetAllDoctorsAsync();
-            return View();
+            await _unitOfWork.PrescriptionService.UpdatePrescriptionAsync(prescription);
+            return RedirectToAction(nameof(Index));
         }
-
-        // POST: Prescription/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Prescription prescription)
+        catch
         {
-
-            try
-            {
-                await _prescriptionService.AddPrescriptionAsync(prescription);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-            
+            return View("Edit", prescription);
         }
+    }
 
-        // GET: Prescription/Edit/5
-        public async Task<IActionResult> Edit(int id)
+    // GET: Prescription/Delete/5
+    public ActionResult Delete(int id)
+    {
+        return View();
+    }
+
+    // POST: Prescription/Delete/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Delete(int id, IFormCollection collection)
+    {
+        try
         {
-            var pre = await _prescriptionService.GetPrescriptionByIdAsync(id);
-            ViewData["Patients"] = await _patientService.GetAllPatientsAsync();
-            ViewData["Doctors"] = await _doctorService.GetAllDoctorsAsync();
-            return View(pre);
+            return RedirectToAction(nameof(Index));
         }
-
-
-        // POST: Prescription/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Prescription prescription)
-        {
-
-            try
-            {
-                await _prescriptionService.UpdatePrescriptionAsync(prescription);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View("Edit", prescription);
-            }
-        }
-
-        // GET: Prescription/Delete/5
-        public ActionResult Delete(int id)
+        catch
         {
             return View();
-        }
-
-        // POST: Prescription/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

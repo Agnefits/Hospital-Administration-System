@@ -1,7 +1,151 @@
-﻿@{
+﻿
+@model IEnumerable<Hospital_Administration_System.Models.Reservation>
+
+@{
     Layout = "~/Views/Shared/_DoctorLayout.cshtml";
 }
-<div class="main-content">
-    <h2>Appointments</h2>
-    <p>Here is the list of appointments...</p>
+
+
+    <style>
+
+
+        .status-badge {
+            padding: 0.35rem 0.65rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .badge-confirm {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+
+    </style>
+
+
+    <main class="content">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="fw-bold">Appointments</h2>
+                <p class="text-muted">Here is the list of appointments.</p>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="card border-0 shadow">
+            <div class="card-header bg-white">
+                <h3 class="mb-0">Appointments</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Reservation Date</th>
+                                <th>Status</th>
+                                <th>Additional Data</th>
+                                <th>Actions</th> <!-- Added Actions Column -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appointment in Model)
+                            {
+                                <tr>
+                                    <td>@appointment.Patient?.FullName</td>
+                                    <td>@appointment.Doctor?.FullName</td>
+                                    <td>@appointment.ReservationDate.ToString("yyyy-MM-dd")</td>
+                                    @if (appointment.Status == ReservationStatus.Pending)
+                                    {
+                                        <td><span class="status-badge badge-pending">@appointment.Status</span></td>
+                                    }
+                                    @if (appointment.Status == ReservationStatus.Confirmed)
+                                    {
+                                        <td><span class="status-badge badge-confirm">@appointment.Status</span></td>
+                                    }@if (appointment.Status == ReservationStatus.Cancelled)
+                                    {
+                                        <td><span class="status-badge badge-cancelled">@appointment.Status</span></td>
+                                    }
+                                    <td>@appointment.AdditionalData</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-info"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#appointmentDetailModal"
+                                                data-patient="@appointment.Patient?.FullName"
+                                                data-doctor="@appointment.Doctor?.FullName"
+                                                data-date="@appointment.ReservationDate.ToString("yyyy-MM-dd")"
+                                                data-diagnosis="@appointment.Status"
+                                                data-notes="@appointment.AdditionalData"
+                                                data-appointmentid="@appointment.ReservationID">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        <!-- Delete buttons -->
+                                        <a href="@Url.Action("DeleteAppointment", new { id = appointment.ReservationID })" class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Are you sure you want to delete this record?');">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Appointment Details Modal -->
+<div class="modal fade" id="appointmentDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Appointment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Patient:</strong> <span id="appointmentPatient"></span></li>
+                    <li class="list-group-item"><strong>Doctor:</strong> <span id="appointmentDoctor"></span></li>
+                    <li class="list-group-item"><strong>Date:</strong> <span id="appointmentDate"></span></li>
+                    <li class="list-group-item"><strong>Status:</strong> <span id="appointmentDiagnosis"></span></li>
+                    <li class="list-group-item"><strong>Notes:</strong> <p id="appointmentNotes" class="mb-0"></p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Modal Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const appointmentModal = document.getElementById('appointmentDetailModal');
+        appointmentModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            document.getElementById('appointmentPatient').textContent = button.getAttribute('data-patient');
+            document.getElementById('appointmentDoctor').textContent = button.getAttribute('data-doctor');
+            document.getElementById('appointmentDate').textContent = button.getAttribute('data-date');
+            document.getElementById('appointmentDiagnosis').textContent = button.getAttribute('data-diagnosis');
+            document.getElementById('appointmentTreatment').textContent = button.getAttribute('data-treatment');
+            document.getElementById('appointmentNotes').textContent = button.getAttribute('data-notes');
+        });
+
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+    });
+</script>
+

@@ -34,7 +34,7 @@
                                     <td>@appointment.Doctor?.FullName</td>
                                     <td>@appointment.ReservationDate.ToString("MM/dd/yyyy hh:mm tt")</td>
                                     <td>
-                                        <span class="badge bg-@(appointment.Status == "Confirmed" ? "success" : appointment.Status == "Pending" ? "warning text-dark" : "secondary")">
+                                        <span class="badge bg-@(appointment.Status == ReservationStatus.Confirmed ? "success" : appointment.Status == ReservationStatus.Pending ? "warning text-dark" : "secondary")">
                                             @appointment.Status
                                         </span>
                                     </td>

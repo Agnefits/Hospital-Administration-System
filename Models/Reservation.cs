@@ -1,26 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿
 
-namespace Hospital_Administration_System.Models
+namespace Hospital_Administration_System.Models;
+
+public class Reservation
 {
-    public class Reservation
-    {
-        [Key]
-        public int ReservationID { get; set; }
+    [Key]
+    public int ReservationID { get; set; }
 
-        [ForeignKey("Patient")]
-        public int PatientID { get; set; }
-        public Patient Patient { get; set; }
+    [ForeignKey("Patient")]
+    public int PatientID { get; set; }
+    public Patient Patient { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int DoctorID { get; set; }
-        public Doctor Doctor { get; set; }
+    [ForeignKey("Doctor")]
+    public int DoctorID { get; set; }
+    public Doctor Doctor { get; set; }
 
-        public DateTime ReservationDate { get; set; }
+    public DateTime ReservationDate { get; set; }
 
-        [Required, MaxLength(50)]
-        public string Status { get; set; }  // "Pending", "Confirmed", "Cancelled"
+    [Required]
+    public ReservationStatus Status { get; set; }  // "Pending", "Confirmed", "Cancelled"
 
-        public string? AdditionalData { get; set; }
-    }
+    public string? AdditionalData { get; set; } = "N/A";
 }

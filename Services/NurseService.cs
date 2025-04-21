@@ -1,45 +1,43 @@
-﻿using Hospital_Administration_System.Data;
-using Hospital_Administration_System.Models;
-using Microsoft.EntityFrameworkCore;
+﻿
 
-namespace Hospital_Administration_System.Services
+namespace Hospital_Administration_System.Services;
+
+public class NurseService: GenericRepository<Nurse>, INurseRepository
 {
-    public class NurseService
+
+    public NurseService(ApplicationDbContext context): base(context)
     {
-        private readonly ApplicationDbContext context;
 
-        public NurseService(ApplicationDbContext context)
-        {
-            this.context = context;
-        }
+    }
 
-        public async Task AddNurseAsync(Nurse nurse)
-        {
-            await context.Nurses.AddAsync(nurse);
-        }
+    public async Task AddNurseAsync(Nurse nurse)
+    {
+        await AddAsync(nurse);
+    }
 
-        public async Task DeleteNurseAsync(int id)
-        {
-            var nurse = await context.Nurses.FindAsync(id);
-            context.Nurses.Remove(nurse);
-            await context.SaveChangesAsync();
-        }
+    public async Task DeleteNurseAsync(Nurse nurse)
+    {
+        await DeleteAsync(nurse);
+    }
 
-        public async Task<Nurse> GetNurseAsync(int id)
-        {
-            return await context.Nurses.FindAsync(id);
-        }
+    public async Task<IEnumerable<Nurse>> GetAllNursesAsync()
+    {
+        return await GetAllAsync();
+    }
 
-        public async Task<IEnumerable<Nurse>> GetNursesAsync()
-        {
-            return await context.Nurses.ToListAsync();
-        }
+    public async Task<Nurse> GetNurseByIdAsync(int id)
+    {
+        return await GetByIdAsync(id);
+    }
+    public Task<IEnumerable<Reservation>> GetNursesByDepartmentAsync(int Id)
+    {
+        throw new NotImplementedException();
+    }
 
 
-        public async Task UpdateNurseAsync(Nurse nurse)
-        {
-            context.Nurses.Update(nurse);
-            await context.SaveChangesAsync();
-        }
+    public async Task UpdateNurseAsync(Nurse nurse)
+    {
+        await UpdateAsync(nurse);
     }
 }
+

@@ -1,39 +1,36 @@
-﻿using Hospital_Administration_System.Models;
-using Hospital_Administration_System.Repository;
+﻿
+namespace Hospital_Administration_System.Services;
 
-namespace Hospital_Administration_System.Services
+public class BillingService: GenericRepository<Billing>, IBillingRepository
 {
-    public class BillingService
+    public BillingService(ApplicationDbContext context):base(context)
     {
-        private readonly IRepository<Billing> _billingRepository;
-        public BillingService(IRepository<Billing> billingRepository)
-        {
-            _billingRepository = billingRepository;
-        }
-
-        public async Task<IEnumerable<Billing>> GetAllBillingsAsync()
-        {
-            return await _billingRepository.GetAllAsync();
-        }
-
-        public async Task<Billing> GetBillingByIdAsync(int id)
-        {
-            return await _billingRepository.GetByIdAsync(id);
-        }
-
-        public async Task AddBillingAsync(Billing billing)
-        {
-            await _billingRepository.AddAsync(billing);
-        }
-
-        public async Task UpdateBillingAsync(Billing billing)
-        {
-            await _billingRepository.UpdateAsync(billing);
-        }
-
-        public async Task DeleteBillingAsync(Billing billing)
-        {
-            await _billingRepository.DeleteAsync(billing);
-        }
+        
     }
+
+    public async Task<IEnumerable<Billing>> GetAllBillingsAsync()
+    {
+        return await GetAllAsync();
+    }
+
+    public async Task<Billing> GetBillingByIdAsync(int id)
+    {
+        return await GetByIdAsync(id);
+    }
+
+    public async Task AddBillingAsync(Billing billing)
+    {
+        await AddAsync(billing);
+    }
+
+    public async Task UpdateBillingAsync(Billing billing)
+    {
+        await UpdateAsync(billing);
+    }   
+
+    public async Task DeleteBillingAsync(Billing billing)
+    {
+        await DeleteAsync(billing);
+    }
+
 }

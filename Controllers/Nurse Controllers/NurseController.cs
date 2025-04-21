@@ -1,19 +1,24 @@
-﻿using Hospital_Administration_System.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿
 
-namespace Hospital_Administration_System.Controllers.Nurse_Controllers
+namespace Hospital_Administration_System.Controllers.Nurse_Controllers;
+
+public class NurseController : Controller
 {
-    public class NurseController : Controller
-    {
-        private readonly NurseService _nurseService;
+    private readonly IUnitOfWork _unitOfWork;
 
-        public NurseController(NurseService nurseService)
-        {
-            _nurseService = nurseService;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public NurseController(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
     }
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> AppointmentsAsync()
+    {
+        var appointments = await _unitOfWork.ReservationService.GetAllReservationsAsync();
+        return View(appointments);
+    }
+
 }

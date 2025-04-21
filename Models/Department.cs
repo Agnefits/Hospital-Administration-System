@@ -1,31 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Numerics;
+﻿
+namespace Hospital_Administration_System.Models;
 
-namespace Hospital_Administration_System.Models
+public class Department
 {
-    public class Department
-    {
-        [Key]
-        public int DepartmentID { get; set; }
+    [Key]
+    public int DepartmentID { get; set; }
 
-        [Required, MaxLength(255)]
-        public string Name { get; set; }
+    [Required, MaxLength(255)]
+    public string Name { get; set; }
 
-        [Required, ForeignKey("Branch")]
-        public int BranchID { get; set; }
-        public Branch Branch { get; set; }
-        // 
-        public string? HeadDoctorID { get; set; }
-        [ForeignKey("HeadDoctorID")]
-        public User HeadDoctor { get; set; }
+    [Required, ForeignKey("Branch")]
+    public int BranchID { get; set; }
+    public Branch Branch { get; set; }
+    // 
+    public string? HeadDoctorID { get; set; }
+    [ForeignKey("HeadDoctorID")]
+    public User HeadDoctor { get; set; }
 
-        public string? AdditionalData { get; set; }
+    public string? AdditionalData { get; set; }
 
-        public bool Deleted { get; set; } = false;
+    public bool Deleted { get; set; } = false;
 
-        // One-to-Many 
-        public ICollection<Doctor> Doctors { get; set; }
-        public ICollection<Nurse> Nurses { get; set; }
-    }
+    // One-to-Many 
+    public ICollection<Doctor> Doctors { get; set; }
+    public ICollection<Nurse> Nurses { get; set; }
 }

@@ -112,180 +112,166 @@
 //        }
 //    }
 //}
-using Hospital_Administration_System.Data;
-using Hospital_Administration_System.Models;
-using Hospital_Administration_System.Services;
-using Hospital_Administration_System.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
-namespace Hospital_Administration_System.Controllers.Patient_Controllers
+
+
+
+namespace Hospital_Administration_System.Controllers.Patient_Controllers;
+
+public class ReservationController : Controller
 {
-    public class ReservationController : Controller
+    private readonly IUnitOfWork _unitOfWork;
+
+    public ReservationController(IUnitOfWork unitOfWork)
     {
-        private readonly ReservationService _reservationService;
-        private readonly DoctorService _doctorService;
-        private readonly PatientService _patientService;
+        _unitOfWork = unitOfWork;
+    }
 
-        public ReservationController(
-            ReservationService reservationService,
-            DoctorService doctorService,
-            PatientService patientService)
+    //public async Task<IActionResult> Index()
+    //{
+    //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    //    var patient = await _patientService.GetPatientByIdAsync(userId);
+    //    var reservations = await _reservationService.GetReservationsByPatientIdAsync(patient.PatientID);
+    //    return View(reservations);
+    //}
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        if (reservation == null)
+            return NotFound();
+
+        return View(reservation);
+    }
+
+    public async Task<IActionResult> Create()
+    {
+        var doctors = await _unitOfWork.DoctorService.GetDoctorsAsync();
+        var viewModel = new ReservationViewModel
         {
-            _reservationService = reservationService;
-            _doctorService = doctorService;
-            _patientService = patientService;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var patient = await _patientService.GetPatientByIdAsync(userId);
-            var reservations = await _reservationService.GetReservationsByPatientIdAsync(patient.PatientID);
-            return View(reservations);
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
-            if (reservation == null)
-                return NotFound();
-
-            return View(reservation);
-        }
-
-        public async Task<IActionResult> Create()
-        {
-            var doctors = await _doctorService.GetAllDoctorsAsync();
-            var viewModel = new ReservationViewModel
+            ReservationDate = DateTime.Now,
+            Doctors = doctors.Select(d => new SelectListItem
             {
-                ReservationDate = DateTime.Now,
-                Doctors = doctors.Select(d => new SelectListItem
-                {
-                    Value = d.DoctorID.ToString(),
-                    Text = d.FullName
-                }).ToList()
-            };
+                Value = d.DoctorID.ToString(),
+                Text = d.FullName
+            }).ToList()
+        };
 
-            return View(viewModel);
-        }
+        return View(viewModel);
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReservationViewModel model)
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> Create(ReservationViewModel model)
+    //{
+    //    if (!ModelState.IsValid)
+    //    {
+    //        model.Doctors = (await _doctorService.GetAllDoctorsAsync()).Select(d => new SelectListItem
+    //        {
+    //            Value = d.DoctorID.ToString(),
+    //            Text = d.FullName
+    //        }).ToList();
+    //        return View(model);
+    //    }
+
+    //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    //    var patient = await _patientService.GetPatientByIdAsync(userId);
+
+    //    var allReservations = await _reservationService.GetAllReservationsAsync();
+    //    var exists = allReservations.Any(r => r.PatientID == patient.PatientID &&
+    //                                          r.DoctorID == model.DoctorID &&
+    //                                          r.Status != "Cancelled");
+
+    //    if (exists)
+    //    {
+    //        ModelState.AddModelError("", "You already have an appointment with this doctor.");
+    //        model.Doctors = (await _doctorService.GetAllDoctorsAsync()).Select(d => new SelectListItem
+    //        {
+    //            Value = d.DoctorID.ToString(),
+    //            Text = d.FullName
+    //        }).ToList();
+    //        return View(model);
+    //    }
+
+    //    var reservation = new Reservation
+    //    {
+    //        PatientID = patient.PatientID,
+    //        DoctorID = model.DoctorID,
+    //        ReservationDate = model.ReservationDate,
+    //        AdditionalData = model.AdditionalData,
+    //        Status = "Pending"
+    //    };
+
+    //    await _reservationService.AddReservationAsync(reservation);
+    //    return RedirectToAction(nameof(Index));
+    //}
+
+    //public async Task<IActionResult> Edit(int id)
+    //{
+    //    var reservation = await _reservationService.GetReservationByIdAsync(id);
+    //    if (reservation == null)
+    //        return NotFound();
+
+    //    var doctors = await _doctorService.GetAllDoctorsAsync();
+    //    var viewModel = new ReservationViewModel
+    //    {
+    //        ReservationID = reservation.ReservationID,
+    //        DoctorID = reservation.DoctorID,
+    //        ReservationDate = reservation.ReservationDate,
+    //        AdditionalData = reservation.AdditionalData,
+    //        Doctors = doctors.Select(d => new SelectListItem
+    //        {
+    //            Value = d.DoctorID.ToString(),
+    //            Text = d.FullName
+    //        }).ToList()
+    //    };
+
+    //    return View(viewModel);
+    //}
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, ReservationViewModel model)
+    {
+        if (id != model.ReservationID || !ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
+            model.Doctors = (await _unitOfWork.DoctorService.GetDoctorsAsync()).Select(d => new SelectListItem
             {
-                model.Doctors = (await _doctorService.GetAllDoctorsAsync()).Select(d => new SelectListItem
-                {
-                    Value = d.DoctorID.ToString(),
-                    Text = d.FullName
-                }).ToList();
-                return View(model);
-            }
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var patient = await _patientService.GetPatientByIdAsync(userId);
-
-            var allReservations = await _reservationService.GetAllReservationsAsync();
-            var exists = allReservations.Any(r => r.PatientID == patient.PatientID &&
-                                                  r.DoctorID == model.DoctorID &&
-                                                  r.Status != "Cancelled");
-
-            if (exists)
-            {
-                ModelState.AddModelError("", "You already have an appointment with this doctor.");
-                model.Doctors = (await _doctorService.GetAllDoctorsAsync()).Select(d => new SelectListItem
-                {
-                    Value = d.DoctorID.ToString(),
-                    Text = d.FullName
-                }).ToList();
-                return View(model);
-            }
-
-            var reservation = new Reservation
-            {
-                PatientID = patient.PatientID,
-                DoctorID = model.DoctorID,
-                ReservationDate = model.ReservationDate,
-                AdditionalData = model.AdditionalData,
-                Status = "Pending"
-            };
-
-            await _reservationService.AddReservationAsync(reservation);
-            return RedirectToAction(nameof(Index));
+                Value = d.DoctorID.ToString(),
+                Text = d.FullName
+            }).ToList();
+            return View(model);
         }
 
-        public async Task<IActionResult> Edit(int id)
-        {
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
-            if (reservation == null)
-                return NotFound();
+        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        if (reservation == null)
+            return NotFound();
 
-            var doctors = await _doctorService.GetAllDoctorsAsync();
-            var viewModel = new ReservationViewModel
-            {
-                ReservationID = reservation.ReservationID,
-                DoctorID = reservation.DoctorID,
-                ReservationDate = reservation.ReservationDate,
-                AdditionalData = reservation.AdditionalData,
-                Doctors = doctors.Select(d => new SelectListItem
-                {
-                    Value = d.DoctorID.ToString(),
-                    Text = d.FullName
-                }).ToList()
-            };
+        reservation.DoctorID = model.DoctorID;
+        reservation.ReservationDate = model.ReservationDate;
+        reservation.AdditionalData = model.AdditionalData;
 
-            return View(viewModel);
-        }
+        await _unitOfWork.ReservationService.UpdateReservationAsync(reservation);
+        return RedirectToAction(nameof(Index));
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ReservationViewModel model)
-        {
-            if (id != model.ReservationID || !ModelState.IsValid)
-            {
-                model.Doctors = (await _doctorService.GetAllDoctorsAsync()).Select(d => new SelectListItem
-                {
-                    Value = d.DoctorID.ToString(),
-                    Text = d.FullName
-                }).ToList();
-                return View(model);
-            }
+    public async Task<IActionResult> Delete(int id)
+    {
+        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        if (reservation == null)
+            return NotFound();
 
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
-            if (reservation == null)
-                return NotFound();
+        return View(reservation);
+    }
 
-            reservation.DoctorID = model.DoctorID;
-            reservation.ReservationDate = model.ReservationDate;
-            reservation.AdditionalData = model.AdditionalData;
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        if (reservation != null)
+            await _unitOfWork.ReservationService.DeleteReservationAsync(reservation);
 
-            await _reservationService.UpdateReservationAsync(reservation);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
-            if (reservation == null)
-                return NotFound();
-
-            return View(reservation);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
-            if (reservation != null)
-                await _reservationService.DeleteReservationAsync(reservation);
-
-            return RedirectToAction(nameof(Index));
-        }
+        return RedirectToAction(nameof(Index));
     }
 }

@@ -1,9 +1,5 @@
-﻿using Hospital_Administration_System.Models;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
+﻿
+namespace Hospital_Administration_System.Models;
 public class User : IdentityUser
 {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

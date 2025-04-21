@@ -1,23 +1,20 @@
-﻿using Hospital_Administration_System.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿
+namespace Hospital_Administration_System.Controllers.Patient_Controllers;
 
-namespace Hospital_Administration_System.Controllers.Patient_Controllers
+public class PatientController : Controller
 {
-    public class PatientController : Controller
-    {
-        private readonly PatientService _patientService;
+    private readonly IUnitOfWork _unitOfWork;
 
-        public PatientController(PatientService patientService)
-        {
-            _patientService = patientService;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult PatientDashboard()
-        {
-            return View();
-        }
+    public PatientController(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+    public IActionResult Index()
+    {
+        return View();
+    }
+    public IActionResult PatientDashboard()
+    {
+        return View();
     }
 }
