@@ -8,5 +8,6 @@
         Task<AuthResponseVM> ChangePassword(User user, string oldPassword, string newPassword);
         Task<AuthResponseVM> ResetPassword(string email);
         Task<AuthResponseVM> ResetPassword(ResetPasswordConfirmVM resetPasswordConfirmVM);
+        Task Logout();
     }
 }

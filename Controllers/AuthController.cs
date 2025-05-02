@@ -1,4 +1,6 @@
-﻿namespace Hospital_Administration_System.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Hospital_Administration_System.Controllers
 {
     public class AuthController : Controller
     {
@@ -108,5 +110,15 @@
             }
             return View(model);
         }
+
+        //[Authorize] //Note Abdallah: Uncomment for authorization
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _authService.Logout();
+            return RedirectToAction("Login");
+        }
+
     }
 }

@@ -137,5 +137,9 @@
 
             return new AuthResponseVM { Succeeded = false, Error = result.Errors.FirstOrDefault()?.Description };
         }
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

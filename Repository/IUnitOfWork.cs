@@ -10,6 +10,8 @@ public interface IUnitOfWork
     public IUserRepository UserService { get; }
     public IPrescriptionRepository PrescriptionService { get; }
     public IBillingRepository BillingService { get; }
+    public IBranchRepository BranchService { get; }
+    public IDepartmentRepository DepartmentService { get; }
     int Complete();
     //public IAppointmentRepository AppointmentRepository { get; }
 }
