@@ -1,0 +1,106 @@
+﻿@model LoginVM
+@{
+	ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<section class="vh-100 d-flex align-items-center justify-content-center" style="background: #f5f6fa;">
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Login</h2>
+
+        <form asp-action="Login" method="post" novalidate>
+            <div asp-validation-summary="All" class="text-danger alert-danger mb-3"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="fas fa-user text-success"></i>
+                    </span>
+                    <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                </div>
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="form-label"></label>
+				<div class="input-group">
+					<span class="input-group-text bg-white">
+						<i class="fas fa-lock text-success"></i>
+					</span>
+					<input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+				</div>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-success btn-block">Login</button>
+            </div>
+
+            <div class="text-center">
+                <small class="text-muted">
+                    Don't have an account? <a href="#">Register</a>
+                </small>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@* </body> *@
+@* </html> *@
+
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/mystyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <main>
+
+        <div class="form-container">
+            <h2>Login</h2>
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div>
+                    <label asp-for="Email"></label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input asp-for="Email" class="form-control" placeholder="Email" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Password"></label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input asp-for="Password" class="form-control" type="password" />
+					</div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <form>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Login</button>
+                <div class="links">
+                    <a href="#">Forgot Password?</a>
+                    <a href="@Url.Action("Register", "Account")">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html> *@
