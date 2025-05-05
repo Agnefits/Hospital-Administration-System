@@ -14,7 +14,7 @@ public class PrescriptionController : Controller
     // GET: Prescription
     public async Task<IActionResult> Index()
     {
-        var prescriptions = await _unitOfWork.PrescriptionService.GetAllPrescriptionsAsync();
+        var prescriptions = await _unitOfWork.PrescriptionService.GetAllAsync();
         return View(prescriptions);
     }
 
@@ -40,7 +40,7 @@ public class PrescriptionController : Controller
 
         try
         {
-            await _unitOfWork.PrescriptionService.AddPrescriptionAsync(prescription);
+            await _unitOfWork.PrescriptionService.AddAsync(prescription);
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -53,7 +53,7 @@ public class PrescriptionController : Controller
     // GET: Prescription/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
-        var pre = await _unitOfWork.PrescriptionService.GetPrescriptionByIdAsync(id);
+        var pre = await _unitOfWork.PrescriptionService.GetByIdAsync(id);
         ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
         ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View(pre);
@@ -68,7 +68,7 @@ public class PrescriptionController : Controller
 
         try
         {
-            await _unitOfWork.PrescriptionService.UpdatePrescriptionAsync(prescription);
+            await _unitOfWork.PrescriptionService.UpdateAsync(prescription);
             return RedirectToAction(nameof(Index));
         }
         catch

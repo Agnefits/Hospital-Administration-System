@@ -1,4 +1,6 @@
 ﻿
+using Hospital_Administration_System.ViewModels.Doctor;
+
 namespace Hospital_Administration_System.Repository;
 
 public interface IDoctorRepository: IRepository<Doctor>
@@ -10,4 +12,7 @@ public interface IDoctorRepository: IRepository<Doctor>
     public Task<IEnumerable<Patient>> GetDepartmentPatientsAsync(int departmentId);
     public Task<IEnumerable<Prescription>> GetDepartmentPrescriptionsAsync(int departmentId);
     public Task<IEnumerable<MedicalRecord>> GetDepartmentMedicalsAsync(int departmentId, DateTime? startDate, DateTime? endDate, string? search);
+
+    public Task<DoctorResponseVM> UpdateReservationStatusAsync(ReservationEditStatusVM reservationEditStatusVM);
+    public Task<DoctorResponseVM> RedirectReservationAsync(ReservationRedirectionVM reservationRedirectionVM);
 }

@@ -1,4 +1,8 @@
-﻿namespace Hospital_Administration_System.Services;
+﻿using Hospital_Administration_System.Models;
+using Hospital_Administration_System.ViewModels.Department;
+using Hospital_Administration_System.ViewModels.Doctor;
+
+namespace Hospital_Administration_System.Services;
 
 public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
 {
@@ -91,7 +95,65 @@ public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
 
     public async Task<IEnumerable<Doctor>> GetDoctorsAsync()
     {
-        return await GetAllAsync();
+        return _context.Doctors
+            .Include(doc => doc.Department).ThenInclude(dep => dep.Branch)
+            .Where(doc => !doc.Deleted);
+    }
+
+    public async Task<DoctorResponseVM> UpdateReservationStatusAsync(ReservationEditStatusVM reservationEditStatusVM)
+    {
+        var reservation = await _context.Reservations
+            .Include(r => r.Patient)
+            .Include(r => r.Doctor)
+            .FirstOrDefaultAsync(r => r.ReservationID == reservationEditStatusVM.ReservationID);
+
+        if (reservation == null)
+        {
+            return new DoctorResponseVM { Succeeded = false, Message = "Reservation not found." };
+        }
+        reservation.Status = reservationEditStatusVM.ReservationStatus;
+        await _context.SaveChangesAsync();
+        return new DoctorResponseVM { Succeeded = true, Message = "Reservation status updated successfully.", Reservation = reservation };
+    }
+    public async Task<DoctorResponseVM> RedirectReservationAsync(ReservationRedirectionVM reservationRedirectionVM)
+    {
+        var reservation = await _context.Reservations
+            .Include(r => r.Patient)
+            .FirstOrDefaultAsync(r => r.ReservationID == reservationRedirectionVM.OldReservationID);
+
+        if (reservation == null)
+        {
+            return new DoctorResponseVM { Succeeded = false, Message = "Old reservation not found." };
+        }
+        try
+        {
+            var newReservation = new Reservation
+            {
+                PatientID = reservation.PatientID,
+                DoctorID = reservationRedirectionVM.DoctorID,
+                ReservationDate = reservation.ReservationDate,
+                Status = ReservationStatus.Pending,
+                AdditionalData = reservationRedirectionVM.AdditionalData
+            };
+
+            await _context.Reservations.AddAsync(newReservation);
+            await _context.SaveChangesAsync();
+
+            return new DoctorResponseVM
+            {
+                Succeeded = true,
+                Message = "Department updated successfully",
+                Reservation = newReservation,
+            };
+        }
+        catch(Exception ex)
+        {
+            return new DoctorResponseVM
+            {
+                Succeeded = false,
+                Message = ex.Message,
+            };
+        }
     }
 }
 
