@@ -1,122 +1,188 @@
-﻿﻿@{
-    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+﻿@* ﻿@{ *@
+@*     Layout = "~/Views/Shared/_DoctorLayout.cshtml"; *@
+@* } *@
+@* <!-- Patient Header --> *@
+@* <div class="patient-header"> *@
+@*     <div> *@
+@*         <h2 class="text-primary mb-0">Patient Overview</h2> *@
+@*         <div class="d-flex align-items-center gap-2 mt-2"> *@
+@*             <button class="btn btn-outline-primary"> *@
+@*                 <i class="fas fa-chevron-left"></i> Previous *@
+@*             </button> *@
+@*             <button class="btn btn-outline-primary"> *@
+@*                 Next <i class="fas fa-chevron-right"></i> *@
+@*             </button> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="patient-info-card"> *@
+@*         <h5 class="mb-2">Mostafa Mohamed</h5> *@
+@*         <div class="d-flex gap-3"> *@
+@*             <div> *@
+@*                 <small class="text-muted">Age</small> *@
+@*                 <div class="fw-bold">22</div> *@
+@*             </div> *@
+@*             <div> *@
+@*                 <small class="text-muted">Patient ID</small> *@
+@*                 <div class="fw-bold">#22222</div> *@
+@*             </div> *@
+@*             <div> *@
+@*                 <small class="text-muted">Last Visit</small> *@
+@*                 <div class="fw-bold">2023-09-20</div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@* <!-- Medical Records Tabs --> *@
+@* <ul class="nav nav-tabs" id="patientTabs"> *@
+@*     <li class="nav-item" id="nav-link"> *@
+@*         <a class="nav-link active" data-bs-toggle="tab" href="#"> *@
+@*             <i class="fas fa-stethoscope me-2"></i>Examinations *@
+@*         </a> *@
+@*     </li> *@
+@*     <li class="nav-item" id="nav-link"> *@
+@*         <a class="nav-link" data-bs-toggle="tab" href="#analyses"> *@
+@*             <i class="fas fa-vial me-2"></i>Analyses *@
+@*         </a> *@
+@*     </li> *@
+@*     <li class="nav-item" id="nav-link"> *@
+@*         <a class="nav-link" data-bs-toggle="tab" href="#xrays"> *@
+@*             <i class="fas fa-x-ray me-2"></i>Imaging *@
+@*         </a> *@
+@*     </li> *@
+@*     <li  id="nav-link"> *@
+@*         <a class="nav-link" data-bs-toggle="tab" href="#prescriptions"> *@
+@*             <i class="fas fa-prescription-bottle-alt me-2"></i>Prescriptions *@
+@*         </a> *@
+@*     </li> *@
+@* </ul> *@
+
+@* <!-- Tab Content --> *@
+@* <div class="tab-content mt-3"> *@
+@*     <!-- Examinations Tab --> *@
+@*     <div class="tab-pane fade show active" id="examinations"> *@
+@*         <div class="record-card"> *@
+@*             <div class="d-flex justify-content-between align-items-center mb-2"> *@
+@*                 <h6 class="mb-0">General Checkup</h6> *@
+@*                 <small class="text-muted">2023-09-20</small> *@
+@*             </div> *@
+@*             <p class="mb-0">Blood pressure: 120/80 mmHg, Pulse: 72 bpm</p> *@
+@*         </div> *@
+@*     </div> *@
+
+@*     <!-- Analyses Tab --> *@
+@*     <div class="tab-pane fade" id="analyses"> *@
+@*         <div class="record-card"> *@
+@*             <div class="d-flex justify-content-between align-items-center mb-2"> *@
+@*                 <h6 class="mb-0">Blood Test Results</h6> *@
+@*                 <small class="text-muted">2023-09-18</small> *@
+@*             </div> *@
+@*             <p class="mb-0">HbA1c: 5.4%, Cholesterol: 180 mg/dL</p> *@
+@*         </div> *@
+@*     </div> *@
+
+@*     <!-- Imaging Tab --> *@
+@*     <div class="tab-pane fade" id="xrays"> *@
+@*         <div class="record-card"> *@
+@*             <div class="d-flex justify-content-between align-items-center mb-2"> *@
+@*                 <h6 class="mb-0">Chest X-ray</h6> *@
+@*                 <small class="text-muted">2023-09-15</small> *@
+@*             </div> *@
+@*             <p class="mb-0">No abnormalities detected</p> *@
+@*         </div> *@
+@*     </div> *@
+
+@*     <!-- Prescriptions Tab --> *@
+@*     <div class="tab-pane fade" id="prescriptions"> *@
+@*         <div class="record-card"> *@
+@*             <div class="d-flex justify-content-between align-items-center mb-2"> *@
+@*                 <h6 class="mb-0">Amoxicillin 500mg</h6> *@
+@*                 <span class="badge bg-success">Active</span> *@
+@*             </div> *@
+@*             <p class="mb-0">Take 1 capsule every 8 hours for 7 days</p> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@* <!-- Prescription Editor --> *@
+@* <div class="prescription-editor"> *@
+@*     <h5 class="mb-3"><i class="fas fa-prescription-bottle-alt me-2"></i>New Prescription</h5> *@
+@*     <div class="mb-3"> *@
+@*         <textarea class="form-control" rows="4" *@
+@*                     placeholder="Enter prescription details..."></textarea> *@
+@*     </div> *@
+@*     <div class="d-flex justify-content-end gap-2"> *@
+@*         <button class="btn btn-primary"> *@
+@*             <i class="fas fa-paper-plane me-2"></i>Send to Pharmacy *@
+@*         </button> *@
+@*         <button class="btn btn-outline-secondary"> *@
+@*             <i class="fas fa-share me-2"></i>Refer Specialist *@
+@*         </button> *@
+@*     </div> *@
+@* </div> *@
+@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "My Reservations";
 }
-<!-- Patient Header -->
-<div class="patient-header">
-    <div>
-        <h2 class="text-primary mb-0">Patient Overview</h2>
-        <div class="d-flex align-items-center gap-2 mt-2">
-            <button class="btn btn-outline-primary">
-                <i class="fas fa-chevron-left"></i> Previous
-            </button>
-            <button class="btn btn-outline-primary">
-                Next <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-    <div class="patient-info-card">
-        <h5 class="mb-2">Mostafa Mohamed</h5>
-        <div class="d-flex gap-3">
-            <div>
-                <small class="text-muted">Age</small>
-                <div class="fw-bold">22</div>
-            </div>
-            <div>
-                <small class="text-muted">Patient ID</small>
-                <div class="fw-bold">#22222</div>
-            </div>
-            <div>
-                <small class="text-muted">Last Visit</small>
-                <div class="fw-bold">2023-09-20</div>
-            </div>
-        </div>
+
+<div class="container">
+    <h2 class="my-4">My Reservations</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Patient</th>
+                    <th>Date/Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Patient?.FullName</td>
+                        <td>@item.ReservationDate.ToString("g")</td>
+                        <td>
+                            <span class="badge @GetStatusBadge(item.Status)">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a asp-action="RedirectReservation"
+                                   asp-route-id="@item.ReservationID"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-share"></i> Redirect
+                                </a>
+
+                                <form asp-action="UpdateReservationStatus" method="post" class="d-inline">
+                                    <input type="hidden" name="ReservationID" value="@item.ReservationID" />
+                                    <select name="ReservationStatus"
+                                            class="form-select form-select-sm"
+                                            onchange="this.form.submit()">
+                                        @foreach (ReservationStatus status in Enum.GetValues(typeof(ReservationStatus)))
+                                        {
+                                            <option value="@status" selected="@(status == item.Status)">@status</option>
+                                        }
+                                    </select>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
-<!-- Medical Records Tabs -->
-<ul class="nav nav-tabs" id="patientTabs">
-    <li class="nav-item" id="nav-link">
-        <a class="nav-link active" data-bs-toggle="tab" href="#">
-            <i class="fas fa-stethoscope me-2"></i>Examinations
-        </a>
-    </li>
-    <li class="nav-item" id="nav-link">
-        <a class="nav-link" data-bs-toggle="tab" href="#analyses">
-            <i class="fas fa-vial me-2"></i>Analyses
-        </a>
-    </li>
-    <li class="nav-item" id="nav-link">
-        <a class="nav-link" data-bs-toggle="tab" href="#xrays">
-            <i class="fas fa-x-ray me-2"></i>Imaging
-        </a>
-    </li>
-    <li  id="nav-link">
-        <a class="nav-link" data-bs-toggle="tab" href="#prescriptions">
-            <i class="fas fa-prescription-bottle-alt me-2"></i>Prescriptions
-        </a>
-    </li>
-</ul>
-
-<!-- Tab Content -->
-<div class="tab-content mt-3">
-    <!-- Examinations Tab -->
-    <div class="tab-pane fade show active" id="examinations">
-        <div class="record-card">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="mb-0">General Checkup</h6>
-                <small class="text-muted">2023-09-20</small>
-            </div>
-            <p class="mb-0">Blood pressure: 120/80 mmHg, Pulse: 72 bpm</p>
-        </div>
-    </div>
-
-    <!-- Analyses Tab -->
-    <div class="tab-pane fade" id="analyses">
-        <div class="record-card">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="mb-0">Blood Test Results</h6>
-                <small class="text-muted">2023-09-18</small>
-            </div>
-            <p class="mb-0">HbA1c: 5.4%, Cholesterol: 180 mg/dL</p>
-        </div>
-    </div>
-
-    <!-- Imaging Tab -->
-    <div class="tab-pane fade" id="xrays">
-        <div class="record-card">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="mb-0">Chest X-ray</h6>
-                <small class="text-muted">2023-09-15</small>
-            </div>
-            <p class="mb-0">No abnormalities detected</p>
-        </div>
-    </div>
-
-    <!-- Prescriptions Tab -->
-    <div class="tab-pane fade" id="prescriptions">
-        <div class="record-card">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="mb-0">Amoxicillin 500mg</h6>
-                <span class="badge bg-success">Active</span>
-            </div>
-            <p class="mb-0">Take 1 capsule every 8 hours for 7 days</p>
-        </div>
-    </div>
-</div>
-
-<!-- Prescription Editor -->
-<div class="prescription-editor">
-    <h5 class="mb-3"><i class="fas fa-prescription-bottle-alt me-2"></i>New Prescription</h5>
-    <div class="mb-3">
-        <textarea class="form-control" rows="4"
-                    placeholder="Enter prescription details..."></textarea>
-    </div>
-    <div class="d-flex justify-content-end gap-2">
-        <button class="btn btn-primary">
-            <i class="fas fa-paper-plane me-2"></i>Send to Pharmacy
-        </button>
-        <button class="btn btn-outline-secondary">
-            <i class="fas fa-share me-2"></i>Refer Specialist
-        </button>
-    </div>
-</div>
+@functions {
+    string GetStatusBadge(ReservationStatus status) => status switch
+    {
+        ReservationStatus.Pending => "bg-warning",
+        ReservationStatus.Confirmed => "bg-success",
+        ReservationStatus.Cancelled => "bg-danger",
+        _ => "bg-secondary"
+    };
+}
