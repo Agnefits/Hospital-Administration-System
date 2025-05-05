@@ -55,7 +55,7 @@ namespace Hospital_Administration_System.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if (string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(token))
             {
                 var result = await _authService.verifyAccount(userId, token);
                 if (result.Succeeded)

@@ -60,10 +60,9 @@ namespace Hospital_Administration_System.Services
             if (user == null)
                 return new AuthResponseVM { Succeeded = false, Error = "User not found." };
 
-            var result = await _userManager.VerifyUserTokenAsync(user, "Default", "EmailVerification", verificationCode);
-            if (result)
+            var result = await _userManager.ConfirmEmailAsync(user, verificationCode);
+            if (result.Succeeded)
             {
-                user.EmailConfirmed = true;
                 await _emailService.SendWelcomeEmailAsync(user.Email);
                 return new AuthResponseVM { Succeeded = true, Message = "Account verified successfully." };
             }
