@@ -1,55 +1,101 @@
-﻿
-namespace Hospital_Administration_System.Services;
+﻿using Hospital_Administration_System.ViewModels.Doctor;
 
-
-public class MedicalRecordService : GenericRepository<MedicalRecord>, IMedicalRecordRepository
+namespace Hospital_Administration_System.Services
 {
-    public MedicalRecordService(ApplicationDbContext context) : base(context)
+    public class MedicalRecordService : GenericRepository<MedicalRecord>, IMedicalRecordRepository
     {
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task<IEnumerable<MedicalRecord>> GetAllWithDetailsAsync()
-    {
-        return await _context.MedicalRecords
-            .Include(m => m.Patient)
-            .Include(m => m.Doctor)
-            .OrderByDescending(m => m.CreatedAt)
-            .ToListAsync();
-    }
-
-    public async Task<MedicalRecord?> GetWithDetailsByIdAsync(int id)
-    {
-        return await _context.MedicalRecords
-            .Include(m => m.Patient)
-            .Include(m => m.Doctor)
-            .FirstOrDefaultAsync(m => m.RecordID == id);
-    }
-    public async Task<IEnumerable<MedicalRecord>> GetFilteredRecordsAsync(DateTime? startDate, DateTime? endDate, string? patientName)
-    {
-        var query = _context.MedicalRecords
-            .Include(m => m.Patient)
-            .Include(m => m.Doctor)
-            .AsQueryable(); // Start with a queryable collection
-
-        // Apply filtering for start date, end date, and patient name directly on the database query
-        if (startDate.HasValue)
+        public MedicalRecordService(ApplicationDbContext context) : base(context)
         {
-            query = query.Where(r => r.CreatedAt >= startDate.Value);
+            _context = context;
         }
 
-        if (endDate.HasValue)
+        public async Task<DoctorResponseVM> AddAsync(MedicalRecordCreateVM viewModel, int doctorId)
         {
-            query = query.Where(r => r.CreatedAt <= endDate.Value);
+            var doctor = await _context.Doctors.FindAsync(doctorId);
+            if (doctor == null)
+                return new DoctorResponseVM
+                {
+                    Succeeded = false,
+                    Message = "Doctor not found"
+                };
+
+            var patient = await _context.Patients.FindAsync(viewModel.PatientID);
+            if (patient == null)
+                return new DoctorResponseVM
+                {
+                    Succeeded = false,
+                    Message = "Patient not found"
+                };
+
+            try
+            {
+                var medicalRecord = new MedicalRecord
+                {
+                    PatientID = viewModel.PatientID,
+                    DoctorID = doctorId,
+                    Diagnosis = viewModel.Diagnosis,
+                    Treatment = viewModel.Treatment,
+                    CreatedAt = DateTime.Now,
+                    AdditionalData = viewModel.AdditionalData
+                };
+
+                await _context.MedicalRecords.AddAsync(medicalRecord);
+
+                return new DoctorResponseVM
+                {
+                    Succeeded = true,
+                    Message = "Medical record added successfully",
+                    MedicalRecord = medicalRecord
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DoctorResponseVM { Succeeded = false, Error = ex.Message };
+            }
         }
 
-        if (!string.IsNullOrEmpty(patientName))
+        public async Task<DoctorResponseVM> UpdateAsync(MedicalRecordEditVM viewModel)
         {
-            query = query.Where(r => r.Patient.FullName.Contains(patientName));
+            var patient = await _context.Patients.FindAsync(viewModel.PatientID);
+            if (patient == null)
+                return new DoctorResponseVM
+                {
+                    Succeeded = false,
+                    Message = "Patient not found"
+                };
+
+            var medicalRecord = await _context.MedicalRecords.FindAsync(viewModel.RecordID);
+            if (medicalRecord == null)
+                return new DoctorResponseVM
+                {
+                    Succeeded = false,
+                    Message = "Medical record not found"
+                };
+
+            medicalRecord.PatientID = viewModel.PatientID;
+            medicalRecord.Diagnosis = viewModel.Diagnosis;
+            medicalRecord.Treatment = viewModel.Treatment;
+            medicalRecord.AdditionalData = viewModel.AdditionalData;
+            _context.MedicalRecords.Update(medicalRecord);
+
+            return new DoctorResponseVM
+            {
+                Succeeded = true,
+                Message = "Medical record edited successfully",
+                MedicalRecord = medicalRecord
+            };
         }
 
-        // Execute the query asynchronously
-        var records = await query.OrderByDescending(m => m.CreatedAt).ToListAsync();
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var medicalRecord = await _context.MedicalRecords.FindAsync(id);
+            if (medicalRecord == null)
+                return false;
 
-        return records;
+            _context.MedicalRecords.Remove(medicalRecord);
+            return true;
+        }
     }
 }

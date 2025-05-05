@@ -54,12 +54,12 @@ public class UserService : GenericRepository<User>, IUserRepository
                 UserName = model.Email,
                 Email = model.Email,
                 AdditionalData = model.AdditionalData,
-            }; 
-            
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password); // Create the user with a password
             if (!result.Succeeded)
                 return new UserResponseVM { Succeeded = false, Error = string.Join(", ", result.Errors.Select(e => e.Description)) };
-            
+
             // Ensure the role exists in the database
             var role = model.Role.ToLower();
             if (!await _roleManager.RoleExistsAsync(role))

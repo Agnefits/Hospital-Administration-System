@@ -1,10 +1,11 @@
-﻿namespace Hospital_Administration_System.Repository;
+﻿using Hospital_Administration_System.ViewModels.Doctor;
 
-public interface IPrescriptionRepository: IRepository<Prescription>
+namespace Hospital_Administration_System.Repository
 {
-    Task<IEnumerable<Prescription>> GetAllPrescriptionsAsync();
-    Task<Prescription> GetPrescriptionByIdAsync(int id);
-    Task AddPrescriptionAsync(Prescription prescription);
-    Task UpdatePrescriptionAsync(Prescription prescription);
-    Task DeletePrescriptionAsync(Prescription prescription);
+    public interface IPrescriptionRepository : IRepository<Prescription>
+    {
+        Task<DoctorResponseVM> AddAsync(PrescriptionCreateVM viewModel, int doctorId);
+        Task<DoctorResponseVM> UpdateAsync(PrescriptionEditVM viewModel);
+        Task<bool> DeleteAsync(int id);
+    }
 }

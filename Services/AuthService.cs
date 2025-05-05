@@ -1,4 +1,6 @@
-﻿namespace Hospital_Administration_System.Services
+﻿using System.Security.Claims;
+
+namespace Hospital_Administration_System.Services
 {
     public class AuthService : IAuthRepository
     {
@@ -78,10 +80,24 @@
             if (!user.EmailConfirmed)
                 return new AuthResponseVM { Succeeded = false, Error = "Email not verified." };
 
-            var result = await _signInManager.PasswordSignInAsync(user, login.Password, true, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
             if (result.Succeeded)
             {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Email, user.Email)
+                };
+
                 var roles = await _userManager.GetRolesAsync(user);
+
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+
+                await _signInManager.SignInWithClaimsAsync(user, true, claims);
+
                 return new AuthResponseVM { Succeeded = true, Message = "Login successful.", Roles = roles.ToList() };
             }
 

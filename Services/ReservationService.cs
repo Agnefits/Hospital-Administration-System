@@ -1,10 +1,11 @@
 ﻿
 namespace Hospital_Administration_System.Services;
 
-public class ReservationService: GenericRepository<Reservation>, IReservationRepository
+public class ReservationService : GenericRepository<Reservation>, IReservationRepository
 {
     public ReservationService(ApplicationDbContext context) : base(context)
     {
+
     }
 
     public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()

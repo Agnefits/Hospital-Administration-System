@@ -1,6 +1,10 @@
-﻿
+﻿using Hospital_Administration_System.Services;
+using Hospital_Administration_System.ViewModels.Doctor;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace Hospital_Administration_System.Controllers.Doctor_Controllers;
 
+//[Authorize(Roles = "Doctor")] //Note Abdallah: Uncomment for authorization
 public class DoctorController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -9,21 +13,41 @@ public class DoctorController : Controller
     {
         _unitOfWork = unitOfWork;
     }
-    public IActionResult Index()
-    {
-        return View();
-    }
 
+    public async Task<IActionResult> Index()
+    {
+        //Note Abdallah: For Testing, please remove
+        return View();
+
+        if (User.IsInRole("Doctor"))
+        {
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+
+            var reservations = _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
+            return View(reservations);
+        }
+        return Unauthorized();
+    }
 
     public async Task<IActionResult> AppointmentsAsync()
     {
+        //Note Abdallah: For Testing, please remove
+        return View(new List<Reservation> { new Reservation { } });
+
         //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
         //    ? PartialView("_AppointmentsPartial")
         //        : View();
         //    return PartialView("_AppointmentsPartial");
         //return View("Appointments");
-        var appointments = await _unitOfWork.DoctorService.GetDoctorReservationsAsync(1);
-        return View(appointments);
+
+        if (User.IsInRole("Doctor"))
+        {
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+
+            var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID);
+            return View(appointments);
+        }
+        return Unauthorized();
     }
 
     //[HttpPost, ActionName("DeleteAppointment")]
@@ -34,14 +58,34 @@ public class DoctorController : Controller
     //    return RedirectToAction("AppointmentsAsync");
     //}
 
-    public IActionResult Patients()
+    public async Task<IActionResult> Patients()
     {
-        return PartialView();
+        //Note Abdallah: For Testing, please remove
+        return View(new List<Patient> { new Patient { } });
+
+        if (User.IsInRole("Doctor"))
+        {
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+
+            var patients = _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
+            return View(patients);
+        }
+        return Unauthorized();
     }
 
-    public IActionResult Prescriptions()
+    public async Task<IActionResult> Prescriptions()
     {
-        return PartialView();
+        //Note Abdallah: For Testing, please remove
+        return View(new List<Prescription> { new Prescription { } });
+
+        if (User.IsInRole("Doctor"))
+        {
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+
+            var patients = _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
+            return View(patients);
+        }
+        return Unauthorized();
     }
 
     public async Task<IActionResult> MedicalRecords(DateTime? startDate, DateTime? endDate, string? patientName)
@@ -49,8 +93,9 @@ public class DoctorController : Controller
         ViewData["StartDate"] = startDate?.ToString("yyyy-MM-dd");
         ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
         ViewData["PatientName"] = patientName;
-        //var records = await _medicalRecordService.GetFilteredRecordsAsync(startDate, endDate, patientName); //Note Abdallah: Uncomment for the real function
-        var records = new List<MedicalRecord>
+
+        //Note Abdallah: For Testing, please remove
+        return View(new List<MedicalRecord>
 {
 new MedicalRecord
 {
@@ -112,9 +157,61 @@ new MedicalRecord
     Patient = new Patient { FullName = "Ahmed Hassan" },
     Doctor = new Doctor { FullName = "Dr. Mona Youssef" }
 }
-};
+});
 
+        if (User.IsInRole("Doctor"))
+        {
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
 
-        return View(records);
+            var records = await _unitOfWork.DoctorService.GetDepartmentMedicalsAsync(user.Doctor.DepartmentID, startDate, endDate, patientName); //Note Abdallah: Uncomment for the real function
+            return View(records);
+        }
+        return Unauthorized();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateReservationStatus(ReservationEditStatusVM model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _unitOfWork.DoctorService.UpdateReservationStatusAsync(model);
+        if (result.Succeeded)
+            return RedirectToAction(nameof(Index));
+        else
+            return BadRequest(result.Error);
+    }
+
+    public async Task<IActionResult> RedirectReservation(int id)
+    {
+        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        if (reservation == null)
+            return NotFound();
+
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+
+        return View(reservation);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RedirectReservation(ReservationRedirectionVM model)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+            return View(model);
+        }
+
+        var result = await _unitOfWork.DoctorService.RedirectReservationAsync(model);
+        if(result.Succeeded)
+            return RedirectToAction(nameof(Index));
+        else
+        {
+            ModelState.AddModelError("", result.Error);
+            ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+            return View(model);
+        }
     }
 }
