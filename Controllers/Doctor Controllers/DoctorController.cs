@@ -3,6 +3,7 @@ using Hospital_Administration_System.Services;
 
 namespace Hospital_Administration_System.Controllers.Doctor_Controllers;
 
+//[Authorize(Roles = "Doctor")] //Note Abdallah: Uncomment for authorization
 public class DoctorController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -22,7 +23,7 @@ public class DoctorController : Controller
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
 
             var reservations = _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
-            return View();
+            return View(reservations);
         }
         return Unauthorized();
     }

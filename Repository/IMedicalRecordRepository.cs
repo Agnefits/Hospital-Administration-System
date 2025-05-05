@@ -1,8 +1,11 @@
-﻿namespace Hospital_Administration_System.Repository;
+﻿using Hospital_Administration_System.ViewModels.Doctor;
+
+namespace Hospital_Administration_System.Repository;
 
 public interface IMedicalRecordRepository : IRepository<MedicalRecord>
 {
-    Task<IEnumerable<MedicalRecord>> GetAllWithDetailsAsync();
-    Task<MedicalRecord?> GetWithDetailsByIdAsync(int id);
+    Task<DoctorResponseVM> AddAsync(MedicalRecordCreateVM viewModel, int doctorId);
+    Task<DoctorResponseVM> UpdateAsync(MedicalRecordEditVM viewModel);
+    Task<bool> DeleteAsync(int id);
 }
 
