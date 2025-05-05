@@ -1,0 +1,211 @@
+﻿/* admin.css - Green-Aqua Themed */
+
+:root {
+    --primary-color: #1F2B6C;
+    --secondary-color: #159EEC;
+    --accent-color: #BFD2F8;
+    --bg-light: #f4f6f9;
+    --text-color: #343a40;
+    --sidebar-bg: #1f2d3d;
+    --sidebar-hover: #2c3e50;
+    --font-main: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-light);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    color: white;
+    padding: 1.5rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.65rem 1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: var(--secondary-color);
+        color: #fff;
+    }
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1050;
+    }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        padding-top: 4rem;
+    }
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background: white;
+    margin-left: 0;
+    padding: 1rem;
+}
+/* === Layout and Cards === */
+body {
+    background-color: #f4fcfc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 138, 154, 0.1);
+    background-color: white;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* === Table Styling === */
+.table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.table thead {
+    background-color: #BFD2F8;
+    color: #004c55;
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e0f7fa;
+    transition: background-color 0.3s ease;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 1rem;
+}
+
+/* === Buttons === */
+.btn {
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary {
+    color: #008e9a;
+    border-color: #008e9a;
+}
+
+.btn-outline-primary:hover {
+    background-color: #008e9a;
+    color: white;
+    box-shadow: 0 0 0.5rem rgba(0, 142, 154, 0.5);
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+        box-shadow: 0 0 0.5rem rgba(220, 53, 69, 0.5);
+    }
+
+.btn-secondary {
+    background-color: #00cadc;
+    border: none;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background-color: #00b4c5;
+        box-shadow: 0 0 0.5rem rgba(0, 202, 220, 0.4);
+    }
+
+/* === Headings and Icons === */
+h2 {
+    color: #008e9a;
+}
+
+    h2 i {
+        color: #00cadc;
+    }
+
+/* === Smooth Transitions === */
+a, button {
+    transition: all 0.2s ease-in-out;
+}
+
+/* === Responsive Enhancements === */
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 1rem;
+        background-color: #ffffff;
+        box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,0.05);
+        padding: 1rem;
+    }
+
+    .table td {
+        padding: 0.5rem 1rem;
+        text-align: right;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        text-align: left;
+        font-weight: bold;
+        color: #008e9a;
+    }
+}
+

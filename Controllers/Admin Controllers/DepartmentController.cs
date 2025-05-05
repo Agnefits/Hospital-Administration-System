@@ -21,8 +21,10 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             return View(departments);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
+            PopulateDropdowns();
             return View();
         }
 
@@ -49,7 +51,17 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             if (department == null || department.Deleted)
                 return NotFound();
 
-            return View(department);
+            var model = new DepartmentEditVM
+            {
+                DepartmentID = department.DepartmentID,
+                Name = department.Name,
+                BranchID = department.BranchID,
+                HeadDoctorID = department.HeadDoctorID,
+                AdditionalData = department.AdditionalData
+            };
+
+            PopulateDropdowns();
+            return View(model);
         }
 
         [HttpPost]
@@ -81,6 +93,21 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private void PopulateDropdowns()
+        {
+            ViewBag.Branches = new SelectList(
+                _unitOfWork.BranchService.GetAllActiveBranches(),
+                "BranchID",
+                "Name"
+            );
+
+            ViewBag.Doctors = new SelectList(
+                _unitOfWork.UserService.GetActiveDoctors(),
+                "Id",
+                "FullName"
+            );
         }
     }
 }

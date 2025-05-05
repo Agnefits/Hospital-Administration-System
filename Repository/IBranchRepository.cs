@@ -8,4 +8,5 @@ public interface IBranchRepository: IRepository<Branch>
     Task<BranchResponseVM> AddAsync(BranchCreateVM model);
     Task<BranchResponseVM> UpdateAsync(BranchEditVM model);
     Task<bool> DeleteAsync(int branchId);
+    IEnumerable<Branch> GetAllActiveBranches();
 }

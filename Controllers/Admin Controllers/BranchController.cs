@@ -19,6 +19,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             return View(branches);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -47,7 +48,15 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             if (branch == null || branch.Deleted)
                 return NotFound();
 
-            return View(branch);
+            var model = new BranchEditVM
+            {
+                BranchID = branch.BranchID,
+                Name = branch.Name,
+                Location = branch.Location,
+                ContactNumber = branch.ContactNumber,
+                AdditionalData = branch.AdditionalData
+            };
+            return View(model);
         }
 
         [HttpPost]

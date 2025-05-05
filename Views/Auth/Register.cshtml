@@ -1,0 +1,124 @@
+﻿@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_authLayout.cshtml";
+}
+<div class="card shadow-lg rounded-4 p-4 w-100">
+    <h3 class="text-center text-white bg-success bg-opacity-75 rounded-3 py-2 mb-4">Patient Registration</h3>
+
+    <form asp-action="Register" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="FullName" class="form-label">Full Name</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    <input asp-for="FullName" class="form-control" placeholder="Full Name" />
+                </div>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+             <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="Email" class="form-label">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    <input asp-for="Email" class="form-control" placeholder="Email Address" />
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    <input asp-for="DateOfBirth" class="form-control" type="date" />
+                </div>
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="Password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <input asp-for="Password" class="form-control" type="password" placeholder="Password" />
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="Gender" class="form-label">Gender</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                    <select asp-for="Gender" class="form-select">
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                    <label asp-for="ContactNumber" class="form-label">Phone Number</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    <input asp-for="ContactNumber" class="form-control" placeholder="Phone Number" />
+                </div>
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="BloodType" class="form-label">Blood Type</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-tint"></i></span>
+                    <select asp-for="BloodType" class="form-select">
+                        <option value="">Select Blood</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                    </select>
+                </div>
+                <span asp-validation-for="BloodType" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+                <label asp-for="EmergencyContact" class="form-label">Emergency Contact</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-user-shield"></i></span>
+                    <input asp-for="EmergencyContact" class="form-control" placeholder="Emergency Contact" />
+                </div>
+                <span asp-validation-for="EmergencyContact" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label">Address</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                <input asp-for="Address" class="form-control" placeholder="Address" />
+            </div>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="d-grid mb-2">
+            <button type="submit" class="btn btn-teal text-white" style="background-color: #008080;">Register</button>
+        </div>
+
+        <p class="text-center mt-2">
+            Already have an account? <a asp-action="Login">Sign In</a>
+        </p>
+    </form>
+</div>

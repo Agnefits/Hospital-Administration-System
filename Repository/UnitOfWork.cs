@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
         BillingService = new BillingService(_context);
         BranchService = new BranchService(_context);
         DepartmentService = new DepartmentService(_context);
+        PharmacistService = new PharmacistService(_context);
     }
     public IDoctorRepository DoctorService { get; private set; }
 
@@ -37,6 +38,7 @@ public class UnitOfWork : IUnitOfWork
     public IBillingRepository BillingService { get; private set; }
     public IBranchRepository BranchService { get; private set; }
     public IDepartmentRepository DepartmentService { get; private set; }
+    public IPharmacistRepository PharmacistService { get; private set; }
     public int Complete()
     {
         return _context.SaveChanges();

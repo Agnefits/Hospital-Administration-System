@@ -1,0 +1,78 @@
+﻿:root {
+    --primary: #00cadc;
+    --secondary: #008e9a;
+    --accent: #BFD2F8;
+    --radius: 10px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    background: linear-gradient(rgba(160, 164, 188, 0.8), rgba(123, 201, 246, 0.8)), url('images/bckground.png') center/cover fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.card {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    border-radius: var(--radius);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.form-control, .form-select {
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 5px rgba(0, 138, 170, 0.3);
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+}
+
+.input-group-custom {
+    position: relative;
+}
+
+.btn-primary {
+    background-color: var(--secondary);
+    border: none;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1.25rem !important;
+    }
+    body {
+        padding: 1rem;
+    }
+    .form-control, .form-select {
+        padding-left: 2.5rem;
+    }
+}

@@ -1,0 +1,58 @@
+﻿@model LoginVM
+@{
+	ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_authLayout.cshtml";
+}
+<div class="card shadow-lg rounded-4 p-4 w-100" style="max-width: 500px; margin: auto;">
+    <div class="text-center mb-3">
+        <h3 class="text-white bg-success bg-opacity-75 rounded py-2">User Login</h3>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <form asp-action="Login" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="RememberMe" class="form-check-input" />
+            <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Sign In</button>
+        </div>
+
+        <div class="text-center mt-3">
+            <a asp-action="Register" class="link-primary">Create Account</a> |
+            <a asp-action="ResetPassword" class="link-primary">Forgot Password?</a>
+        </div>
+    </form>
+</div>

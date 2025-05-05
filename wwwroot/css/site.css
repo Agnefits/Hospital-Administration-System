@@ -20,3 +20,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.auth-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 15px;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+    padding-left: 0;
+    color: #dc3545;
+}

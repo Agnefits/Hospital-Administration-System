@@ -30,6 +30,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
         public IActionResult Create()
         {
+            PopulateDropdowns();
             return View();
         }
 
@@ -48,6 +49,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
                 ModelState.AddModelError("", result.Error);  // Display error message
             }
+            PopulateDropdowns();
             return View(model);  // Return the form with the model
         }
 
@@ -57,6 +59,8 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
             if (user == null)
                 return NotFound();
 
+            var model = MapUserToEditVM(user);  // Map user data to the Edit ViewModel
+            PopulateDropdowns();  // Populate dropdowns for roles, departments, and pharmacies
             return View(user);  // Return the Edit User form with user data
         }
 
@@ -73,6 +77,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
                 ModelState.AddModelError("", result.Error);  // Display error message
             }
+            PopulateDropdowns();  // Populate dropdowns for roles, departments, and pharmacies
             return View(model);  // Return the form with the model
         }
 
@@ -94,6 +99,56 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
                 return RedirectToAction(nameof(Index));  // Redirect to the user list
 
             return NotFound();  // User not found
+        }
+
+
+
+        private UserEditVM MapUserToEditVM(User user)
+        {
+            var vm = new UserEditVM
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                AdditionalData = user.AdditionalData,
+                Role = user.GetRole()
+            };
+
+            switch (user.GetRole().ToLower())
+            {
+                case "admin":
+                    vm.FullName = user.Admin?.FullName;
+                    vm.ContactNumber = user.Admin?.ContactNumber;
+                    break;
+                case "doctor":
+                    vm.FullName = user.Doctor?.FullName;
+                    vm.ContactNumber = user.Doctor?.ContactNumber;
+                    vm.DepartmentID = user.Doctor?.DepartmentID;
+                    vm.Specialization = user.Doctor?.Specialization;
+                    break;
+                case "nurse":
+                    vm.FullName = user.Nurse?.FullName;
+                    vm.ContactNumber = user.Nurse?.ContactNumber;
+                    vm.DepartmentID = user.Nurse?.DepartmentID;
+                    break;
+                case "pharmacist":
+                    vm.FullName = user.Pharmacist?.FullName;
+                    vm.ContactNumber = user.Pharmacist?.ContactNumber;
+                    vm.PharmacyID = user.Pharmacist?.PharmacyID;
+                    break;
+            }
+
+            return vm;
+        }
+
+        private void PopulateDropdowns()
+        {
+            ViewBag.Roles = new SelectList(new List<string> { "Admin", "Doctor", "Nurse", "Pharmacist" });
+            ViewBag.Departments = new SelectList(
+                _unitOfWork.DepartmentService.GetAllDepartmentsAsync().Result,
+                "DepartmentID", "Name");
+            ViewBag.Pharmacies = new SelectList(
+                _unitOfWork.PharmacistService.GetAllPharmaciesAsync().Result,
+                "PharmacyID", "Name");
         }
     }
 }

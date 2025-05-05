@@ -307,4 +307,13 @@ public class UserService : GenericRepository<User>, IUserRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public IEnumerable<User> GetActiveDoctors()
+    {
+        return _context.Users
+            .Include(u => u.Doctor)
+            .Where(u => !u.Deleted && u.Doctor != null)
+            .OrderBy(u => u.Doctor.FullName)
+            .ToList();
+    }
 }

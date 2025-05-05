@@ -12,6 +12,7 @@ public interface IUnitOfWork
     public IBillingRepository BillingService { get; }
     public IBranchRepository BranchService { get; }
     public IDepartmentRepository DepartmentService { get; }
+    public IPharmacistRepository PharmacistService { get; }
     int Complete();
     //public IAppointmentRepository AppointmentRepository { get; }
 }

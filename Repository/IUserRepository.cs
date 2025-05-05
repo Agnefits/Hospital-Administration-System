@@ -9,4 +9,6 @@ public interface IUserRepository: IRepository<User>
     Task<UserResponseVM> AddAsync(UserCreateVM model);
     Task<UserResponseVM> UpdateAsync(UserEditVM model);
     Task<bool> DeleteAsync(string userId);
+
+    IEnumerable<User> GetActiveDoctors();
 }

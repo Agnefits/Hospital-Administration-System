@@ -4,9 +4,11 @@ namespace Hospital_Administration_System.Services;
 
 public class PharmacistService: GenericRepository<Pharmacist>, IPharmacistRepository
 {
+    private readonly ApplicationDbContext _context;
 
     public PharmacistService(ApplicationDbContext context) : base(context)
     {
+        _context = context;
     }
 
     public async Task AddPharmacistAsync(Pharmacist pharmacist)
@@ -34,5 +36,13 @@ public class PharmacistService: GenericRepository<Pharmacist>, IPharmacistReposi
     public async Task UpdatePharmacistAsync(Pharmacist pharmacist)
     {
         await UpdateAsync(pharmacist);
+    }
+
+    // move to PharmacyService.cs
+    public async Task<IEnumerable<Pharmacy>> GetAllPharmaciesAsync()
+    {
+        return await _context.Pharmacies
+            .Where(p => !p.Deleted)
+            .ToListAsync();
     }
 }

@@ -84,4 +84,12 @@ public class BranchService : GenericRepository<Branch>, IBranchRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public IEnumerable<Branch> GetAllActiveBranches()
+    {
+        return _context.Branches
+            .Where(b => !b.Deleted)
+            .OrderBy(b => b.Name)
+            .ToList();
+    }
 }
