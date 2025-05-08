@@ -13,6 +13,7 @@ public interface IUnitOfWork
     public IBranchRepository BranchService { get; }
     public IDepartmentRepository DepartmentService { get; }
     public IPharmacistRepository PharmacistService { get; }
+    public IPatientConditionMonitoring PatientConditionMonitoringService { get; }
     int Complete();
     //public IAppointmentRepository AppointmentRepository { get; }
 }

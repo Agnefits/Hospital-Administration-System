@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Prescription> Prescriptions { get; set; }
     public DbSet<Billing> Billings { get; set; }
     public DbSet<Log> Logs { get; set; }
+    public DbSet<PatientConditionMonitoring> PatientConditionMonitorings { get; set; } 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -26,6 +27,18 @@ public class ApplicationDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<PatientConditionMonitoring>()
+       .HasOne(m => m.Patient)
+       .WithMany(p => p.PatientConditionMonitorings)
+       .HasForeignKey(m => m.PatientId)
+       .OnDelete(DeleteBehavior.Restrict); // or NoAction
+
+        modelBuilder.Entity<PatientConditionMonitoring>()
+            .HasOne(m => m.Nurse)
+            .WithMany(n => n.PatientConditionMonitorings)
+            .HasForeignKey(m => m.NurseId)
+            .OnDelete(DeleteBehavior.Restrict); // or NoAction
 
         modelBuilder.Entity<Reservation>().Property(x => x.Status).HasConversion<string>(); // map reservation status to string
         // Configure relationships that are known to cause cascade issues:

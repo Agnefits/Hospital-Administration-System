@@ -23,4 +23,5 @@ public class Nurse
     public string? AdditionalData { get; set; }
 
     public bool Deleted { get; set; } = false;
+    public ICollection<PatientConditionMonitoring> PatientConditionMonitorings { get; set; }
 }
