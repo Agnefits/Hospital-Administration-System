@@ -26,7 +26,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Reservations()
     { 
         //Note Abdallah: For Testing, please remove
-        return View(new List<Reservation> { new Reservation { } });
+        //return View(new List<Reservation> { new Reservation { } });
 
         if (User.IsInRole("Patient"))
         {
@@ -100,7 +100,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Prescriptions()
     {
         //Note Abdallah: For Testing, please remove
-        return View(new List<Prescription> { new Prescription { } });
+        //return View(new List<Prescription> { new Prescription { } });
         if (User.IsInRole("Patient"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
@@ -113,7 +113,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Medicals()
     {
         //Note Abdallah: For Testing, please remove
-        return View(new List<MedicalRecord> { new MedicalRecord { } });
+        //return View(new List<MedicalRecord> { new MedicalRecord { } });
         if (User.IsInRole("Patient"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
@@ -126,7 +126,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Analysis()
     {
         //Note Abdallah: For Testing, please remove
-        return View(new List<Analysis> { new Analysis { } });
+        //return View(new List<Analysis> { new Analysis { } });
         if (User.IsInRole("Patient"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
@@ -139,7 +139,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Bills()
     {
         //Note Abdallah: For Testing, please remove
-        return View(new List<Billing> { new Billing { } });
+        //return View(new List<Billing> { new Billing { } });
         if (User.IsInRole("Patient"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
@@ -152,7 +152,7 @@ public class PatientController : Controller
     public async Task<IActionResult> Receipts()
     {
         //Note Abdallah: For Testing, please remove
-        return View(new List<Receipt> { new Receipt { } });
+        //return View(new List<Receipt> { new Receipt { } });
         if (User.IsInRole("Patient"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);

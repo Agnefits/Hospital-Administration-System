@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Data;
 
 namespace Hospital_Administration_System.Controllers
 {
     public class AuthController : Controller
     {
         private readonly IAuthRepository _authService;
-        public AuthController(IAuthRepository authService)
+        private readonly UserManager<User> _userManager;
+        public AuthController(IAuthRepository authService, UserManager<User> userManager)
         {
             _authService = authService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -24,7 +28,11 @@ namespace Hospital_Administration_System.Controllers
                 var result = await _authService.Login(model);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    return RedirectToRoleDashboard(roles);
+                    //return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", result.Error);
             }
@@ -120,5 +128,14 @@ namespace Hospital_Administration_System.Controllers
             return RedirectToAction("Login");
         }
 
+        private IActionResult RedirectToRoleDashboard(IList<string> roles)
+        {
+            if (roles.Contains("Admin")) return RedirectToAction("Index", "Admin");
+            if (roles.Contains("Doctor")) return RedirectToAction("Index", "Doctor");
+            if (roles.Contains("Nurse")) return RedirectToAction("Index", "Nurse");
+            if (roles.Contains("Patient")) return RedirectToAction("Index", "Patient");
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
