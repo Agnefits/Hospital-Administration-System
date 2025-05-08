@@ -40,4 +40,5 @@ public class Patient
     public ICollection<Prescription> Prescriptions { get; set; }
     public ICollection<Billing> Billings { get; set; }
     public ICollection<Analysis> Analyses { get; set; }
+    public ICollection<PatientConditionMonitoring> PatientConditionMonitorings { get; set; }
 }

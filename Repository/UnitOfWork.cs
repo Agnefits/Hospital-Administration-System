@@ -22,7 +22,9 @@ public class UnitOfWork : IUnitOfWork
         BranchService = new BranchService(_context);
         DepartmentService = new DepartmentService(_context);
         PharmacistService = new PharmacistService(_context);
+        PatientConditionMonitoringService = new PatientConditionMonitoringService(_context);
         LogService = new LogService(_context);
+
     }
     public IDoctorRepository DoctorService { get; private set; }
 
@@ -40,7 +42,10 @@ public class UnitOfWork : IUnitOfWork
     public IBranchRepository BranchService { get; private set; }
     public IDepartmentRepository DepartmentService { get; private set; }
     public IPharmacistRepository PharmacistService { get; private set; }
+    public IPatientConditionMonitoring PatientConditionMonitoringService { get; private set; }
+
     public ILogRepository LogService { get; private set; }
+
     public int Complete()
     {
         return _context.SaveChanges();

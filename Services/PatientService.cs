@@ -58,4 +58,6 @@ public class PatientService : GenericRepository<Patient>, IPatientRepository
             .Where(r => r.PatientID == patientId)
             .ToListAsync();
     }
+
+
 }
