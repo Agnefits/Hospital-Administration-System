@@ -54,6 +54,7 @@ public class UserService : GenericRepository<User>, IUserRepository
                 UserName = model.Email,
                 Email = model.Email,
                 AdditionalData = model.AdditionalData,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password); // Create the user with a password
