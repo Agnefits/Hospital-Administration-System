@@ -1,5 +1,6 @@
-﻿Views/Users/Edit.cshtml
-@model Hospital_Administration_System.ViewModels.User.UserEditVM;
+﻿@* Views/Users/Edit.cshtml *@
+@* Views/Users/Edit.cshtml *@
+@model Hospital_Administration_System.ViewModels.User.UserEditVM
 @{
     ViewData["Title"] = "Edit User";
     Layout = "~/Views/Shared/_adminLayout.cshtml";
@@ -10,11 +11,28 @@
         <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>@ViewData["Title"]</h4>
     </div>
     <div class="card-body">
+        <!-- Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <form asp-action="Edit" class="needs-validation" novalidate>
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
             <input type="hidden" asp-for="UserId" />
 
             <div class="row g-4">
-                <!-- Email and Role -->
+                <!-- Email -->
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Email" class="form-label"></label>
@@ -23,10 +41,12 @@
                     </div>
                 </div>
 
+                <!-- Role Selection -->
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Role" class="form-label"></label>
                         <select asp-for="Role" class="form-select" id="roleSelect" required>
+                            <option value="">Select Role</option>
                             <option value="Admin">Admin</option>
                             <option value="Doctor">Doctor</option>
                             <option value="Nurse">Nurse</option>
@@ -36,8 +56,136 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Fields (similar to Create view) -->
+                <!-- Dynamic Role-Specific Fields -->
+                <div class="col-12" id="roleSpecificFields">
+                    <!-- Admin Fields -->
+                    <div class="role-fields" data-role="Admin">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Admin Name</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Doctor Fields -->
+                    <div class="role-fields" data-role="Doctor">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Doctor Name</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DepartmentID" class="form-label">Department</label>
+                                    <select asp-for="DepartmentID" class="form-select"
+                                            asp-items="ViewBag.Departments">
+                                        <option value="">Select Department</option>
+                                    </select>
+                                    <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Specialization" class="form-label">Specialization</label>
+                                    <input asp-for="Specialization" class="form-control" data-val-for="Doctor" />
+                                    <span asp-validation-for="Specialization" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nurse Fields -->
+                    <div class="role-fields" data-role="Nurse">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Nurse Name</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DepartmentID" class="form-label">Department</label>
+                                    <select asp-for="DepartmentID" class="form-select"
+                                            asp-items="ViewBag.Departments">
+                                        <option value="">Select Department</option>
+                                    </select>
+                                    <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pharmacist Fields -->
+                    <div class="role-fields" data-role="Pharmacist">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Pharmacist Name</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PharmacyID" class="form-label">Pharmacy</label>
+                                    <select asp-for="PharmacyID" class="form-select"
+                                            asp-items="ViewBag.Pharmacies">
+                                        <option value="">Select Pharmacy</option>
+                                    </select>
+                                    <span asp-validation-for="PharmacyID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Data -->
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="AdditionalData" class="form-label">Additional Notes</label>
+                        <textarea asp-for="AdditionalData" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="AdditionalData" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
                 <div class="col-12">
                     <div class="d-flex gap-3 justify-content-end mt-4">
                         <button type="submit" class="btn btn-primary px-5">
@@ -58,6 +206,125 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        // Similar dynamic field handling as Create view
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                const role = $('#roleSelect').val();
+
+                // Disable validation for hidden fields
+                $('[data-val-for]').each(function () {
+                    const requiredFor = $(this).attr('data-val-for');
+                    $(this).prop('required', role === requiredFor);
+                });
+            });
+            // Initialize role-specific fields
+            function toggleRoleFields() {
+                const role = $('#roleSelect').val();
+                $('.role-fields').hide().find('input, select').prop('disabled', true);
+                $(`[data-role="${role}"]`).show().find('input, select').prop('disabled', false);
+            }
+
+            // Initial setup
+            toggleRoleFields();
+
+            // Handle role changes
+            $('#roleSelect').change(function() {
+                toggleRoleFields();
+                // Reset validation errors when role changes
+                $('.field-validation-error').hide();
+            });
+        });
     </script>
 }
+@* @model Hospital_Administration_System.ViewModels.User.UserEditVM; *@
+@* @{ *@
+@*     ViewData["Title"] = "Edit User"; *@
+@*     Layout = "~/Views/Shared/_adminLayout.cshtml"; *@
+@* } *@
+
+@* <div class="card border-0 shadow-lg"> *@
+@*     <div class="card-header bg-primary text-white py-3"> *@
+@*         <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>@ViewData["Title"]</h4> *@
+@*     </div> *@
+@*     @if (TempData["SuccessMessage"] != null) *@
+@*     { *@
+@*         <div class="alert alert-success alert-dismissible fade show" role="alert"> *@
+@*             @TempData["SuccessMessage"] *@
+@*             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> *@
+@*         </div> *@
+@*     } *@
+@*     @if (TempData["ErrorMessage"] != null) *@
+@*     { *@
+@*         <div class="alert alert-danger alert-dismissible fade show" role="alert"> *@
+@*             @TempData["ErrorMessage"] *@
+@*             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> *@
+@*         </div> *@
+@*     } *@
+@*     <div class="card-body"> *@
+@*         <form asp-action="Edit" class="needs-validation" novalidate> *@
+@*             <div asp-validation-summary="All" class="alert alert-danger"></div> *@
+@* 			@* <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div> *@ 
+			
+@*             <input type="hidden" asp-for="UserId" /> *@
+
+@*             <div class="row g-4"> *@
+@*                 <!-- Email and Role --> *@
+@*                 <div class="col-md-6"> *@
+@*                     <div class="form-group"> *@
+@*                         <label asp-for="Email" class="form-label"></label> *@
+@*                         <input asp-for="Email" class="form-control" required /> *@
+@*                         <span asp-validation-for="Email" class="text-danger"></span> *@
+@*                     </div> *@
+@*                 </div> *@
+
+@*                 <div class="col-md-6"> *@
+@*                     <div class="form-group"> *@
+@*                         <label asp-for="Role" class="form-label"></label> *@
+@*                         <select asp-for="Role" class="form-select" id="roleSelect" required> *@
+@*                             <option value="Admin">Admin</option> *@
+@*                             <option value="Doctor">Doctor</option> *@
+@*                             <option value="Nurse">Nurse</option> *@
+@*                             <option value="Pharmacist">Pharmacist</option> *@
+@*                             <option value="Patient">Patient</option> *@
+@*                         </select> *@
+@*                         <span asp-validation-for="Role" class="text-danger"></span> *@
+@*                     </div> *@
+@*                 </div> *@
+
+@*                 <!-- Dynamic Fields (similar to Create view) --> *@
+
+@*                 <div class="col-12"> *@
+@*                     <div class="d-flex gap-3 justify-content-end mt-4"> *@
+@*                         <button type="submit" class="btn btn-primary px-5"> *@
+@*                             <i class="fas fa-save me-2"></i>Save Changes *@
+@*                         </button> *@
+@*                         <a asp-action="Index" class="btn btn-outline-secondary px-5"> *@
+@*                             Cancel *@
+@*                         </a> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </form> *@
+@*     </div> *@
+@* </div> *@
+
+@* @section Scripts { *@
+@*     @{ *@
+@*         await Html.RenderPartialAsync("_ValidationScriptsPartial"); *@
+@*     } *@
+@*     <script> *@
+@*         $(document).ready(function () { *@
+@*             function toggleRoleFields() { *@
+@*                 const role = $('#roleSelect').val(); *@
+@*                 $('.role-fields').hide(); *@
+@*                 $(`[data-role="${role}"]`).show(); *@
+@*             } *@
+
+@*             // Initial toggle on page load *@
+@*             toggleRoleFields(); *@
+            
+@*             // Bind to role change *@
+@*             $('#roleSelect').change(toggleRoleFields); *@
+@*         }); *@
+@*     </script> *@
+@* } *@
+@* } *@

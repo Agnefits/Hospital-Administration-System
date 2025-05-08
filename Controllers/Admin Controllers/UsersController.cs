@@ -44,14 +44,18 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction(nameof(Index));  // Redirect to the list of users
+                    TempData["SuccessMessage"] = "User created successfully!";
+                    return RedirectToAction(nameof(Index));
                 }
 
-                ModelState.AddModelError("", result.Error);  // Display error message
+                TempData["ErrorMessage"] = result.Error;
             }
+
             PopulateDropdowns();
-            return View(model);  // Return the form with the model
+            return View(model);
         }
+
+       
 
         public async Task<IActionResult> Edit(string id)
         {
@@ -61,7 +65,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
             var model = MapUserToEditVM(user);  // Map user data to the Edit ViewModel
             PopulateDropdowns();  // Populate dropdowns for roles, departments, and pharmacies
-            return View(user);  // Return the Edit User form with user data
+            return View(model);  // Return the Edit User form with user data
         }
 
         [HttpPost]
@@ -73,9 +77,19 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
                 var result = await _unitOfWork.UserService.UpdateAsync(model);
 
                 if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "User updated successfully!";
+
                     return RedirectToAction(nameof(Index));  // Redirect to the list of users
+                }
 
                 ModelState.AddModelError("", result.Error);  // Display error message
+                TempData["ErrorMessage"] = result.Error;
+            }
+            else
+            {
+                // Capture validation errors
+                TempData["ErrorMessage"] = "Please correct the form errors.";
             }
             PopulateDropdowns();  // Populate dropdowns for roles, departments, and pharmacies
             return View(model);  // Return the form with the model
@@ -142,7 +156,7 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
         private void PopulateDropdowns()
         {
-            ViewBag.Roles = new SelectList(new List<string> { "Admin", "Doctor", "Nurse", "Pharmacist" });
+            ViewBag.Roles = new SelectList(new List<string> { "Admin", "Doctor", "Nurse", "Pharmacist", "Patient" });
             ViewBag.Departments = new SelectList(
                 _unitOfWork.DepartmentService.GetAllDepartmentsAsync().Result,
                 "DepartmentID", "Name");

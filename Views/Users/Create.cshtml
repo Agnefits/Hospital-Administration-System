@@ -9,10 +9,25 @@
     <div class="card-header bg-primary text-white py-3">
         <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>@ViewData["Title"]</h4>
     </div>
-	
     <div class="card-body">
+        <!-- Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <form asp-action="Create" class="needs-validation" novalidate>
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
 
             <div class="row g-4">
                 <!-- Basic Info -->
@@ -49,28 +64,48 @@
 
                 <!-- Dynamic Fields -->
                 <div class="col-12" id="roleSpecificFields">
-                    <!-- Doctor Fields -->
-                    <div class="role-fields" data-role="Doctor">
+                    <!-- Admin Fields -->
+                    <div class="role-fields" data-role="Admin">
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="FullName" class="form-label"></label>
-                                    <input asp-for="FullName" class="form-control" />
+                                    <label asp-for="FullName" class="form-label">Admin Name</label>
+                                    <input asp-for="FullName" class="form-control" required />
                                     <span asp-validation-for="FullName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="ContactNumber" class="form-label"></label>
-                                    <input asp-for="ContactNumber" class="form-control" />
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" required />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doctor Fields -->
+                    <div class="role-fields" data-role="Doctor">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Doctor Name</label>
+                                    <input asp-for="FullName" class="form-control" required />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" required />
                                     <span asp-validation-for="ContactNumber" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="DepartmentID" class="form-label"></label>
+                                    <label asp-for="DepartmentID" class="form-label">Department</label>
                                     <select asp-for="DepartmentID" class="form-select"
-                                            asp-items="ViewBag.Departments">
+                                            asp-items="ViewBag.Departments" required>
                                         <option value="">Select Department</option>
                                     </select>
                                     <span asp-validation-for="DepartmentID" class="text-danger"></span>
@@ -78,17 +113,85 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="Specialization" class="form-label"></label>
-                                    <input asp-for="Specialization" class="form-control" />
+                                    <label asp-for="Specialization" class="form-label">Specialization</label>
+                                    <input asp-for="Specialization" class="form-control" required />
                                     <span asp-validation-for="Specialization" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Similar blocks for Nurse, Pharmacist, Admin -->
+                    <!-- Nurse Fields -->
+                    <div class="role-fields" data-role="Nurse">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Nurse Name</label>
+                                    <input asp-for="FullName" class="form-control" required />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" required />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DepartmentID" class="form-label">Department</label>
+                                    <select asp-for="DepartmentID" class="form-select"
+                                            asp-items="ViewBag.Departments" required>
+                                        <option value="">Select Department</option>
+                                    </select>
+                                    <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pharmacist Fields -->
+                    <div class="role-fields" data-role="Pharmacist">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="form-label">Pharmacist Name</label>
+                                    <input asp-for="FullName" class="form-control" required />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                                    <input asp-for="ContactNumber" class="form-control" required />
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PharmacyID" class="form-label">Pharmacy</label>
+                                    <select asp-for="PharmacyID" class="form-select"
+                                            asp-items="ViewBag.Pharmacies" required>
+                                        <option value="">Select Pharmacy</option>
+                                    </select>
+                                    <span asp-validation-for="PharmacyID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Additional Data -->
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="AdditionalData" class="form-label">Additional Notes</label>
+                        <textarea asp-for="AdditionalData" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="AdditionalData" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
                 <div class="col-12">
                     <div class="d-flex gap-3 justify-content-end mt-4">
                         <button type="submit" class="btn btn-primary px-5">
@@ -109,16 +212,30 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        // Dynamic form field handling
         $(document).ready(function () {
             function toggleRoleFields() {
                 const role = $('#roleSelect').val();
-                $('.role-fields').hide();
-                $(`[data-role="${role}"]`).show();
+                $('.role-fields').hide().find('input, select').prop('disabled', true);
+                $(`[data-role="${role}"]`).show().find('input, select').prop('disabled', false);
             }
 
-            $('#roleSelect').change(toggleRoleFields);
+            // Initialize fields
             toggleRoleFields();
+
+            // Handle role changes
+            $('#roleSelect').change(function() {
+                toggleRoleFields();
+                $('.field-validation-error').hide();
+            });
+
+            // Conditional validation before submit
+            $('form').submit(function(e) {
+                const role = $('#roleSelect').val();
+                $('[data-val-for]').each(function() {
+                    const requiredFor = $(this).attr('data-val-for');
+                    $(this).prop('required', role === requiredFor);
+                });
+            });
         });
     </script>
 }

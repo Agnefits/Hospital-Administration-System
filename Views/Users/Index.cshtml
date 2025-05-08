@@ -13,6 +13,13 @@
         <i class="fas fa-user-plus me-2"></i>New User
     </a>
 </div>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="card border-0 shadow-lg">
     <div class="card-body p-0">
@@ -59,6 +66,10 @@
                                 {
                                     <span class="badge bg-warning">Pharmacist</span>
                                 }
+								@if (user.Patient != null)
+								{
+									<span class="badge bg-secondary">Patient</span>
+								}
                             </td>
                             <td>
                                 @if (user.Doctor != null)
