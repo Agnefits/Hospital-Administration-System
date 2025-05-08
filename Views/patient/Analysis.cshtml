@@ -1,35 +1,39 @@
-﻿@model IEnumerable<MedicalRecord>
+﻿@model IEnumerable<Hospital_Administration_System.Models.Analysis>
 @{
-    ViewData["Title"] = "Medical History";
+    ViewData["Title"] = "My Lab Results";
     Layout = "_PatientLayout";
 }
 <div class="container-fluid px-4">
     <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
-        <h2 class="text-primary"><i class="fas fa-file-medical me-2"></i>Medical History</h2>
+        <h2 class="text-primary"><i class="fas fa-vial me-2"></i>My Lab Results</h2>
         <div class="input-group w-auto">
-            <input type="text" class="form-control" placeholder="Search records..." id="searchInput">
+            <input type="text" class="form-control" placeholder="Search lab results..." id="searchInput">
             <button class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
         </div>
     </div>
     <div class="row g-4">
-        @foreach (var record in Model)
+        @foreach (var item in Model)
         {
             <div class="col-md-6">
-                <div class="card medical-record-card h-100 animate__animated animate__fadeInUp" style="animation-delay: @(Model.ToList().IndexOf(record) * 0.1)s">
+                <div class="card medical-record-card h-100 animate__animated animate__fadeInUp" style="animation-delay: @(Model.ToList().IndexOf(item) * 0.1)s">
                     <div class="card-header d-flex justify-content-between bg-light">
-                        <h5 class="mb-0 text-primary">@record.Diagnosis</h5>
-                        <small class="text-muted">@record.CreatedAt.ToString("d")</small>
+                        <h5 class="mb-0 text-primary">@item.TestName</h5>
+                        <small class="text-muted">@item.TestDate.ToString("d")</small>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <h6 class="text-muted fw-bold">Treatment Provided</h6>
-                            <p class="card-text">@record.Treatment</p>
+                            <h6 class="text-muted fw-bold">Laboratory</h6>
+                            <p class="card-text">@item.Laboratory?.Name</p>
                         </div>
-                        @if (!string.IsNullOrEmpty(record.AdditionalData))
+                        <div class="mb-3">
+                            <h6 class="text-muted fw-bold">Result</h6>
+                            <p class="card-text">@item.Result</p>
+                        </div>
+                        @if (!string.IsNullOrEmpty(item.AdditionalData))
                         {
                             <div class="alert alert-info mb-0">
                                 <h6 class="alert-heading">Notes</h6>
-                                <p class="mb-0">@record.AdditionalData</p>
+                                <p class="mb-0">@item.AdditionalData</p>
                             </div>
                         }
                     </div>

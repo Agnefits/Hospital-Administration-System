@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Hospital_Administration_System.Models.Prescription>
+@{
+    ViewData["Title"] = "My Prescriptions";
+    Layout = "_PatientLayout";
+}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-primary"><i class="fas fa-prescription me-2"></i>My Prescriptions</h2>
+        <div class="input-group w-auto">
+            <input type="text" class="form-control" placeholder="Search prescriptions..." id="searchInput">
+            <button class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div class="card patient-table animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Medication</th>
+                            <th>Dosage</th>
+                            <th>Issued Date</th>
+                            <th>Instructions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="animate__animated animate__fadeIn" style="animation-delay: @(Model.ToList().IndexOf(item) * 0.1)s">
+                                <td data-label="Doctor">@item.Doctor?.FullName</td>
+                                <td data-label="Medication">@item.MedicationName</td>
+                                <td data-label="Dosage">@item.Dosage</td>
+                                <td data-label="Issued Date">@item.IssuedDate.ToString("d")</td>
+                                <td data-label="Instructions">@item.Instructions</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

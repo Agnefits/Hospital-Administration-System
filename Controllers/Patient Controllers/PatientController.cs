@@ -102,7 +102,7 @@ public class PatientController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var prescriptions = await _unitOfWork.PatientService.GetPatientPrescriptions(user.Patient.PatientID);
-            return Json(prescriptions);
+            return View(prescriptions);
         }
         return Unauthorized();
     }
@@ -124,7 +124,7 @@ public class PatientController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var analysis = await _unitOfWork.PatientService.GetPatientAnalysis(user.Patient.PatientID);
-            return Json(analysis);
+            return View(analysis);
         }
         return Unauthorized();
     }
@@ -135,7 +135,7 @@ public class PatientController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var bills = await _unitOfWork.PatientService.GetPatientBills(user.Patient.PatientID);
-            return Json(bills);
+            return View(bills);
         }
         return Unauthorized();
     }
@@ -146,7 +146,7 @@ public class PatientController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var receipts = await _unitOfWork.PatientService.GetPatientReceipts(user.Patient.PatientID);
-            return Json(receipts);
+            return View(receipts);
         }
         return Unauthorized();
     }
