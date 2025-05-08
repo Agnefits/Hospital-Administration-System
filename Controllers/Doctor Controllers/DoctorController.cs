@@ -1,6 +1,7 @@
 ﻿using Hospital_Administration_System.Services;
 using Hospital_Administration_System.ViewModels.Doctor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Hospital_Administration_System.Controllers.Doctor_Controllers;
 
@@ -21,7 +22,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var reservations = _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
             return View(reservations);
@@ -42,7 +43,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
             return View(appointments);
@@ -65,7 +66,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var patients = _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
             return View(patients);
@@ -80,7 +81,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var patients = _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
             return View(patients);
@@ -161,7 +162,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var records = await _unitOfWork.DoctorService.GetDepartmentMedicalsAsync(user.Doctor.DepartmentID, startDate, endDate, patientName); //Note Abdallah: Uncomment for the real function
             return View(records);

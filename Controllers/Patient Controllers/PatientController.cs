@@ -30,7 +30,7 @@ public class PatientController : Controller
 
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var reservations = await _unitOfWork.PatientService.GetPatientReservations(user.Patient.PatientID);
             return Json(reservations);
@@ -49,7 +49,7 @@ public class PatientController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             model.PatientID = user.Patient.PatientID;
 
             var response = await _unitOfWork.ReservationService.AddAsync(model);
@@ -103,7 +103,7 @@ public class PatientController : Controller
         //return View(new List<Prescription> { new Prescription { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var prescriptions = await _unitOfWork.PatientService.GetPatientPrescriptions(user.Patient.PatientID);
             return Json(prescriptions);
         }
@@ -116,7 +116,7 @@ public class PatientController : Controller
         //return View(new List<MedicalRecord> { new MedicalRecord { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var medicals = await _unitOfWork.PatientService.GetPatientMedicals(user.Patient.PatientID);
             return Json(medicals);
         }
@@ -129,7 +129,7 @@ public class PatientController : Controller
         //return View(new List<Analysis> { new Analysis { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var analysis = await _unitOfWork.PatientService.GetPatientAnalysis(user.Patient.PatientID);
             return Json(analysis);
         }
@@ -142,7 +142,7 @@ public class PatientController : Controller
         //return View(new List<Billing> { new Billing { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var bills = await _unitOfWork.PatientService.GetPatientBills(user.Patient.PatientID);
             return Json(bills);
         }
@@ -155,7 +155,7 @@ public class PatientController : Controller
         //return View(new List<Receipt> { new Receipt { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var receipts = await _unitOfWork.PatientService.GetPatientReceipts(user.Patient.PatientID);
             return Json(receipts);
         }
