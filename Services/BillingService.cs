@@ -10,7 +10,9 @@ public class BillingService: GenericRepository<Billing>, IBillingRepository
 
     public async Task<IEnumerable<Billing>> GetAllBillingsAsync()
     {
-        return await GetAllAsync();
+        return await _context.Billings
+            .Include(b=>b.Patient)
+            .ToListAsync();
     }
 
     public async Task<Billing> GetBillingByIdAsync(int id)

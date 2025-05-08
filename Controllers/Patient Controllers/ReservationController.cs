@@ -137,7 +137,7 @@ public class ReservationController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        var reservation = await _unitOfWork.ReservationService.GetByIdAsync(id);
         if (reservation == null)
             return NotFound();
 
@@ -243,7 +243,7 @@ public class ReservationController : Controller
             return View(model);
         }
 
-        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        var reservation = await _unitOfWork.ReservationService.GetByIdAsync(id);
         if (reservation == null)
             return NotFound();
 
@@ -251,13 +251,13 @@ public class ReservationController : Controller
         reservation.ReservationDate = model.ReservationDate;
         reservation.AdditionalData = model.AdditionalData;
 
-        await _unitOfWork.ReservationService.UpdateReservationAsync(reservation);
+        await _unitOfWork.ReservationService.UpdateAsync(reservation);
         return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Delete(int id)
     {
-        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        var reservation = await _unitOfWork.ReservationService.GetByIdAsync(id);
         if (reservation == null)
             return NotFound();
 
@@ -268,9 +268,9 @@ public class ReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        var reservation = await _unitOfWork.ReservationService.GetByIdAsync(id);
         if (reservation != null)
-            await _unitOfWork.ReservationService.DeleteReservationAsync(reservation);
+            await _unitOfWork.ReservationService.DeleteAsync(reservation);
 
         return RedirectToAction(nameof(Index));
     }

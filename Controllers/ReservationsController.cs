@@ -26,7 +26,7 @@ public class ReservationsController : Controller
     // GET: Reservations/Create
     public async Task<IActionResult> Create()
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
         ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View();
     }
@@ -38,7 +38,7 @@ public class ReservationsController : Controller
     {
         try
         {
-            await _unitOfWork.ReservationService.AddReservationAsync(reservation);
+            await _unitOfWork.ReservationService.AddAsync(reservation);
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -50,7 +50,7 @@ public class ReservationsController : Controller
     // GET: Reservations/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
         ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View();
     }

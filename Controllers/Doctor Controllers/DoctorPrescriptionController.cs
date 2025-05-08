@@ -14,7 +14,7 @@ public class DoctorPrescriptionController : Controller
 
     public async Task<IActionResult> Create()
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
         return View();
     }
 
@@ -46,7 +46,7 @@ public class DoctorPrescriptionController : Controller
 
     public async Task<IActionResult> Edit(int id)
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
 
         var prescription = await _unitOfWork.PrescriptionService.GetByIdAsync(id);
         if (prescription == null)

@@ -1,14 +1,18 @@
 ﻿
+using Hospital_Administration_System.ViewModels.Doctor;
+
 namespace Hospital_Administration_System.Controllers.Admin_Controllers;
 
 public class AdminController : Controller
 {
+    private readonly UnitOfWork _unitOfWork;
     private readonly UserService _userService;
     private readonly LogService _logService;
     private readonly ApplicationDbContext _context;
 
-    public AdminController(UserService userService, LogService logService, ApplicationDbContext context)
+    public AdminController(UnitOfWork unitOfWork, UserService userService, LogService logService, ApplicationDbContext context)
     {
+        _unitOfWork = unitOfWork;
         _userService = userService;
         _logService = logService;
         _context = context;
@@ -30,8 +34,8 @@ public class AdminController : Controller
 
     public async Task<IActionResult> UpcomingAppointments()
     {
-        var startDate = DateTime.Today;
-        var endDate = DateTime.Today.AddDays(14).AddDays(1);
+        //var startDate = DateTime.Today;
+        //var endDate = DateTime.Today.AddDays(14).AddDays(1);
 
         //var allAppointments = new List<Reservation>
         //{
@@ -98,15 +102,29 @@ public class AdminController : Controller
         //    .OrderBy(r => r.ReservationDate)
         //    .ToList();
 
-        var filteredAppointments = await _context.Reservations
-            .Include(r => r.Patient)
-            .Include(r => r.Doctor)
-            .Where(r => r.ReservationDate >= startDate &&
-                        r.ReservationDate < endDate &&
-                        r.Status != ReservationStatus.Cancelled)
-            .OrderBy(r => r.ReservationDate)
-            .ToListAsync();
+        var reservations = _unitOfWork.ReservationService.GetAllReservationsAsync();
 
-        return View(filteredAppointments);
+        return View(reservations);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateReservationStatus(ReservationEditStatusVM model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _unitOfWork.DoctorService.UpdateReservationStatusAsync(model);
+        if (result.Succeeded)
+            return RedirectToAction(nameof(Index));
+        else
+            return BadRequest(result.Error);
+    }
+
+    public async Task<IActionResult> Billings()
+    {
+        var reservations = _unitOfWork.BillingService.GetAllBillingsAsync();
+
+        return View(reservations);
     }
 }
