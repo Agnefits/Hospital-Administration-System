@@ -1,0 +1,123 @@
+﻿@* @model IEnumerable<Reservation> *@
+@* @{ *@
+@*     ViewData["Title"] = "My Appointments"; *@
+@*     Layout = "_PatientLayout"; *@
+@* } *@
+
+@* <div class="container-fluid"> *@
+@*     <div class="d-flex justify-content-between align-items-center mb-4"> *@
+@*         <h2 class="text-primary">My Appointments</h2> *@
+@*         <a asp-action="AddReservation" class="btn btn-primary"> *@
+@*             <i class="fas fa-plus me-2"></i>New Appointment *@
+@*         </a> *@
+@*     </div> *@
+
+@*     <div class="card patient-table"> *@
+@*         <div class="card-body"> *@
+@*             <table class="table table-hover"> *@
+@*                 <thead> *@
+@*                     <tr> *@
+@*                         <th>Doctor</th> *@
+@*                         <th>Date & Time</th> *@
+@*                         <th>Status</th> *@
+@*                         <th>Actions</th> *@
+@*                     </tr> *@
+@*                 </thead> *@
+@*                 <tbody> *@
+@*                     @foreach (var item in Model) *@
+@*                     { *@
+@*                         <tr> *@
+@*                             <td>@item.Doctor?.FullName</td> *@
+@*                             <td>@item.ReservationDate.ToString("f")</td> *@
+@*                             <td> *@
+@*                                 <span class="status-badge @GetStatusClass(item.Status)"> *@
+@*                                     @item.Status *@
+@*                                 </span> *@
+@*                             </td> *@
+@*                             <td> *@
+@*                                 <a asp-action="UpdateReservation" asp-route-id="@item.ReservationID" *@
+@*                                    class="btn btn-sm btn-outline-primary"> *@
+@*                                     <i class="fas fa-edit"></i> *@
+@*                                 </a> *@
+@*                             </td> *@
+@*                         </tr> *@
+@*                     } *@
+@*                 </tbody> *@
+@*             </table> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@* @functions { *@
+@*     string GetStatusClass(ReservationStatus status) *@
+@*     { *@
+@*         return status switch *@
+@*         { *@
+@*             ReservationStatus.Confirmed => "bg-success", *@
+@*             ReservationStatus.Cancelled => "bg-danger", *@
+@*             ReservationStatus.Pending => "bg-warning", *@
+@*             _ => "bg-secondary" *@
+@*         }; *@
+@*     } *@
+@* } *@
+@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "My Appointments";
+    Layout = "_PatientLayout";
+}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-primary"><i class="fas fa-calendar-check me-2"></i>My Appointments</h2>
+        <a asp-action="AddReservation" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>New Appointment
+        </a>
+    </div>
+    <div class="card patient-table animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="animate__animated animate__fadeIn" style="animation-delay: @(Model.ToList().IndexOf(item) * 0.1)s">
+                                <td data-label="Doctor">@item.Doctor?.FullName</td>
+                                <td data-label="Date & Time">@item.ReservationDate.ToString("f")</td>
+                                <td data-label="Status">
+                                    <span class="status-badge @GetStatusClass(item.Status)">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td data-label="Actions" class="text-end">
+                                    <a asp-action="UpdateReservation" asp-route-id="@item.ReservationID"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@functions {
+    string GetStatusClass(ReservationStatus status)
+    {
+        return status switch
+        {
+            ReservationStatus.Confirmed => "bg-success",
+            ReservationStatus.Cancelled => "bg-danger",
+            ReservationStatus.Pending => "bg-warning",
+            _ => "bg-secondary"
+        };
+    }
+}

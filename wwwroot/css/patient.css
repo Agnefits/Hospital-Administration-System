@@ -1,0 +1,333 @@
+﻿/* wwwroot/css/patient.css */
+/*:root {
+    --primary-color: #2a5c82;
+    --secondary-color: #5ba4e6;
+    --sidebar-width: 250px;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 0.3s;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--primary-color);
+    color: white;
+    position: fixed;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: var(--secondary-color);
+    color: white;
+    transform: translateX(10px);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    transition: margin 0.3s ease;
+}
+
+.dashboard-card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+.guide-card {
+    background: white;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+    .guide-card:hover {
+        transform: translateX(5px);
+    }
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+}*/
+
+/* Additional Patient Styles */
+/*.patient-table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+    .patient-table thead {
+        background: var(--primary-color);
+        color: white;
+    }
+
+.status-badge {
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.form-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.medical-record-card {
+    border-left: 4px solid var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+    .medical-record-card:hover {
+        transform: translateY(-3px);
+    }*/
+:root {
+    --patient-primary: #2A6B9F;
+    --patient-secondary: #4BA8D8;
+    --patient-accent: #E6F0FA;
+    --patient-bg: #F7FAFC;
+    --patient-text: #1A3552;
+    --patient-sidebar: #1E4971;
+    --patient-hover: #3B82B3;
+    --font-main: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--patient-bg);
+    color: var(--patient-text);
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--patient-sidebar);
+    color: white;
+    padding: 1.5rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    position: fixed;
+}
+
+.sidebar-header {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.65rem 1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: var(--patient-secondary);
+        color: #fff;
+        transform: translateX(5px);
+    }
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background: var(--patient-bg);
+    margin-left: 260px;
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 107, 159, 0.1);
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 107, 159, 0.2);
+    }
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+    .table thead {
+        background-color: var(--patient-accent);
+        color: var(--patient-primary);
+        font-weight: 600;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: var(--patient-accent);
+    transition: background-color 0.3s ease;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 1rem;
+}
+
+.btn {
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--patient-secondary);
+    border-color: var(--patient-secondary);
+}
+
+    .btn-primary:hover {
+        background-color: var(--patient-hover);
+        border-color: var(--patient-hover);
+        box-shadow: 0 0 0.5rem rgba(75, 168, 216, 0.5);
+    }
+
+.btn-outline-primary {
+    color: var(--patient-secondary);
+    border-color: var(--patient-secondary);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--patient-secondary);
+        color: white;
+        box-shadow: 0 0 0.5rem rgba(75, 168, 216, 0.5);
+    }
+
+.text-primary {
+    color: var(--patient-primary) !important;
+}
+
+.dashboard-card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.status-badge {
+    padding: 0.5em 0.75em;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+    .status-badge:hover {
+        transform: scale(1.1);
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1050;
+    }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 4rem;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+        .table tr {
+            margin-bottom: 1rem;
+            background-color: #ffffff;
+            box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,0.05);
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 0.5rem 1rem;
+            text-align: right;
+            position: relative;
+        }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                text-align: left;
+                font-weight: bold;
+                color: var(--patient-primary);
+            }
+}
