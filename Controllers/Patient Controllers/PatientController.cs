@@ -38,8 +38,9 @@ public class PatientController : Controller
         return Unauthorized();
     }
 
-    public IActionResult AddReservation()
+    public async Task<IActionResult> AddReservation()
     {
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View();
     }
 

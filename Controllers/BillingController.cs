@@ -19,7 +19,7 @@ public class BillingController : Controller
 
     public async Task<IActionResult> Add()
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllPatientsAsync();
+        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
         return View(); 
     }
 

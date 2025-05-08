@@ -185,7 +185,7 @@ public class DoctorController : Controller
 
     public async Task<IActionResult> RedirectReservation(int id)
     {
-        var reservation = await _unitOfWork.ReservationService.GetReservationByIdAsync(id);
+        var reservation = await _unitOfWork.ReservationService.GetByIdAsync(id);
         if (reservation == null)
             return NotFound();
 

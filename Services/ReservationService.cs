@@ -11,6 +11,15 @@ public class ReservationService : GenericRepository<Reservation>, IReservationRe
 
     }
 
+    public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
+    {
+        return await _context.Reservations
+            .Include(r => r.Patient)
+            .Include(r => r.Doctor)
+            .OrderBy(r => r.ReservationDate)
+            .ToListAsync();
+    }
+
     public async Task<ReservationResponseVM> AddAsync(ReservationCreateVM model)
     {
         if (!await _context.Patients.AnyAsync(p => p.PatientID == model.PatientID))
@@ -33,7 +42,7 @@ public class ReservationService : GenericRepository<Reservation>, IReservationRe
 
         Reservation reservation = new Reservation
         {
-            PatientID = model.PatientID,
+            PatientID = model.PatientID.Value,
             DoctorID = model.DoctorID,
             ReservationDate = model.ReservationDate,
             AdditionalData = model.AdditionalData,
@@ -80,7 +89,7 @@ public class ReservationService : GenericRepository<Reservation>, IReservationRe
             };
         }
 
-        reservation.PatientID = model.PatientID;
+        reservation.PatientID = model.PatientID.Value;
         reservation.DoctorID = model.DoctorID;
         reservation.ReservationDate = model.ReservationDate;
         reservation.AdditionalData = model.AdditionalData;
