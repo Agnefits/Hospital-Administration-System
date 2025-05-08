@@ -1,0 +1,95 @@
+﻿@* @model Hospital_Administration_System.Models.MedicalRecord *@
+@* @{ *@
+@*     ViewData["Title"] = "Create Medical Record"; *@
+@*     Layout = "_DoctorLayout"; *@
+@* } *@
+
+@* <div class="container"> *@
+@*     <div class="card card-medical"> *@
+@*         <div class="card-header"> *@
+@*             <h3 class="mb-0">New Medical Record</h3> *@
+@*         </div> *@
+@*         <div class="card-body"> *@
+@*             <form asp-action="Create"> *@
+@*                 <div class="form-group mb-3"> *@
+@*                     <label asp-for="PatientID" class="form-label">Patient</label> *@
+@*                     <select asp-for="PatientID" asp-items="@(ViewData["Patients"] as SelectList)" *@
+@*                             class="form-select"></select> *@
+@*                     <span asp-validation-for="PatientID" class="text-danger"></span> *@
+@*                 </div> *@
+
+@*                 <div class="form-group mb-3"> *@
+@*                     <label asp-for="Diagnosis" class="form-label">Diagnosis</label> *@
+@*                     <textarea asp-for="Diagnosis" class="form-control" rows="3"></textarea> *@
+@*                     <span asp-validation-for="Diagnosis" class="text-danger"></span> *@
+@*                 </div> *@
+
+@*                 <div class="form-group mb-3"> *@
+@*                     <label asp-for="Treatment" class="form-label">Treatment Plan</label> *@
+@*                     <textarea asp-for="Treatment" class="form-control" rows="3"></textarea> *@
+@*                     <span asp-validation-for="Treatment" class="text-danger"></span> *@
+@*                 </div> *@
+
+@*                 <div class="form-group mb-4"> *@
+@*                     <label asp-for="AdditionalData" class="form-label">Notes</label> *@
+@*                     <textarea asp-for="AdditionalData" class="form-control" rows="2"></textarea> *@
+@*                 </div> *@
+
+@*                 <button type="submit" class="btn btn-primary">Create Record</button> *@
+@*                 <a asp-action="MedicalRecords" class="btn btn-outline-secondary">Cancel</a> *@
+@*             </form> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@model Hospital_Administration_System.Models.MedicalRecord
+@{
+    ViewData["Title"] = "Create Medical Record";
+    Layout = "_DoctorLayout";
+}
+<div class="container-fluid px-4">
+    <div class="card card-medical">
+        <div class="card-header bg-transparent">
+            <h3 class="text-primary mb-0"><i class="fas fa-file-medical-alt me-2"></i>New Medical Record</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="PatientID" class="form-label fw-bold">Patient</label>
+                        <select asp-for="PatientID" asp-items="@(ViewData["Patients"] as SelectList)"
+                                class="form-select">
+                            <option value="">Select a patient</option>
+                        </select>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Diagnosis" class="form-label fw-bold">Diagnosis</label>
+                        <textarea asp-for="Diagnosis" class="form-control" rows="4" placeholder="Enter diagnosis details..."></textarea>
+                        <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Treatment" class="form-label fw-bold">Treatment Plan</label>
+                        <textarea asp-for="Treatment" class="form-control" rows="4" placeholder="Enter treatment plan..."></textarea>
+                        <span asp-validation-for="Treatment" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="AdditionalData" class="form-label fw-bold">Additional Notes</label>
+                        <textarea asp-for="AdditionalData" class="form-control" rows="3" placeholder="Enter any additional notes..."></textarea>
+                    </div>
+                    <div class="col-12 mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Create Record
+                        </button>
+                        <a asp-action="MedicalRecords" asp-controller="Doctor" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

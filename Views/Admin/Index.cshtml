@@ -223,29 +223,28 @@
 @* </div> *@
 
 
-<h1>Admin Dashboard</h1>
-@* <!-- Views/Admin/Index.cshtml --> *@
-@* @{ *@
-@*     ViewData["Title"] = "Admin Dashboard"; *@
-@*     Layout = "~/Views/Shared/_adminLayout.cshtml"; *@
-@* } *@
+<!-- Views/Admin/Index.cshtml -->
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
 
-@* <div class="card border-0 shadow-lg"> *@
-@*     <div class="card-header bg-primary text-white"> *@
-@*         <h4><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h4> *@
-@*     </div> *@
-@*     <div class="card-body"> *@
-@*         <div class="row g-4"> *@
-@*             <!-- Dashboard Cards --> *@
-@*             <div class="col-md-6 col-xl-3"> *@
-@*                 <div class="card bg-primary text-white"> *@
-@*                     <div class="card-body"> *@
-@*                         <h5><i class="fas fa-users me-2"></i>Total Users</h5> *@
-@*                         @* <h2>@ViewBag.TotalUsers</h2> *@ 
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <!-- Add more dashboard metrics --> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
+<div class="card border-0 shadow-lg">
+    <div class="card-header bg-primary text-white">
+        <h4><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h4>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            <!-- Dashboard Cards -->
+            <div class="col-md-6 col-xl-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5><i class="fas fa-users me-2"></i>Total Users</h5>
+                        <h2>@ViewBag.TotalUsers</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more dashboard metrics -->
+        </div>
+    </div>
+</div>

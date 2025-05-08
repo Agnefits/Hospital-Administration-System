@@ -24,32 +24,32 @@ public class DoctorController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var reservations = _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
+            var reservations = await _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
             return View(reservations);
         }
         return Unauthorized();
     }
 
-    public async Task<IActionResult> AppointmentsAsync()
-    {
-        //Note Abdallah: For Testing, please remove
-        //return View(new List<Reservation> { new Reservation { } });
+    //public async Task<IActionResult> AppointmentsAsync()
+    //{
+    //    //Note Abdallah: For Testing, please remove
+    //    //return View(new List<Reservation> { new Reservation { } });
 
-        //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-        //    ? PartialView("_AppointmentsPartial")
-        //        : View();
-        //    return PartialView("_AppointmentsPartial");
-        //return View("Appointments");
+    //    //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+    //    //    ? PartialView("_AppointmentsPartial")
+    //    //        : View();
+    //    //    return PartialView("_AppointmentsPartial");
+    //    //return View("Appointments");
 
-        if (User.IsInRole("Doctor"))
-        {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+    //    if (User.IsInRole("Doctor"))
+    //    {
+    //        var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
-            return View(appointments);
-        }
-        return Unauthorized();
-    }
+    //        var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
+    //        return View(appointments);
+    //    }
+    //    return Unauthorized();
+    //}
 
     //[HttpPost, ActionName("DeleteAppointment")]
     //[ValidateAntiForgeryToken]
@@ -68,7 +68,7 @@ public class DoctorController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var patients = _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
+            var patients = await _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
             return View(patients);
         }
         return Unauthorized();
@@ -83,7 +83,7 @@ public class DoctorController : Controller
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var patients = _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
+            var patients = await _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
             return View(patients);
         }
         return Unauthorized();

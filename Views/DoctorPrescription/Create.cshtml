@@ -1,0 +1,53 @@
+﻿@model Hospital_Administration_System.ViewModels.Doctor.PrescriptionCreateVM
+@{
+    ViewData["Title"] = "Create Prescription";
+    Layout = "_DoctorLayout";
+}
+<div class="container-fluid px-4">
+    <div class="card card-medical">
+        <div class="card-header bg-transparent">
+            <h3 class="text-primary mb-0"><i class="fas fa-prescription me-2"></i>New Prescription</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="PatientID" class="form-label fw-bold">Patient</label>
+                        <select asp-for="PatientID" asp-items="@(ViewData["Patients"] as SelectList)"
+                                class="form-select">
+                            <option value="">Select a patient</option>
+                        </select>
+                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MedicationName" class="form-label fw-bold">Medication</label>
+                        <input asp-for="MedicationName" class="form-control" placeholder="Enter medication name..." />
+                        <span asp-validation-for="MedicationName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Dosage" class="form-label fw-bold">Dosage</label>
+                        <input asp-for="Dosage" class="form-control" placeholder="Enter dosage instructions..." />
+                        <span asp-validation-for="Dosage" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Instructions" class="form-label fw-bold">Instructions</label>
+                        <textarea asp-for="Instructions" class="form-control" rows="3" placeholder="Enter administration instructions..."></textarea>
+                        <span asp-validation-for="Instructions" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Create Prescription
+                        </button>
+                        <a asp-action="Prescriptions" asp-controller="Doctor" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

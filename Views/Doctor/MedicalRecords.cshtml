@@ -1,134 +1,152 @@
-﻿@model IEnumerable<Hospital_Administration_System.Models.MedicalRecord>
+﻿@* @model IEnumerable<MedicalRecord> *@
+@* @{ *@
+@*     ViewData["Title"] = "Medical Records"; *@
+@*     Layout = "_DoctorLayout"; *@
+@* } *@
 
+@* <div class="container-fluid"> *@
+@*     <h2 class="text-primary mb-4">Medical Records</h2> *@
+
+@*     <div class="filter-section"> *@
+@*         <form method="get" class="row g-3"> *@
+@*             <div class="col-md-3"> *@
+@*                 <label class="form-label">Start Date</label> *@
+@*                 <input type="date" name="startDate" class="form-control" *@
+@*                        value="@ViewData["StartDate"]" /> *@
+@*             </div> *@
+@*             <div class="col-md-3"> *@
+@*                 <label class="form-label">End Date</label> *@
+@*                 <input type="date" name="endDate" class="form-control" *@
+@*                        value="@ViewData["EndDate"]" /> *@
+@*             </div> *@
+@*             <div class="col-md-4"> *@
+@*                 <label class="form-label">Patient Name</label> *@
+@*                 <input type="text" name="patientName" class="form-control" *@
+@*                        value="@ViewData["PatientName"]" /> *@
+@*             </div> *@
+@*             <div class="col-md-2 d-flex align-items-end"> *@
+@*                 <button type="submit" class="btn btn-primary w-100">Filter</button> *@
+@*             </div> *@
+@*         </form> *@
+@*     </div> *@
+
+@*     <div class="row"> *@
+@*         @foreach (var record in Model) *@
+@*         { *@
+@*             <div class="col-md-6 col-lg-4 mb-4"> *@
+@*                 <div class="card card-medical h-100"> *@
+@*                     <div class="card-header d-flex justify-content-between align-items-center"> *@
+@*                         <h5 class="mb-0">@record.Diagnosis</h5> *@
+@*                         <small class="text-muted">@record.CreatedAt.ToString("d")</small> *@
+@*                     </div> *@
+@*                     <div class="card-body"> *@
+@*                         <h6 class="text-muted">Patient</h6> *@
+@*                         <p class="card-text">@record.Patient?.FullName</p> *@
+
+@*                         <h6 class="text-muted mt-3">Treatment</h6> *@
+@*                         <p class="card-text">@record.Treatment</p> *@
+
+@*                         @if (!string.IsNullOrEmpty(record.AdditionalData)) *@
+@*                         { *@
+@*                             <div class="alert alert-info mt-3"> *@
+@*                                 <small>@record.AdditionalData</small> *@
+@*                             </div> *@
+@*                         } *@
+@*                     </div> *@
+@*                     <div class="card-footer bg-transparent"> *@
+@*                         <a asp-controller="DoctorMedicalRecord" asp-action="Edit" *@
+@*                            asp-route-id="@record.RecordID" class="btn btn-sm btn-outline-secondary">Edit</a> *@
+@*                         <a asp-controller="DoctorMedicalRecord" asp-action="Delete" *@
+@*                            asp-route-id="@record.RecordID" class="btn btn-sm btn-outline-danger">Delete</a> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         } *@
+@*     </div> *@
+@* </div> *@
+@model IEnumerable<MedicalRecord>
 @{
-    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    ViewData["Title"] = "Medical Records";
+    Layout = "_DoctorLayout";
 }
-
-<main class="content">
-    <div class="container-fluid">
-        <div class="row mb-4">
-            <div class="col">
-                <h2 class="fw-bold">Medical Records</h2>
-                <p class="text-muted">Review all patient medical records.</p>
-            </div>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-file-medical me-2"></i>Medical Records</h2>
+        <a asp-controller="DoctorMedicalRecord" asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>New Record
+        </a>
+    </div>
+    <div class="card filter-section mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Start Date</label>
+                    <input type="date" name="startDate" class="form-control"
+                           value="@ViewData["StartDate"]" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">End Date</label>
+                    <input type="date" name="endDate" class="form-control"
+                           value="@ViewData["EndDate"]" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Patient Name</label>
+                    <input type="text" name="patientName" class="form-control"
+                           value="@ViewData["PatientName"]" placeholder="Search by patient name..." />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-filter me-2"></i>Filter
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <!-- Filters -->
-        <form method="get" asp-action="MedicalRecords" class="row g-3 mb-4">
-            <div class="col-md-3">
-                <label class="form-label">Patient Name</label>
-                <input type="text" class="form-control" name="patientName" value="@ViewData["PatientName"]" placeholder="Search by name..." />
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Date From</label>
-                <input type="date" class="form-control" name="startDate" value="@ViewData["StartDate"]" />
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Date To</label>
-                <input type="date" class="form-control" name="endDate" value="@ViewData["EndDate"]" />
-            </div>
-            <div class="col-md-3 align-self-end">
-                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter me-1"></i> Filter</button>
-            </div>
-        </form>
-
-        <!-- Medical Records Table -->
-        <div class="card border-0 shadow">
-            <div class="card-header bg-white">
-                <h3 class="mb-0">Recent Medical Records</h3>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Patient</th>
-                                <th>Doctor</th>
-                                <th>Date</th>
-                                <th>Diagnosis</th>
-                                <th>Treatment</th>
-                                <th>Actions</th> <!-- Added Actions Column -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var record in Model)
-                            {
-                                <tr>
-                                    <td>@record.Patient?.FullName</td>
-                                    <td>@record.Doctor?.FullName</td>
-                                    <td>@record.CreatedAt.ToString("yyyy-MM-dd")</td>
-                                    <td>@record.Diagnosis</td>
-                                    <td>@record.Treatment</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-info"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#recordDetailModal"
-                                                data-patient="@record.Patient?.FullName"
-                                                data-doctor="@record.Doctor?.FullName"
-                                                data-date="@record.CreatedAt.ToString("yyyy-MM-dd")"
-                                                data-diagnosis="@record.Diagnosis"
-                                                data-treatment="@record.Treatment"
-                                                data-notes="@record.AdditionalData"
-                                                data-recordid="@record.RecordID">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <!-- Edit and Delete buttons -->
-                                        <a href="@Url.Action("EditRecord", new { id = record.RecordID })" class="btn btn-sm btn-outline-warning">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                        <a href="@Url.Action("DeleteRecord", new { id = record.RecordID })" class="btn btn-sm btn-outline-danger"
-                                           onclick="return confirm('Are you sure you want to delete this record?');">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+    </div>
+    <div class="row">
+        @foreach (var record in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card card-medical h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-primary">@record.Diagnosis</h5>
+                        <small class="text-muted">@record.CreatedAt.ToString("d")</small>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="text-muted fw-bold">Patient</h6>
+                        <p class="card-text">@record.Patient?.FullName</p>
+                        <h6 class="text-muted fw-bold mt-3">Treatment</h6>
+                        <p class="card-text">@record.Treatment</p>
+                        @if (!string.IsNullOrEmpty(record.AdditionalData))
+                        {
+                            <div class="alert alert-info mt-3 small">
+                                @record.AdditionalData
+                            </div>
+                        }
+                    </div>
+                    <div class="card-footer bg-transparent d-flex gap-2">
+                        <a asp-controller="DoctorMedicalRecord" asp-action="Edit"
+                           asp-route-id="@record.RecordID" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </a>
+                        <a asp-controller="DoctorMedicalRecord" asp-action="Delete"
+                           asp-route-id="@record.RecordID" class="btn btn-sm btn-outline-danger">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</main>
-
-<!-- Record Details Modal -->
-<div class="modal fade" id="recordDetailModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Record Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Patient:</strong> <span id="recordPatient"></span></li>
-                    <li class="list-group-item"><strong>Doctor:</strong> <span id="recordDoctor"></span></li>
-                    <li class="list-group-item"><strong>Date:</strong> <span id="recordDate"></span></li>
-                    <li class="list-group-item"><strong>Diagnosis:</strong> <span id="recordDiagnosis"></span></li>
-                    <li class="list-group-item"><strong>Treatment:</strong> <span id="recordTreatment"></span></li>
-                    <li class="list-group-item"><strong>Notes:</strong> <p id="recordNotes" class="mb-0"></p></li>
-                </ul>
-            </div>
-        </div>
+        }
     </div>
 </div>
-
-<!-- Modal Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const recordModal = document.getElementById('recordDetailModal');
-        recordModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-
-            document.getElementById('recordPatient').textContent = button.getAttribute('data-patient');
-            document.getElementById('recordDoctor').textContent = button.getAttribute('data-doctor');
-            document.getElementById('recordDate').textContent = button.getAttribute('data-date');
-            document.getElementById('recordDiagnosis').textContent = button.getAttribute('data-diagnosis');
-            document.getElementById('recordTreatment').textContent = button.getAttribute('data-treatment');
-            document.getElementById('recordNotes').textContent = button.getAttribute('data-notes');
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('input[name="patientName"]').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('.row .col-md-6').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
         });
-
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
-    });
-</script>
+    </script>
+}
