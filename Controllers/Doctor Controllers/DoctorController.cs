@@ -1,6 +1,7 @@
 ﻿using Hospital_Administration_System.Services;
 using Hospital_Administration_System.ViewModels.Doctor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Hospital_Administration_System.Controllers.Doctor_Controllers;
 
@@ -21,34 +22,34 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var reservations = _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
+            var reservations = await _unitOfWork.DoctorService.GetDoctorReservationsAsync(user.Doctor.DoctorID);
             return View(reservations);
         }
         return Unauthorized();
     }
 
-    public async Task<IActionResult> AppointmentsAsync()
-    {
-        //Note Abdallah: For Testing, please remove
-        //return View(new List<Reservation> { new Reservation { } });
+    //public async Task<IActionResult> AppointmentsAsync()
+    //{
+    //    //Note Abdallah: For Testing, please remove
+    //    //return View(new List<Reservation> { new Reservation { } });
 
-        //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-        //    ? PartialView("_AppointmentsPartial")
-        //        : View();
-        //    return PartialView("_AppointmentsPartial");
-        //return View("Appointments");
+    //    //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+    //    //    ? PartialView("_AppointmentsPartial")
+    //    //        : View();
+    //    //    return PartialView("_AppointmentsPartial");
+    //    //return View("Appointments");
 
-        if (User.IsInRole("Doctor"))
-        {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+    //    if (User.IsInRole("Doctor"))
+    //    {
+    //        var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
-            return View(appointments);
-        }
-        return Unauthorized();
-    }
+    //        var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
+    //        return View(appointments);
+    //    }
+    //    return Unauthorized();
+    //}
 
     //[HttpPost, ActionName("DeleteAppointment")]
     //[ValidateAntiForgeryToken]
@@ -65,9 +66,9 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var patients = _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
+            var patients = await _unitOfWork.DoctorService.GetDepartmentPatientsAsync(user.Doctor.DepartmentID);
             return View(patients);
         }
         return Unauthorized();
@@ -80,9 +81,9 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            var patients = _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
+            var patients = await _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
             return View(patients);
         }
         return Unauthorized();
@@ -161,7 +162,7 @@ public class DoctorController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var records = await _unitOfWork.DoctorService.GetDepartmentMedicalsAsync(user.Doctor.DepartmentID, startDate, endDate, patientName); //Note Abdallah: Uncomment for the real function
             return View(records);

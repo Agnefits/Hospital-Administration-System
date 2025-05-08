@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MedicalRecord>
+@{
+    ViewData["Title"] = "Medical History";
+    Layout = "_PatientLayout";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Medical History</h2>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var record in Model)
+        {
+            <div class="col-md-6">
+                <div class="card medical-record-card h-100">
+                    <div class="card-header d-flex justify-content-between bg-light">
+                        <h5 class="mb-0">@record.Diagnosis</h5>
+                        <small class="text-muted">@record.CreatedAt.ToString("d")</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6 class="text-muted">Treatment Provided</h6>
+                            <p class="card-text">@record.Treatment</p>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(record.AdditionalData))
+                        {
+                            <div class="alert alert-info mb-0">
+                                <h6 class="alert-heading">Notes</h6>
+                                <p class="mb-0">@record.AdditionalData</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

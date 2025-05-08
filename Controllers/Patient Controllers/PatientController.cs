@@ -25,15 +25,12 @@ public class PatientController : Controller
 
     public async Task<IActionResult> Reservations()
     { 
-        //Note Abdallah: For Testing, please remove
-        return View(new List<Reservation> { new Reservation { } });
-
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var reservations = await _unitOfWork.PatientService.GetPatientReservations(user.Patient.PatientID);
-            return Json(reservations);
+            return View(reservations);
         }
         return Unauthorized();
     }
@@ -49,7 +46,7 @@ public class PatientController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             model.PatientID = user.Patient.PatientID;
 
             var response = await _unitOfWork.ReservationService.AddAsync(model);
@@ -63,7 +60,7 @@ public class PatientController : Controller
                 TempData["Error"] = response.Error;
             }
         }
-
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View();
     }
 
@@ -75,6 +72,7 @@ public class PatientController : Controller
             return NotFound();
         }
 
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View(reservation);
     }
 
@@ -94,16 +92,15 @@ public class PatientController : Controller
                 TempData["Error"] = response.Error;
             }
         }
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
         return View(reservation.ReservationID);
     }
 
     public async Task<IActionResult> Prescriptions()
     {
-        //Note Abdallah: For Testing, please remove
-        return View(new List<Prescription> { new Prescription { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var prescriptions = await _unitOfWork.PatientService.GetPatientPrescriptions(user.Patient.PatientID);
             return Json(prescriptions);
         }
@@ -112,24 +109,20 @@ public class PatientController : Controller
 
     public async Task<IActionResult> Medicals()
     {
-        //Note Abdallah: For Testing, please remove
-        return View(new List<MedicalRecord> { new MedicalRecord { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var medicals = await _unitOfWork.PatientService.GetPatientMedicals(user.Patient.PatientID);
-            return Json(medicals);
+            return View(medicals);
         }
         return Unauthorized();
     }
 
     public async Task<IActionResult> Analysis()
     {
-        //Note Abdallah: For Testing, please remove
-        return View(new List<Analysis> { new Analysis { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var analysis = await _unitOfWork.PatientService.GetPatientAnalysis(user.Patient.PatientID);
             return Json(analysis);
         }
@@ -138,11 +131,9 @@ public class PatientController : Controller
 
     public async Task<IActionResult> Bills()
     {
-        //Note Abdallah: For Testing, please remove
-        return View(new List<Billing> { new Billing { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var bills = await _unitOfWork.PatientService.GetPatientBills(user.Patient.PatientID);
             return Json(bills);
         }
@@ -151,11 +142,9 @@ public class PatientController : Controller
 
     public async Task<IActionResult> Receipts()
     {
-        //Note Abdallah: For Testing, please remove
-        return View(new List<Receipt> { new Receipt { } });
         if (User.IsInRole("Patient"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var receipts = await _unitOfWork.PatientService.GetPatientReceipts(user.Patient.PatientID);
             return Json(receipts);
         }

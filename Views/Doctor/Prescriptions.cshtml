@@ -1,0 +1,112 @@
+﻿@* @model IEnumerable<Prescription> *@
+@* @{ *@
+@*     ViewData["Title"] = "Prescriptions"; *@
+@*     Layout = "_DoctorLayout"; *@
+@* } *@
+
+@* <div class="container-fluid"> *@
+@*     <div class="d-flex justify-content-between align-items-center mb-4"> *@
+@*         <h2 class="text-primary">Prescriptions</h2> *@
+@*         <a asp-controller="DoctorPrescription" asp-action="Create" *@
+@*            class="btn btn-primary">New Prescription</a> *@
+@*     </div> *@
+
+@*     <div class="table-responsive table-medical"> *@
+@*         <table class="table table-hover"> *@
+@*             <thead> *@
+@*                 <tr> *@
+@*                     <th>Patient</th> *@
+@*                     <th>Medication</th> *@
+@*                     <th>Dosage</th> *@
+@*                     <th>Issued Date</th> *@
+@*                     <th>Actions</th> *@
+@*                 </tr> *@
+@*             </thead> *@
+@*             <tbody> *@
+@*                 @foreach (var item in Model) *@
+@*                 { *@
+@*                     <tr> *@
+@*                         <td>@item.Patient?.FullName</td> *@
+@*                         <td>@item.MedicationName</td> *@
+@*                         <td>@item.Dosage</td> *@
+@*                         <td>@item.IssuedDate.ToString("d")</td> *@
+@*                         <td> *@
+@*                             <a asp-controller="DoctorPrescription" asp-action="Edit" *@
+@*                                asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-secondary">Edit</a> *@
+@*                             <a asp-controller="DoctorPrescription" asp-action="Delete" *@
+@*                                asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-danger">Delete</a> *@
+@*                         </td> *@
+@*                     </tr> *@
+@*                 } *@
+@*             </tbody> *@
+@*         </table> *@
+@*     </div> *@
+@* </div> *@
+@model IEnumerable<Prescription>
+@{
+    ViewData["Title"] = "Prescriptions";
+    Layout = "_DoctorLayout";
+}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-prescription me-2"></i>Prescriptions</h2>
+        <div class="d-flex gap-2">
+            <div class="input-group w-auto">
+                <input type="text" class="form-control" placeholder="Search prescriptions..." id="searchInput">
+                <button class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
+            </div>
+            <a asp-controller="DoctorPrescription" asp-action="Create"
+               class="btn btn-primary"><i class="fas fa-plus me-2"></i>New Prescription</a>
+        </div>
+    </div>
+    <div class="card table-medical">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Medication</th>
+                            <th>Dosage</th>
+                            <th>Issued Date</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="Patient">@item.Patient?.FullName</td>
+                                <td data-label="Medication">@item.MedicationName</td>
+                                <td data-label="Dosage">@item.Dosage</td>
+                                <td data-label="Issued Date">@item.IssuedDate.ToString("d")</td>
+                                <td data-label="Actions" class="text-end">
+                                    <a asp-controller="DoctorPrescription" asp-action="Edit"
+                                       asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-primary me-2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a asp-controller="DoctorPrescription" asp-action="Delete"
+                                       asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
 using Hospital_Administration_System.ViewModels.Doctor;
+using System.Security.Claims;
 
 namespace Hospital_Administration_System.Controllers.Doctor_Controllers;
 
@@ -27,7 +28,7 @@ public class DoctorPrescriptionController : Controller
 
         if (User.IsInRole("Doctor"))
         {
-            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == "").Value);
+            var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
             var result = await _unitOfWork.PrescriptionService.AddAsync(model, user.Doctor.DoctorID);
             if (result.Succeeded)

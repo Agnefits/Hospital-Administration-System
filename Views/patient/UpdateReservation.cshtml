@@ -1,0 +1,48 @@
+﻿@model Hospital_Administration_System.ViewModels.Reservation.ReservationEditVM
+@{
+    ViewData["Title"] = "Edit Appointment";
+    Layout = "_PatientLayout";
+}
+<div class="container-fluid px-4">
+    <div class="card form-card animate__animated animate__fadeIn">
+        <div class="card-header bg-transparent">
+            <h3 class="text-primary mb-0"><i class="fas fa-calendar-edit me-2"></i>Edit Appointment</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateReservation" method="post">
+                <input type="hidden" asp-for="ReservationID" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="DoctorID" class="form-label fw-bold">Select Doctor</label>
+                        <select asp-for="DoctorID" asp-items="@(new SelectList(ViewBag.Doctors, "DoctorID", "FullName"))"
+                                class="form-select">
+                            <option value="">Select a doctor</option>
+                        </select>
+                        <span asp-validation-for="DoctorID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ReservationDate" class="form-label fw-bold">Appointment Date & Time</label>
+                        <input asp-for="ReservationDate" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="ReservationDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="AdditionalData" class="form-label fw-bold">Additional Notes</label>
+                        <textarea asp-for="AdditionalData" class="form-control" rows="4" placeholder="Enter any additional notes..."></textarea>
+                    </div>
+                    <div class="col-12 mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                        <a asp-action="Reservations" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

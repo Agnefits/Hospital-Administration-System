@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Hospital_Administration_System.Models.Patient>
+@{
+    ViewData["Title"] = "Patients";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-procedures me-2"></i>Patient List</h2>
+        <div class="input-group w-auto">
+            <input type="text" class="form-control" placeholder="Search patients..." id="searchInput">
+            <button class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div class="card table-medical">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Blood Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td data-label="Full Name">@patient.FullName</td>
+                                <td data-label="Date of Birth">@patient.DateOfBirth.ToShortDateString()</td>
+                                <td data-label="Gender">@patient.Gender</td>
+                                <td data-label="Contact">@patient.ContactNumber</td>
+                                <td data-label="Address">@patient.Address</td>
+                                <td data-label="Blood Type">@patient.BloodType</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

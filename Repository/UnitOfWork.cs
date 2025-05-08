@@ -22,7 +22,11 @@ public class UnitOfWork : IUnitOfWork
         BranchService = new BranchService(_context);
         DepartmentService = new DepartmentService(_context);
         PharmacistService = new PharmacistService(_context);
+<<<<<<< HEAD
         PatientConditionMonitoringService = new PatientConditionMonitoringService(_context);
+=======
+        LogService = new LogService(_context);
+>>>>>>> 6869df4636162e830ccf44c401936303706cddb7
     }
     public IDoctorRepository DoctorService { get; private set; }
 
@@ -40,7 +44,11 @@ public class UnitOfWork : IUnitOfWork
     public IBranchRepository BranchService { get; private set; }
     public IDepartmentRepository DepartmentService { get; private set; }
     public IPharmacistRepository PharmacistService { get; private set; }
+<<<<<<< HEAD
     public IPatientConditionMonitoring PatientConditionMonitoringService { get; private set; }
+=======
+    public ILogRepository LogService { get; private set; }
+>>>>>>> 6869df4636162e830ccf44c401936303706cddb7
     public int Complete()
     {
         return _context.SaveChanges();

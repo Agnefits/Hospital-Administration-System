@@ -5,17 +5,11 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers;
 
 public class AdminController : Controller
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly UserService _userService;
-    private readonly LogService _logService;
-    private readonly ApplicationDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AdminController(UnitOfWork unitOfWork, UserService userService, LogService logService, ApplicationDbContext context)
+    public AdminController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _userService = userService;
-        _logService = logService;
-        _context = context;
     }
 
     public IActionResult Index()
@@ -28,7 +22,7 @@ public class AdminController : Controller
         ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
         ViewData["Search"] = search;
 
-        var result = await _logService.GetFilteredLogsAsync(startDate, endDate, search);
+        var result = await _unitOfWork.LogService.GetFilteredLogsAsync(startDate, endDate, search);
         return View(result);
     }
 
