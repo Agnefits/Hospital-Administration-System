@@ -71,9 +71,17 @@ public class PatientController : Controller
         {
             return NotFound();
         }
+        var viewModel = new ReservationEditVM
+        {
+            ReservationID = reservation.ReservationID,
+            PatientID = reservation.PatientID,
+            DoctorID = reservation.DoctorID,
+            ReservationDate = reservation.ReservationDate,
+            AdditionalData = reservation.AdditionalData
+        };
 
         ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
-        return View(reservation);
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -93,7 +101,7 @@ public class PatientController : Controller
             }
         }
         ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
-        return View(reservation.ReservationID);
+        return View(reservation);
     }
 
     public async Task<IActionResult> Prescriptions()

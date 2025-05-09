@@ -95,9 +95,16 @@ public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
 
     public async Task<IEnumerable<Doctor>> GetDoctorsAsync()
     {
-        return _context.Doctors
-            .Include(doc => doc.Department).ThenInclude(dep => dep.Branch)
-            .Where(doc => !doc.Deleted);
+        return await _context.Doctors
+        .Include(d => d.User)  // If FullName comes from User
+        .Where(d => !d.Deleted)
+        .Select(d => new Doctor
+        {
+            DoctorID = d.DoctorID,
+            FullName = d.FullName // Or d.FullName if directly on Doctor
+        })
+        .ToListAsync();
+        
     }
 
     public async Task<DoctorResponseVM> UpdateReservationStatusAsync(ReservationEditStatusVM reservationEditStatusVM)

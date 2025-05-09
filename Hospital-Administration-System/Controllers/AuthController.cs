@@ -133,7 +133,7 @@ namespace Hospital_Administration_System.Controllers
             if (roles.Contains("Admin")) return RedirectToAction("Index", "Admin");
             if (roles.Contains("Doctor")) return RedirectToAction("Index", "Doctor");
             if (roles.Contains("Nurse")) return RedirectToAction("Index", "Nurse");
-            if (roles.Contains("Patient")) return RedirectToAction("Index", "Patient");
+            if (roles.Contains("Patient")) return RedirectToAction("PatientDashboard", "Patient");
 
             return RedirectToAction("Index", "Home");
         }
