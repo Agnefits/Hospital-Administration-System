@@ -2,7 +2,9 @@ using Hospital_Administration_System.Controllers.Admin_Controllers;
 using Hospital_Administration_System.Models;
 using Hospital_Administration_System.Repository;
 using Hospital_Administration_System.ViewModels.Doctor;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -104,13 +106,15 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _mockUnitOfWork.Setup(x => x.DoctorService.UpdateReservationStatusAsync(model))
                 .ReturnsAsync(new DoctorResponseVM { Succeeded = true });
 
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.UpdateReservationStatus(model);
 
             // Assert
             Assert.That(result, Is.TypeOf<RedirectToActionResult>());
             var redirectResult = (RedirectToActionResult)result;
-            Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(redirectResult.ActionName, Is.EqualTo("UpcomingAppointments"));
         }
 
         [Test]
@@ -120,11 +124,13 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             var model = new ReservationEditStatusVM();
             _controller.ModelState.AddModelError("Status", "Status is required");
 
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.UpdateReservationStatus(model);
 
             // Assert
-            Assert.That(result, Is.TypeOf<BadRequestObjectResult>());
+            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
         }
 
         [Test]
@@ -140,13 +146,16 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _mockUnitOfWork.Setup(x => x.DoctorService.UpdateReservationStatusAsync(model))
                 .ReturnsAsync(new DoctorResponseVM { Succeeded = false, Error = "Update failed" });
 
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.UpdateReservationStatus(model);
 
             // Assert
-            Assert.That(result, Is.TypeOf<BadRequestObjectResult>());
-            var badRequestResult = (BadRequestObjectResult)result;
-            Assert.That(badRequestResult.Value, Is.EqualTo("Update failed"));
+            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
+            var badRequestResult = (RedirectToActionResult)result;
+            Assert.That(_controller.TempData["Error"], Is.EqualTo("Update failed"));
         }
 
         [Test]

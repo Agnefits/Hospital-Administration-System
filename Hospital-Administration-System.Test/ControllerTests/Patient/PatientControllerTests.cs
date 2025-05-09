@@ -179,9 +179,9 @@ namespace Hospital_Administration_System.Test.ControllerTests.Patient
             var result = await _controller.Prescriptions();
 
             // Assert
-            Assert.That(result, Is.TypeOf<JsonResult>());
-            var jsonResult = (JsonResult)result;
-            Assert.That(jsonResult.Value, Is.EqualTo(expectedPrescriptions));
+            Assert.That(result, Is.TypeOf<ViewResult>());
+            var jsonResult = (ViewResult)result;
+            Assert.That(jsonResult.Model, Is.EqualTo(expectedPrescriptions));
         }
 
         [Test]
