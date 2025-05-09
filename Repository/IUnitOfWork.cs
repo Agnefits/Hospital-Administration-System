@@ -14,6 +14,7 @@ public interface IUnitOfWork
     public IDepartmentRepository DepartmentService { get; }
     public IPharmacistRepository PharmacistService { get; }
     public IPatientConditionMonitoring PatientConditionMonitoringService { get; }
+    public ILogRepository LogService { get; }
     int Complete();
     //public IAppointmentRepository AppointmentRepository { get; }
 }
