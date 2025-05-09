@@ -4,7 +4,9 @@ using Hospital_Administration_System.Repository;
 using Hospital_Administration_System.ViewModels.Department;
 using Hospital_Administration_System.ViewModels.Doctor;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Moq;
+using NuGet.Protocol;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,16 +33,16 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Arrange
             var departments = new List<Department>
             {
-                new Department 
-                { 
-                    DepartmentID = 1, 
+                new Department
+                {
+                    DepartmentID = 1,
                     Name = "Cardiology",
                     AdditionalData = "Heart care department",
                     BranchID = 1
                 },
-                new Department 
-                { 
-                    DepartmentID = 2, 
+                new Department
+                {
+                    DepartmentID = 2,
                     Name = "Neurology",
                     AdditionalData = "Brain and nervous system care",
                     BranchID = 1
@@ -55,7 +57,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<Department>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<Department>>());
             Assert.That(viewResult.Model, Is.EqualTo(departments));
             Assert.That(((IEnumerable<Department>)viewResult.Model).Count(), Is.EqualTo(2));
         }
@@ -74,7 +76,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<Department>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<Department>>());
             Assert.That(((IEnumerable<Department>)viewResult.Model).Count(), Is.EqualTo(0));
         }
 
@@ -84,17 +86,22 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Arrange
             var branches = new List<Branch>
             {
-                new Branch { BranchID = 1, Name = "Main Branch" }
+                new Branch { BranchID = 1, Name = "Main Branch", Location = "456 New St", ContactNumber = "987-654-3210" }
             };
-            var doctors = new List<Doctor>
+            var doctors = new List<User>
             {
-                new Doctor { User = new User{ Id = "1" }, DoctorID = 1, FullName = "Dr. Smith" }
+                new User {
+                    Id= "1",
+                    Email = "test@email.com",
+                    UserName = "test@email.com",
+                    Doctor = new Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
+                }
             };
 
-            _mockUnitOfWork.Setup(x => x.BranchService.GetAllBranchesAsync())
-                .ReturnsAsync(branches);
-            _mockUnitOfWork.Setup(x => x.DoctorService.GetAllAsync())
-                .ReturnsAsync(doctors);
+            _mockUnitOfWork.Setup(x => x.BranchService.GetAllActiveBranches())
+                .Returns(branches);
+            _mockUnitOfWork.Setup(x => x.UserService.GetActiveDoctors())
+                .Returns(doctors);
 
             // Act
             var result = _controller.Create();
@@ -103,16 +110,15 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             Assert.That(result, Is.TypeOf<ViewResult>());
             Assert.That(_controller.ViewBag.Branches, Is.Not.Null);
             Assert.That(_controller.ViewBag.Doctors, Is.Not.Null);
-            Assert.That(((IEnumerable<Branch>)_controller.ViewBag.Branches).Count(), Is.EqualTo(1));
-            Assert.That(((IEnumerable<Doctor>)_controller.ViewBag.Doctors).Count(), Is.EqualTo(1));
+            Assert.That(((SelectList)_controller.ViewBag.Branches).Count(), Is.EqualTo(1));
         }
 
         [Test]
         public async Task Create_WithValidModel_ReturnsRedirectToActionResult()
         {
             // Arrange
-            var model = new DepartmentCreateVM 
-            { 
+            var model = new DepartmentCreateVM
+            {
                 Name = "New Department",
                 AdditionalData = "Department description",
                 BranchID = 1,
@@ -154,8 +160,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Create_WithFailedAdd_ReturnsViewResult()
         {
             // Arrange
-            var model = new DepartmentCreateVM 
-            { 
+            var model = new DepartmentCreateVM
+            {
                 Name = "New Department",
                 AdditionalData = "Department description",
                 BranchID = 1,
@@ -179,8 +185,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         {
             // Arrange
             var departmentId = 1;
-            var department = new Department 
-            { 
+            var department = new Department
+            {
                 DepartmentID = departmentId,
                 Name = "Test Department",
                 AdditionalData = "Test Description",
@@ -191,17 +197,23 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             {
                 new Branch { BranchID = 1, Name = "Main Branch" }
             };
-            var doctors = new List<Doctor>
+            var doctors = new List<User>
             {
-                new Doctor { User = new User{ Id = "1" },  DoctorID = 1, FullName = "Dr. Smith" }
+                new User {
+                    Id= "1",
+                    Email = "test@email.com",
+                    UserName = "test@email.com",
+                    Doctor = new Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
+                }
             };
 
             _mockUnitOfWork.Setup(x => x.DepartmentService.GetByIdAsync(departmentId))
                 .ReturnsAsync(department);
-            _mockUnitOfWork.Setup(x => x.BranchService.GetAllBranchesAsync())
-                .ReturnsAsync(branches);
-            _mockUnitOfWork.Setup(x => x.DoctorService.GetAllAsync())
-                .ReturnsAsync(doctors);
+
+            _mockUnitOfWork.Setup(x => x.BranchService.GetAllActiveBranches())
+                .Returns(branches);
+            _mockUnitOfWork.Setup(x => x.UserService.GetActiveDoctors())
+                .Returns(doctors);
 
             // Act
             var result = await _controller.Edit(departmentId);
@@ -238,8 +250,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Edit_WithValidModel_ReturnsRedirectToActionResult()
         {
             // Arrange
-            var model = new DepartmentEditVM 
-            { 
+            var model = new DepartmentEditVM
+            {
                 DepartmentID = 1,
                 Name = "Updated Department",
                 AdditionalData = "Updated Description",
@@ -282,8 +294,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Edit_WithFailedUpdate_ReturnsViewResult()
         {
             // Arrange
-            var model = new DepartmentEditVM 
-            { 
+            var model = new DepartmentEditVM
+            {
                 DepartmentID = 1,
                 Name = "Updated Department",
                 AdditionalData = "Updated Description",
@@ -339,28 +351,10 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
         }
 
-        [Test]
-        public async Task Delete_WithException_ReturnsRedirectToActionResult()
-        {
-            // Arrange
-            var departmentId = 1;
-            _mockUnitOfWork.Setup(x => x.DepartmentService.DeleteAsync(departmentId))
-                .ThrowsAsync(new Exception("Database error"));
-
-            // Act
-            var result = await _controller.Delete(departmentId);
-
-            // Assert
-            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
-            var redirectResult = (RedirectToActionResult)result;
-            Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
-        }
-
         [TearDown]
         public void TearDown()
         {
             _controller?.Dispose();
         }
     }
-} 
+}

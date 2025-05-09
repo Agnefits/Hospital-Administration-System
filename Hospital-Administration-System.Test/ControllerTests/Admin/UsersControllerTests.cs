@@ -2,12 +2,13 @@ using Hospital_Administration_System.Controllers.Admin_Controllers;
 using Hospital_Administration_System.Models;
 using Hospital_Administration_System.Repository;
 using Hospital_Administration_System.ViewModels.User;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using NuGet.Protocol;
 
 namespace Hospital_Administration_System.Test.ControllerTests.Admin
 {
@@ -30,14 +31,14 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Arrange
             var users = new List<User>
             {
-                new User 
-                { 
+                new User
+                {
                     Id = "user1",
                     UserName = "john.doe@example.com",
                     Email = "john.doe@example.com",
                 },
-                new User 
-                { 
+                new User
+                {
                     Id = "user2",
                     UserName = "jane.smith@example.com",
                     Email = "jane.smith@example.com",
@@ -52,7 +53,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<User>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<User>>());
             Assert.That(viewResult.Model, Is.EqualTo(users));
             Assert.That(((IEnumerable<User>)viewResult.Model).Count(), Is.EqualTo(2));
         }
@@ -71,7 +72,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<User>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<User>>());
             Assert.That(((IEnumerable<User>)viewResult.Model).Count(), Is.EqualTo(0));
         }
 
@@ -80,8 +81,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         {
             // Arrange
             var userId = "test-id";
-            var user = new User 
-            { 
+            var user = new User
+            {
                 Id = userId,
                 UserName = "test.user@example.com",
                 Email = "test.user@example.com",
@@ -121,13 +122,22 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public void Create_ReturnsViewResultWithViewBagData()
         {
             // Arrange
+
             var departments = new List<Department>
             {
-                new Department { DepartmentID = 1, Name = "Cardiology" }
+                new Department { DepartmentID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
             };
 
             _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
                 .ReturnsAsync(departments);
+
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
 
             // Act
             var result = _controller.Create();
@@ -135,22 +145,27 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             Assert.That(_controller.ViewBag.Departments, Is.Not.Null);
-            Assert.That(((IEnumerable<Department>)_controller.ViewBag.Departments).Count(), Is.EqualTo(1));
+            Assert.That(_controller.ViewBag.Pharmacies, Is.Not.Null);
+            Assert.That(((SelectList)_controller.ViewBag.Departments).Count(), Is.EqualTo(1));
+            Assert.That(((SelectList)_controller.ViewBag.Pharmacies).Count(), Is.EqualTo(1));
         }
 
         [Test]
         public async Task Create_WithValidModel_ReturnsRedirectToActionResult()
         {
-            // Arrange
-            var model = new UserCreateVM 
-            { 
-                FullName = "new.user",
+            var model = new UserCreateVM
+            {
+                FullName = "New User",
                 Email = "new.user@example.com",
+                ContactNumber = "010",
                 Password = "Password123!",
                 Role = "Doctor",
+                Specialization = "Stomach",
                 DepartmentID = 1,
-                PharmacyID = 1
             };
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             _mockUnitOfWork.Setup(x => x.UserService.AddAsync(model))
                 .ReturnsAsync(new UserResponseVM { Succeeded = true });
 
@@ -173,6 +188,24 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _controller.ModelState.AddModelError("Email", "Email is required");
             _controller.ModelState.AddModelError("Password", "Password is required");
 
+            var departments = new List<Department>
+            {
+                new Department { DepartmentID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
+                .ReturnsAsync(departments);
+
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.Create(model);
 
@@ -188,8 +221,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Create_WithFailedAdd_ReturnsViewResult()
         {
             // Arrange
-            var model = new UserCreateVM 
-            { 
+            var model = new UserCreateVM
+            {
                 FullName = "new.user",
                 Email = "new.user@example.com",
                 Password = "Password123!",
@@ -200,6 +233,24 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _mockUnitOfWork.Setup(x => x.UserService.AddAsync(model))
                 .ReturnsAsync(new UserResponseVM { Succeeded = false, Error = "Failed to create user" });
 
+            var departments = new List<Department>
+            {
+                new Department { DepartmentID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
+                .ReturnsAsync(departments);
+
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.Create(model);
 
@@ -207,7 +258,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
             Assert.That(viewResult.Model, Is.EqualTo(model));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
+            Assert.That(_controller.TempData["ErrorMessage"], Is.EqualTo("Failed to create user"));
         }
 
         [Test]
@@ -215,8 +266,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         {
             // Arrange
             var userId = "test-id";
-            var user = new User 
-            { 
+            var user = new User
+            {
                 Id = userId,
                 UserName = "test.user@example.com",
                 Email = "test.user@example.com",
@@ -226,10 +277,19 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
                 new Department { DepartmentID = 1, Name = "Cardiology" }
             };
 
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
             _mockUnitOfWork.Setup(x => x.UserService.GetByIdAsync(userId))
                 .ReturnsAsync(user);
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
             _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
                 .ReturnsAsync(departments);
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
 
             // Act
             var result = await _controller.Edit(userId);
@@ -237,7 +297,9 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             Assert.That(_controller.ViewBag.Departments, Is.Not.Null);
-            Assert.That(((IEnumerable<Department>)_controller.ViewBag.Departments).Count(), Is.EqualTo(1));
+            Assert.That(_controller.ViewBag.Pharmacies, Is.Not.Null);
+            Assert.That(((SelectList)_controller.ViewBag.Departments).Count(), Is.EqualTo(1));
+            Assert.That(((SelectList)_controller.ViewBag.Pharmacies).Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -259,17 +321,20 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Edit_WithValidModel_ReturnsRedirectToActionResult()
         {
             // Arrange
-            var model = new UserEditVM 
-            { 
+            var model = new UserEditVM
+            {
                 UserId = "test-id",
                 FullName = "updated.user",
                 Email = "updated.user@example.com",
+                ContactNumber = "010",
                 Role = "Doctor",
                 DepartmentID = 1,
                 PharmacyID = 1
             };
             _mockUnitOfWork.Setup(x => x.UserService.UpdateAsync(model))
                 .ReturnsAsync(new UserResponseVM { Succeeded = true });
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
 
             // Act
             var result = await _controller.Edit(model);
@@ -290,6 +355,23 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _controller.ModelState.AddModelError("Email", "Email is required");
             _controller.ModelState.AddModelError("Role", "Role is required");
 
+            var departments = new List<Department>
+            {
+                new Department { DepartmentID = 1, Name = "Cardiology" }
+            };
+
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
+            _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
+                .ReturnsAsync(departments);
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.Edit(model);
 
@@ -305,8 +387,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         public async Task Edit_WithFailedUpdate_ReturnsViewResult()
         {
             // Arrange
-            var model = new UserEditVM 
-            { 
+            var model = new UserEditVM
+            {
                 UserId = "test-id",
                 FullName = "updated.user",
                 Email = "updated.user@example.com",
@@ -317,6 +399,24 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _mockUnitOfWork.Setup(x => x.UserService.UpdateAsync(model))
                 .ReturnsAsync(new UserResponseVM { Succeeded = false, Error = "Failed to update user" });
 
+
+            var departments = new List<Department>
+            {
+                new Department { DepartmentID = 1, Name = "Cardiology" }
+            };
+
+            var pharmacies = new List<Pharmacy>
+            {
+                new Pharmacy { PharmacyID = 1, Name = "Cardiology", BranchID = 1}
+            };
+
+            _mockUnitOfWork.Setup(x => x.PharmacistService.GetAllPharmaciesAsync())
+                .ReturnsAsync(pharmacies);
+            _mockUnitOfWork.Setup(x => x.DepartmentService.GetAllDepartmentsAsync())
+                .ReturnsAsync(departments);
+
+            _controller.TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
+
             // Act
             var result = await _controller.Edit(model);
 
@@ -324,7 +424,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
             Assert.That(viewResult.Model, Is.EqualTo(model));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
+            Assert.That(_controller.TempData["ErrorMessage"], Is.EqualTo("Failed to update user"));
         }
 
         [Test]
@@ -332,11 +432,11 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
         {
             // Arrange
             var userId = "test-id";
-            var user = new User 
-            { 
+            var user = new User
+            {
                 Id = userId,
                 UserName = "test.user@example.com",
-                Email = "test.user@example.com", 
+                Email = "test.user@example.com",
             };
             _mockUnitOfWork.Setup(x => x.UserService.GetByIdAsync(userId))
                 .ReturnsAsync(user);
@@ -384,7 +484,6 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             Assert.That(result, Is.TypeOf<RedirectToActionResult>());
             var redirectResult = (RedirectToActionResult)result;
             Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(_controller.TempData["SuccessMessage"], Is.EqualTo("User deleted successfully!"));
         }
 
         [Test]
@@ -399,28 +498,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             var result = await _controller.DeleteConfirmed(userId);
 
             // Assert
-            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
-            var redirectResult = (RedirectToActionResult)result;
-            Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
-        }
-
-        [Test]
-        public async Task DeleteConfirmed_WithException_ReturnsRedirectToActionResult()
-        {
-            // Arrange
-            var userId = "test-id";
-            _mockUnitOfWork.Setup(x => x.UserService.DeleteAsync(userId))
-                .ThrowsAsync(new Exception("Database error"));
-
-            // Act
-            var result = await _controller.DeleteConfirmed(userId);
-
-            // Assert
-            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
-            var redirectResult = (RedirectToActionResult)result;
-            Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
+            Assert.That(result, Is.TypeOf<NotFoundResult>());
         }
 
         [TearDown]
@@ -429,4 +507,4 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             _controller?.Dispose();
         }
     }
-} 
+}

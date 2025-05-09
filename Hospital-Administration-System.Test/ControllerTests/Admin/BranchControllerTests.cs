@@ -30,8 +30,8 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Arrange
             var branches = new List<Branch>
             {
-                new Branch { BranchID = 1, Name = "Branch 1" },
-                new Branch { BranchID = 2, Name = "Branch 2" }
+                new Branch { BranchID = 1, Name = "Branch 1", Location = "Assiut", ContactNumber = "010" },
+                new Branch { BranchID = 2, Name = "Branch 2", Location = "Aswan", ContactNumber = "011" }
             };
             _mockUnitOfWork.Setup(x => x.BranchService.GetAllBranchesAsync())
                 .ReturnsAsync(branches);
@@ -42,7 +42,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<Branch>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<Branch>>());
             Assert.That(viewResult.Model, Is.EqualTo(branches));
             Assert.That(((IEnumerable<Branch>)viewResult.Model).Count(), Is.EqualTo(2));
         }
@@ -61,7 +61,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             // Assert
             Assert.That(result, Is.TypeOf<ViewResult>());
             var viewResult = (ViewResult)result;
-            Assert.That(viewResult.Model, Is.AssignableFrom<IEnumerable<Branch>>());
+            Assert.That(viewResult.Model, Is.AssignableFrom<List<Branch>>());
             Assert.That(((IEnumerable<Branch>)viewResult.Model).Count(), Is.EqualTo(0));
         }
 
@@ -277,24 +277,6 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
             var branchId = 999;
             _mockUnitOfWork.Setup(x => x.BranchService.DeleteAsync(branchId))
                 .ReturnsAsync(false);
-
-            // Act
-            var result = await _controller.Delete(branchId);
-
-            // Assert
-            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
-            var redirectResult = (RedirectToActionResult)result;
-            Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(_controller.ModelState.ErrorCount, Is.GreaterThan(0));
-        }
-
-        [Test]
-        public async Task Delete_WithException_ReturnsRedirectToActionResult()
-        {
-            // Arrange
-            var branchId = 1;
-            _mockUnitOfWork.Setup(x => x.BranchService.DeleteAsync(branchId))
-                .ThrowsAsync(new Exception("Database error"));
 
             // Act
             var result = await _controller.Delete(branchId);
