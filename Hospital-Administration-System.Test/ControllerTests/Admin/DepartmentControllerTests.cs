@@ -94,7 +94,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
                     Id= "1",
                     Email = "test@email.com",
                     UserName = "test@email.com",
-                    Doctor = new Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
+                    Doctor = new Models.Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
                 }
             };
 
@@ -203,7 +203,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Admin
                     Id= "1",
                     Email = "test@email.com",
                     UserName = "test@email.com",
-                    Doctor = new Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
+                    Doctor = new Models.Doctor { UserID = "1", DoctorID = 1, FullName = "Dr. Smith" }
                 }
             };
 

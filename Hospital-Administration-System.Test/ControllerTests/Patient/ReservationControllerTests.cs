@@ -63,7 +63,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Patient
         public async Task Create_Get_ReturnsViewWithDoctors()
         {
             // Arrange
-            var expectedDoctors = new List<Doctor>();
+            var expectedDoctors = new List<Models.Doctor>();
             _mockUnitOfWork.Setup(x => x.DoctorService.GetDoctorsAsync())
                 .ReturnsAsync(expectedDoctors);
 
@@ -87,7 +87,7 @@ namespace Hospital_Administration_System.Test.ControllerTests.Patient
             _mockUnitOfWork.Setup(x => x.ReservationService.GetByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(existingReservation);
             _mockUnitOfWork.Setup(x => x.DoctorService.GetDoctorsAsync())
-                .ReturnsAsync(new List<Doctor>());
+                .ReturnsAsync(new List<Models.Doctor>());
 
             // Act
             var result = await _controller.Edit(1, model);
@@ -104,9 +104,9 @@ namespace Hospital_Administration_System.Test.ControllerTests.Patient
             _controller.ModelState.AddModelError("Error", "Model error");
 
 
-            var doctors = new List<Doctor>
+            var doctors = new List<Models.Doctor>
             {
-                new Doctor { DepartmentID = 1, FullName = "Name", UserID = "1"}
+                new Models.Doctor { DepartmentID = 1, FullName = "Name", UserID = "1"}
             };
 
             _mockUnitOfWork.Setup(x => x.DoctorService.GetDoctorsAsync())
