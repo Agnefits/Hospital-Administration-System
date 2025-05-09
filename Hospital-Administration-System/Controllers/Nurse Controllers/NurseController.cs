@@ -1,5 +1,6 @@
 ﻿
 
+using Hospital_Administration_System.Models;
 using Hospital_Administration_System.ViewModels.Patient;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -31,20 +32,22 @@ public class NurseController : Controller
     {
         if (User.IsInRole("Nurse"))
         {
-            var nurseId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var patients = await _unitOfWork.PatientConditionMonitoringService.GetAllPatientConditionMonitoringAsync(int.Parse(nurseId!));
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+            var patients = await _unitOfWork.PatientConditionMonitoringService.GetAllPatientConditionMonitoringAsync(user.Nurse.NurseID);
             return View(patients);
         }
         return Unauthorized();
     }
-    public IActionResult AddPatient()
+    public async Task<IActionResult> AddPatient()
     {
         if (!User.IsInRole("Nurse"))
         {
             return RedirectToAction("Index", "Home");
         }
-        var nurseId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var nurse = _unitOfWork.NurseService.GetByIdAsync(int.Parse(nurseId));
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+        var nurse = _unitOfWork.NurseService.GetByIdAsync(user.Nurse.NurseID);
         ViewBag["patiets"] = _unitOfWork.PatientService.GetAllAsync();
         return View(nurse);
     }
