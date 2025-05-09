@@ -1,49 +1,87 @@
 ﻿@model IEnumerable<Hospital_Administration_System.Models.Reservation>
-
 @{
-    ViewData["Title"] = "Upcoming Appointments (Next Two Weeks)";
-	Layout = "_AdminLayout";
+    ViewData["Title"] = "Upcoming Appointments";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title text-primary">@ViewData["Title"]</h2>
-            <p class="text-muted mb-4">Rescheduling is not allowed for these appointments.</p>
-
-            @if (!Model.Any())
-            {
-                <div class="alert alert-info">No upcoming appointments found.</div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col">Patient Name</th>
-                                <th scope="col">Doctor Name</th>
-                                <th scope="col">Appointment Date</th>
-                                <th scope="col">Status</th>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-primary"><i class="fas fa-calendar-check me-2"></i>Upcoming Appointments</h2>
+        <div class="input-group w-auto">
+            <input type="text" class="form-control" placeholder="Search appointments..." id="searchInput">
+            <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div class="card border-0 shadow animate__animated animate__fadeInUp">
+        <div class="card-header bg-white">
+            <h3 class="mb-0 text-primary">Appointment List</h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="animate__animated animate__fadeIn" style="animation-delay: @(Model.ToList().IndexOf(item) * 0.1)s">
+                                <td data-label="Patient">@item.Patient?.FullName</td>
+                                <td data-label="Doctor">@item.Doctor?.FullName</td>
+                                <td data-label="Date & Time">@item.ReservationDate.ToString("f")</td>
+                                <td data-label="Status">
+                                    <span class="status-badge @GetStatusClass(item.Status)">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td data-label="Notes">@(item.AdditionalData ?? "N/A")</td>
+                                <td data-label="Actions">
+                                    <form asp-action="UpdateReservationStatus" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="ReservationID" value="@item.ReservationID" />
+                                        <select name="ReservationStatus" class="form-select form-select-sm d-inline-block w-auto"
+                                                onchange="this.form.submit()">
+                                            <option value="Pending" selected="@(item.Status == ReservationStatus.Pending)">Pending</option>
+                                            <option value="Confirmed" selected="@(item.Status == ReservationStatus.Confirmed)">Confirmed</option>
+                                            <option value="Cancelled" selected="@(item.Status == ReservationStatus.Cancelled)">Cancelled</option>
+                                        </select>
+                                    </form>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var appointment in Model)
-                            {
-                                <tr>
-                                    <td>@appointment.Patient?.FullName</td>
-                                    <td>@appointment.Doctor?.FullName</td>
-                                    <td>@appointment.ReservationDate.ToString("MM/dd/yyyy hh:mm tt")</td>
-                                    <td>
-                                        <span class="badge bg-@(appointment.Status == ReservationStatus.Confirmed ? "success" : appointment.Status == ReservationStatus.Pending ? "warning text-dark" : "secondary")">
-                                            @appointment.Status
-                                        </span>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+@functions {
+    string GetStatusClass(ReservationStatus status)
+    {
+        return status switch
+        {
+            ReservationStatus.Confirmed => "bg-success",
+            ReservationStatus.Cancelled => "bg-danger",
+            ReservationStatus.Pending => "bg-warning",
+            _ => "bg-secondary"
+        };
+    }
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

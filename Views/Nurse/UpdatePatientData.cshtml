@@ -1,0 +1,104 @@
+﻿@model Hospital_Administration_System.ViewModels.Patient.PatientConditionMonitoringVM
+@{
+    ViewData["Title"] = "Update Patient Monitoring";
+    Layout = "_NurseLayout";
+}
+<div class="container-fluid px-4">
+    <div class="card form-card animate__animated animate__fadeIn">
+        <div class="card-header bg-transparent">
+            <h3 class="text-primary mb-0"><i class="fas fa-edit me-2"></i>Update Patient Monitoring</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateAsync" method="post">
+                <input type="hidden" asp-for="PatientId" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label fw-bold">Patient Full Name</label>
+                        <input asp-for="FullName" class="form-control" placeholder="Enter patient name..." />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Age" class="form-label fw-bold">Age</label>
+                        <input asp-for="Age" type="number" class="form-control" placeholder="Enter age..." />
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Gender" class="form-label fw-bold">Gender</label>
+                        <select asp-for="Gender" class="form-select">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Temperature" class="form-label fw-bold">Temperature (°C)</label>
+                        <input asp-for="Temperature" type="number" step="0.1" class="form-control" placeholder="e.g., 36.6" />
+                        <span asp-validation-for="Temperature" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="HeartRate" class="form-label fw-bold">Heart Rate (bpm)</label>
+                        <input asp-for="HeartRate" type="number" class="form-control" placeholder="e.g., 80" />
+                        <span asp-validation-for="HeartRate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="SystolicBP" class="form-label fw-bold">Systolic BP (mmHg)</label>
+                        <input asp-for="SystolicBP" type="number" class="form-control" placeholder="e.g., 120" />
+                        <span asp-validation-for="SystolicBP" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="DiastolicBP" class="form-label fw-bold">Diastolic BP (mmHg)</label>
+                        <input asp-for="DiastolicBP" type="number" class="form-control" placeholder="e.g., 80" />
+                        <span asp-validation-for="DiastolicBP" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="RespiratoryRate" class="form-label fw-bold">Respiratory Rate</label>
+                        <input asp-for="RespiratoryRate" type="number" class="form-control" placeholder="e.g., 16" />
+                        <span asp-validation-for="RespiratoryRate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="OxygenSaturation" class="form-label fw-bold">Oxygen Saturation (%)</label>
+                        <input asp-for="OxygenSaturation" type="number" class="form-control" placeholder="e.g., 98" />
+                        <span asp-validation-for="OxygenSaturation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MedicationGiven" class="form-label fw-bold">Medication Given</label>
+                        <input asp-for="MedicationGiven" class="form-control" placeholder="Enter medication..." />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Dosage" class="form-label fw-bold">Dosage</label>
+                        <input asp-for="Dosage" class="form-control" placeholder="Enter dosage..." />
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="ConditionNotes" class="form-label fw-bold">Condition Notes</label>
+                        <textarea asp-for="ConditionNotes" class="form-control" rows="4" placeholder="Enter condition notes..."></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MonitoringTime" class="form-label fw-bold">Monitoring Time</label>
+                        <input asp-for="MonitoringTime" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="MonitoringTime" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="NurseName" class="form-label fw-bold">Nurse Name</label>
+                        <input asp-for="NurseName" class="form-control" placeholder="Enter nurse name..." />
+                        <span asp-validation-for="NurseName" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="NurseId" />
+                    <div class="col-12 mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                        <a asp-action="index" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

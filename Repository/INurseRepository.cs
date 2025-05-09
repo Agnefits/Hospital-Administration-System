@@ -10,5 +10,6 @@ public interface INurseRepository: IRepository<Nurse>
     public Task UpdateNurseAsync(Nurse nurse);
     public Task DeleteNurseAsync(Nurse nurse);
     public Task<IEnumerable<Reservation>> GetNursesByDepartmentAsync(int Id);
+    Task<Nurse?> GetByUserIdAsync(string userId);
 
 }

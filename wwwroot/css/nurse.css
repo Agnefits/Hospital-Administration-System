@@ -1,0 +1,212 @@
+﻿:root {
+    --nurse-primary: #2A6B5F;
+    --nurse-secondary: #4CAF93;
+    --nurse-accent: #E8F5F2;
+    --nurse-bg: #F5FAF9;
+    --nurse-text: #1A3C34;
+    --nurse-sidebar: #1E4D44;
+    --nurse-hover: #3B8E7A;
+    --font-main: 'Inter', sans-serif;
+    --sidebar-width: 260px;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--nurse-bg);
+    color: var(--nurse-text);
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--nurse-sidebar);
+    color: white;
+    padding: 1.5rem 1rem;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.65rem 1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: var(--nurse-secondary);
+        color: #fff;
+        transform: translateX(5px);
+    }
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background: var(--nurse-bg);
+    margin-left: var(--sidebar-width);
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.25rem 1rem rgba(42, 107, 95, 0.1);
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(42, 107, 95, 0.2);
+    }
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+    .table thead {
+        background-color: var(--nurse-accent);
+        color: var(--nurse-primary);
+        font-weight: 600;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: var(--nurse-accent);
+    transition: background-color 0.3s ease;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 1rem;
+}
+
+.btn {
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--nurse-secondary);
+    border-color: var(--nurse-secondary);
+}
+
+    .btn-primary:hover {
+        background-color: var(--nurse-hover);
+        border-color: var(--nurse-hover);
+        box-shadow: 0 0 0.5rem rgba(76, 175, 147, 0.5);
+    }
+
+.btn-outline-primary {
+    color: var(--nurse-secondary);
+    border-color: var(--nurse-secondary);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--nurse-secondary);
+        color: white;
+        box-shadow: 0 0 0.5rem rgba(76, 175, 147, 0.5);
+    }
+
+.text-primary {
+    color: var(--nurse-primary) !important;
+}
+
+.status-badge {
+    padding: 0.5em 0.75em;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+    .status-badge:hover {
+        transform: scale(1.1);
+    }
+
+.animate__fadeIn, .animate__fadeInUp {
+    animation-duration: 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1050;
+    }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 4rem;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+        .table tr {
+            margin-bottom: 1rem;
+            background-color: #ffffff;
+            box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,0.05);
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 0.5rem 1rem;
+            text-align: right;
+            position: relative;
+        }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                text-align: left;
+                font-weight: bold;
+                color: var(--nurse-primary);
+            }
+}

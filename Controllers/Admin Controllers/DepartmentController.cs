@@ -94,7 +94,6 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
         private void PopulateDropdowns()
         {
             ViewBag.Branches = new SelectList(
@@ -103,8 +102,15 @@ namespace Hospital_Administration_System.Controllers.Admin_Controllers
                 "Name"
             );
 
+            var doctors = _unitOfWork.UserService.GetActiveDoctors()
+                .Select(u => new {
+                    Id = u.Id,
+                    FullName = u.Doctor.FullName 
+                })
+                .ToList();
+
             ViewBag.Doctors = new SelectList(
-                _unitOfWork.UserService.GetActiveDoctors(),
+                doctors,
                 "Id",
                 "FullName"
             );

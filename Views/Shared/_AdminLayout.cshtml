@@ -1,126 +1,263 @@
-﻿<!DOCTYPE html> 
-<html lang="en">
- <head> 
-     <meta charset="utf-8" /> 
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
-     <title>@ViewData["Title"] - Hospital_Administration_System_Admin</title> 
-     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-     <link rel="stylesheet" href="~/css/admin.css" />
-     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
-     <style>
+﻿@* <!DOCTYPE html>  *@
+@* <html lang="en"> *@
+@*  <head>  *@
+@*      <meta charset="utf-8" />  *@
+@*      <meta name="viewport" content="width=device-width, initial-scale=1.0" />  *@
+@*      <title>@ViewData["Title"] - Hospital_Administration_System_Admin</title>  *@
+@*      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+@*      <link rel="stylesheet" href="~/css/admin.css" /> *@
+@*      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> *@
+@*      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">  *@
+@*      <style> *@
 
         
 
-     </style> 
- </head> 
- <body>
+@*      </style>  *@
+@*  </head>  *@
+@*  <body> *@
+@*     <div class="dashboard-container"> *@
+@*         <header>  *@
+@*              <!-- Keep existing sidebar and header content -->  *@
+@*              <!-- Mobile Menu Toggle --> *@
+@*             <button class="btn btn-outline-light bg-success d-lg-none position-fixed shadow" *@
+@*                     style="z-index: 1100; top: 1rem; left: 1rem" *@
+@*                     onclick="toggleSidebar()"> *@
+@*                 <i class="fas fa-bars"></i> *@
+@*             </button> *@
+
+
+@*              <!-- Sidebar --> *@
+@*              <aside class="sidebar"> *@
+@*                 <div class="sidebar-header"> *@
+@*                     <h3><i class="fas fa-user-shield"></i> Admin Dashboard</h3> *@
+@* 			    </div> *@
+@*                 <nav class="nav flex-column"> *@
+@*                     <a class="nav-link" href="@Url.Action("Index", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Dashboard *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Index", "Users")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Users *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Doctors", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Doctors *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Patients", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Patients *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Index", "Branch")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-hospital me-2"></i>Branches *@
+@*                     </a> *@
+@* 					<a class="nav-link" href="@Url.Action("Index", "Department")" onclick="loadPage(event, this)"> *@
+@* 						<i class="fas fa-hospital me-2"></i>Departments *@
+@* 					</a> *@
+@*                     <a class="nav-link" href="@Url.Action("UpcomingAppointments", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Upcoming Appointments *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Billing", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Billing *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Logs", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Logs *@
+@*                     </a> *@
+@*                     <a class="nav-link" href="@Url.Action("Reports", "Admin")" onclick="loadPage(event, this)"> *@
+@*                         <i class="fas fa-calendar-check"></i> Reports *@
+@*                     </a> *@
+@* 					@* <a class="nav-link" href="@Url.Action("logout", "Auth")" onclick="loadPage(event, this)"> *@ 
+@* 					@* 	<i class="fas fa-sign-out-alt"></i> Logout *@ 
+@* 					@* </a> *@ 
+@*                 </nav> *@
+@*              </aside>  *@
+@*         </header>   *@
+@*         <div class="main-content" id="mainContent"> *@
+@*             @RenderBody() *@
+@*         </div> *@
+@*     </div> *@
+@*      <script> *@
+@*         document.addEventListener("DOMContentLoaded", function () { *@
+@*             highlightActiveLink(); *@
+@*         }); *@
+
+@*         function toggleSidebar() { *@
+@*             document.querySelector(".sidebar").classList.toggle("active"); *@
+@*         } *@
+
+@*             function highlightActiveLink() { *@
+@*             const navLinks = document.querySelectorAll('.nav-link'); *@
+@*             const currentPath = window.location.pathname.toLowerCase(); *@
+
+@*             navLinks.forEach(link => { *@
+@*                 const linkPath = new URL(link.href).pathname.toLowerCase(); *@
+@*                 link.classList.toggle('active', linkPath === currentPath); *@
+@*             }); *@
+@*         } *@
+
+
+@*             async function loadPage(event, element) { *@
+@*             event.preventDefault(); *@
+@*             try { *@
+@*                 const response = await fetch(element.href, { *@
+@*                     headers: { 'X-Requested-With': 'XMLHttpRequest' } *@
+@*                 }); *@
+
+@*                 const html = await response.text(); *@
+@*                 const parser = new DOMParser(); *@
+@*                 const doc = parser.parseFromString(html, 'text/html'); *@
+@*                 const content = doc.querySelector('#mainContent')?.innerHTML || html; *@
+
+@*                 document.getElementById('mainContent').innerHTML = content; *@
+@*                 history.pushState({}, '', element.href); *@
+@*                 highlightActiveLink(); // Add this here *@
+
+@*             } catch (error) { *@
+@*                 console.error("Error loading page:", error); *@
+@*             } *@
+@*         } *@
+@*         // Global error handling *@
+@*         window.addEventListener('error', (event) => { *@
+@*             const errorContainer = document.createElement('div'); *@
+@*             errorContainer.className = 'alert alert-danger'; *@
+@*             errorContainer.textContent = 'An error occurred: ' + event.message; *@
+@*             document.body.prepend(errorContainer); *@
+@*             setTimeout(() => errorContainer.remove(), 5000); *@
+@*         }); *@
+
+@*         window.addEventListener('popstate', async () => { *@
+@*             try { *@
+@*                 const response = await fetch(window.location.href, { *@
+@*                     headers: { *@
+@*                         'X-Requested-With': 'XMLHttpRequest', *@
+@*                         'Accept': 'text/html' *@
+@*                     } *@
+@*                 }); *@
+
+@*                 const html = await response.text(); *@
+@*                 const parser = new DOMParser(); *@
+@*                 const doc = parser.parseFromString(html, 'text/html'); *@
+@*                 const content = doc.querySelector('#mainContent')?.innerHTML || html; *@
+
+@*                 document.getElementById('mainContent').innerHTML = content; *@
+@*                 highlightActiveLink(); // Add this here *@
+
+@*             } catch (error) { *@
+@*                 console.error("Navigation error:", error); *@
+@*                 window.location.reload(); *@
+@*             } *@
+@*         }); *@
+
+@*     </script> *@
+@*      <script src="~/lib/jquery/dist/jquery.min.js"></script>  *@
+@*      <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>  *@
+@*      <script src="~/js/site.js" asp-append-version="true"></script>  *@
+@*      @await RenderSectionAsync("Scripts", required: false)  *@
+@*  </body>  *@
+@*  </html> *@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
     <div class="dashboard-container">
-        <header> 
-             <!-- Keep existing sidebar and header content --> 
-             <!-- Mobile Menu Toggle -->
-            <button class="btn btn-outline-light bg-success d-lg-none position-fixed shadow"
-                    style="z-index: 1100; top: 1rem; left: 1rem"
-                    onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
-
-
-             <!-- Sidebar -->
-             <aside class="sidebar">
-                <div class="sidebar-header">
-                    <h3><i class="fas fa-user-shield"></i> Admin Dashboard</h3>
-			    </div>
-                <nav class="nav flex-column">
-                    <a class="nav-link" href="@Url.Action("Index", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Dashboard
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Index", "Users")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Users
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Doctors", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Doctors
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Patients", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Patients
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Index", "Branch")" onclick="loadPage(event, this)">
-                        <i class="fas fa-hospital me-2"></i>Branches
-                    </a>
-					<a class="nav-link" href="@Url.Action("Index", "Department")" onclick="loadPage(event, this)">
-						<i class="fas fa-hospital me-2"></i>Departments
-					</a>
-                    <a class="nav-link" href="@Url.Action("UpcomingAppointments", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Upcoming Appointments
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Billing", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Billing
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Logs", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Logs
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Reports", "Admin")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Reports
-                    </a>
-					@* <a class="nav-link" href="@Url.Action("logout", "Auth")" onclick="loadPage(event, this)"> *@
-					@* 	<i class="fas fa-sign-out-alt"></i> Logout *@
-					@* </a> *@
-                </nav>
-             </aside> 
-        </header>  
-        <div class="main-content" id="mainContent">
+        <button class="btn btn-primary d-lg-none position-fixed"
+                style="z-index: 1100; top: 1rem; left: 1rem"
+                onclick="document.querySelector('.sidebar').classList.toggle('active')">
+            <i class="fas fa-bars"></i>
+        </button>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-user-shield me-2"></i>Admin Portal</h3>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="@Url.Action("Index", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a class="nav-link" href="@Url.Action("Index", "Users")" onclick="loadPage(event, this)">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a class="nav-link" href="@Url.Action("Doctors", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-user-md"></i> Doctors
+                </a>
+                <a class="nav-link" href="@Url.Action("Patients", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-user-injured"></i> Patients
+                </a>
+                <a class="nav-link" href="@Url.Action("Index", "Branch")" onclick="loadPage(event, this)">
+                    <i class="fas fa-hospital"></i> Branches
+                </a>
+                <a class="nav-link" href="@Url.Action("Index", "Department")" onclick="loadPage(event, this)">
+                    <i class="fas fa-building"></i> Departments
+                </a>
+                <a class="nav-link" href="@Url.Action("UpcomingAppointments", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+                <a class="nav-link" href="@Url.Action("Billings", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-file-invoice-dollar"></i> Billings
+                </a>
+                <a class="nav-link" href="@Url.Action("Logs", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-history"></i> Logs
+                </a>
+                <a class="nav-link" href="@Url.Action("Reports", "Admin")" onclick="loadPage(event, this)">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+            </nav>
+        </aside>
+        <main class="main-content" id="mainContent">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                    @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                    @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
             @RenderBody()
-        </div>
+        </main>
     </div>
-     <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             highlightActiveLink();
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
         });
-
-        function toggleSidebar() {
-            document.querySelector(".sidebar").classList.toggle("active");
-        }
-
-            function highlightActiveLink() {
+        function highlightActiveLink() {
             const navLinks = document.querySelectorAll('.nav-link');
             const currentPath = window.location.pathname.toLowerCase();
-
             navLinks.forEach(link => {
                 const linkPath = new URL(link.href).pathname.toLowerCase();
                 link.classList.toggle('active', linkPath === currentPath);
             });
         }
-
-
-            async function loadPage(event, element) {
+        async function loadPage(event, element) {
             event.preventDefault();
             try {
                 const response = await fetch(element.href, {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 });
-
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const content = doc.querySelector('#mainContent')?.innerHTML || html;
-
                 document.getElementById('mainContent').innerHTML = content;
                 history.pushState({}, '', element.href);
-                highlightActiveLink(); // Add this here
-
+                highlightActiveLink();
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
             } catch (error) {
                 console.error("Error loading page:", error);
             }
         }
-        // Global error handling
-        window.addEventListener('error', (event) => {
-            const errorContainer = document.createElement('div');
-            errorContainer.className = 'alert alert-danger';
-            errorContainer.textContent = 'An error occurred: ' + event.message;
-            document.body.prepend(errorContainer);
-            setTimeout(() => errorContainer.remove(), 5000);
-        });
-
         window.addEventListener('popstate', async () => {
             try {
                 const response = await fetch(window.location.href, {
@@ -129,26 +266,28 @@
                         'Accept': 'text/html'
                     }
                 });
-
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const content = doc.querySelector('#mainContent')?.innerHTML || html;
-
                 document.getElementById('mainContent').innerHTML = content;
-                highlightActiveLink(); // Add this here
-
+                highlightActiveLink();
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
             } catch (error) {
                 console.error("Navigation error:", error);
                 window.location.reload();
             }
         });
-
+        window.addEventListener('error', (event) => {
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3';
+            errorContainer.style.zIndex = '2000';
+            errorContainer.textContent = 'An error occurred: ' + event.message;
+            document.body.prepend(errorContainer);
+            setTimeout(() => errorContainer.remove(), 5000);
+        });
     </script>
-     <script src="~/lib/jquery/dist/jquery.min.js"></script> 
-     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
-     <script src="~/js/site.js" asp-append-version="true"></script> 
-     @await RenderSectionAsync("Scripts", required: false) 
- </body> 
- </html>
-
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

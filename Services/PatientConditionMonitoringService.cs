@@ -66,4 +66,11 @@ public class PatientConditionMonitoringService : GenericRepository<PatientCondit
         _context.PatientConditionMonitorings.Update(patient);
         await _context.SaveChangesAsync();
     }
+    public async Task<PatientConditionMonitoring> GetByIdAsync(int id)
+    {
+        return await _context.PatientConditionMonitorings
+            .Include(p => p.Patient)
+            .Include(p => p.Nurse)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
 }

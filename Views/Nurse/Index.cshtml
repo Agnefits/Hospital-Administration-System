@@ -1,141 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Nurse Dashboard";
-    Layout = "~/Views/Shared/_NurseLayout.cshtml";
+﻿@model IEnumerable<Hospital_Administration_System.Models.PatientConditionMonitoring>
+@{
+    ViewData["Title"] = "Patient Monitoring";
+    Layout = "_NurseLayout";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nurse Dashboard</title>
-</head>
-<body>
-    <!-- Mobile Toggle Button -->
-    <button class="btn btn-primary d-lg-none position-fixed"
-            style="z-index: 1100; top: 1rem; left: 1rem"
-            onclick="document.querySelector('.sidebar').classList.toggle('active')">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h3 class="mb-0">
-                <i class="fas fa-user-nurse me-2"></i>
-                Nurse Dashboard
-            </h3>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-primary"><i class="fas fa-file-medical me-2"></i>Patient Monitoring</h2>
+        <div class="input-group w-auto">
+            <input type="text" class="form-control" placeholder="Search patients..." id="searchInput">
+            <button class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
         </div>
-        <nav class="nav flex-column mt-3">
-            <a class="nav-link" href="Overview">
-                <i class="fas fa-home me-2"></i>Overview
-            </a>
-            <a class="nav-link" href="Nurse/Appointments">
-                <i class="fas fa-calendar-check me-2"></i>Appointments
-            </a>
-            <a class="nav-link" href="https://localhost:7059/Patient/Index">
-                <i class="fas fa-file-medical me-2"></i>Patient Records
-            </a>
-            <a class="nav-link" href="#">
-                <i class="fas fa-prescription me-2"></i>Prescriptions
-            </a>
-            <a class="nav-link" href="#">
-                <i class="fas fa-user-md me-2"></i>Refer Patients
-            </a>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container-fluid">
-            <h2 class="text-primary mb-4">
-                <i class="fas fa-user-nurse me-2"></i>Welcome, Nurse
-            </h2>
-
-            <!-- Stats Cards -->
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-                <div class="col">
-                    <div class="card dashboard-card bg-info text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Assigned Patients</h5>
-                                    <h2 class="mb-0">10</h2>
-                                </div>
-                                <i class="fas fa-user-injured fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card dashboard-card bg-success text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Pending Tasks</h5>
-                                    <h2 class="mb-0">5</h2>
-                                </div>
-                                <i class="fas fa-tasks fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card dashboard-card bg-warning text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Recent Appointments</h5>
-                                    <h2 class="mb-0">3</h2>
-                                </div>
-                                <i class="fas fa-calendar-alt fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Appointments Table -->
-            <div class="card border-0 shadow">
-                <div class="card-header bg-white border-0">
-                    <h3 class="mb-0">Recent Appointments</h3>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>Dr. Smith</td>
-                                    <td>2025-03-20</td>
-                                    <td>
-                                        <span class="status-badge upcoming">Upcoming</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Doe</td>
-                                    <td>Dr. Williams</td>
-                                    <td>2025-03-18</td>
-                                    <td>
-                                        <span class="status-badge completed">Completed</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    </div>
+    <div class="card patient-table animate__animated animate__fadeInUp">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Temperature</th>
+                            <th>Heart Rate</th>
+                            <th>Blood Pressure</th>
+                            <th>Monitoring Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="animate__animated animate__fadeIn" style="animation-delay: @(Model.ToList().IndexOf(item) * 0.1)s">
+                                <td data-label="Patient Name">@item.FullName</td>
+                                <td data-label="Age">@item.Age</td>
+                                <td data-label="Gender">@item.Gender</td>
+                                <td data-label="Temperature">@item.Temperature °C</td>
+                                <td data-label="Heart Rate">@item.HeartRate bpm</td>
+                                <td data-label="Blood Pressure">@item.SystolicBP/@item.DiastolicBP mmHg</td>
+                                <td data-label="Monitoring Time">@item.MonitoringTime.ToString("g")</td>
+                                <td data-label="Actions">
+                                    <a asp-action="UpdatePatientData" asp-route-Id="@item.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

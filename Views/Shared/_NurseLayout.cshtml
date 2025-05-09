@@ -1,138 +1,115 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"] - Hospital_Administration_System_Nurse</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/nurse.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #2a5c82;
-            --secondary-color: #5ba4e6;
-            --sidebar-width: 250px;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .sidebar {
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: var(--primary-color);
-            color: white;
-            position: fixed;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            padding: 0.75rem 1.5rem;
-            margin: 0.25rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-            .nav-link:hover,
-            .nav-link.active {
-                background: var(--secondary-color);
-                color: white;
-                transform: translateX(10px);
-            }
-
-        .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-            transition: margin 0.3s ease;
-        }
-
-        .status-badge {
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .upcoming {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .completed {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        @@media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-                .sidebar.active {
-                    transform: translateX(0);
-                }
-
-            .main-content {
-                margin-left: 0 !important;
-            }
-        }
-
-        .dashboard-card {
-            border: none;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-            .dashboard-card:hover {
-                transform: translateY(-5px);
-            }
-    </style>
 </head>
 <body>
-    <header>
-        <!-- Mobile Toggle Button -->
+    <div class="dashboard-container">
         <button class="btn btn-primary d-lg-none position-fixed"
                 style="z-index: 1100; top: 1rem; left: 1rem"
                 onclick="document.querySelector('.sidebar').classList.toggle('active')">
             <i class="fas fa-bars"></i>
         </button>
-
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h3 class="mb-0">
-                    <i class="fas fa-user-nurse me-2"></i>
-                    Nurse Dashboard
-                </h3>
+                <h3><i class="fas fa-user-nurse me-2"></i>Nurse Portal</h3>
             </div>
-            <nav class="nav flex-column mt-3">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-home me-2"></i>Overview
+            <nav class="nav flex-column">
+                <a class="nav-link" href="@Url.Action("Index", "Nurse")" onclick="loadPage(event, this)">
+                    <i class="fas fa-home"></i> Overview
                 </a>
-                <a class="nav-link" href="#">
-                    <i class="fas fa-calendar-check me-2"></i>Appointments
+                <a class="nav-link" href="@Url.Action("Appointments", "Nurse")" onclick="loadPage(event, this)">
+                    <i class="fas fa-calendar-check"></i> Appointments
                 </a>
-                <a class="nav-link" href="#">
-                    <i class="fas fa-file-medical me-2"></i>Patient Records
+                <a class="nav-link" href="@Url.Action("index", "Nurse")" onclick="loadPage(event, this)">
+                    <i class="fas fa-file-medical"></i> Patient Monitoring
                 </a>
-                <a class="nav-link" href="#">
-                    <i class="fas fa-prescription me-2"></i>Prescriptions
-                </a>
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user-md me-2"></i>Refer Patients
+                <a class="nav-link" href="@Url.Action("AddPatient", "Nurse")" onclick="loadPage(event, this)">
+                    <i class="fas fa-user-plus"></i> Add Patient
                 </a>
             </nav>
         </aside>
-    </header>
-    <div>
-        @RenderBody()
+        <main class="main-content" id="mainContent">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                    @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show animate__animated animate__fadeIn" role="alert">
+                    @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @RenderBody()
+        </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            highlightActiveLink();
+        });
+        function highlightActiveLink() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPath = window.location.pathname.toLowerCase();
+            navLinks.forEach(link => {
+                const linkPath = new URL(link.href).pathname.toLowerCase();
+                link.classList.toggle('active', linkPath === currentPath);
+            });
+        }
+        async function loadPage(event, element) {
+            event.preventDefault();
+            try {
+                const response = await fetch(element.href, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.querySelector('#mainContent')?.innerHTML || html;
+                document.getElementById('mainContent').innerHTML = content;
+                history.pushState({}, '', element.href);
+                highlightActiveLink();
+            } catch (error) {
+                console.error("Error loading page:", error);
+            }
+        }
+        window.addEventListener('popstate', async () => {
+            try {
+                const response = await fetch(window.location.href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html'
+                    }
+                });
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const content = doc.querySelector('#mainContent')?.innerHTML || html;
+                document.getElementById('mainContent').innerHTML = content;
+                highlightActiveLink();
+            } catch (error) {
+                console.error("Navigation error:", error);
+                window.location.reload();
+            }
+        });
+        window.addEventListener('error', (event) => {
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3';
+            errorContainer.style.zIndex = '2000';
+            errorContainer.textContent = 'An error occurred: ' + event.message;
+            document.body.prepend(errorContainer);
+            setTimeout(() => errorContainer.remove(), 5000);
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

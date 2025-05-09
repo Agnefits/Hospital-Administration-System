@@ -8,4 +8,5 @@ public interface IPatientConditionMonitoring : IRepository<PatientConditionMonit
     Task AddPatientConditionMonitoring(PatientConditionMonitoringVM patientConditionMonitoring);
     Task UpdatePatientConditionMonitoring(PatientConditionMonitoringVM patientConditionMonitoring);
     Task<IEnumerable<PatientConditionMonitoring>> GetAllPatientConditionMonitoringAsync(int nurseId);
+    Task<PatientConditionMonitoring> GetByIdAsync(int id);
 }

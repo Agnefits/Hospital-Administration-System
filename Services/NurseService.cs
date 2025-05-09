@@ -39,5 +39,12 @@ public class NurseService: GenericRepository<Nurse>, INurseRepository
     {
         await UpdateAsync(nurse);
     }
+
+    public async Task<Nurse?> GetByUserIdAsync(string userId)
+    {
+        return await _context.Nurses
+            .FirstOrDefaultAsync(n => n.UserID == userId);
+    }
+
 }
 
