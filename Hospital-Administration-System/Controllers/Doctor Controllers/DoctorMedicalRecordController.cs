@@ -13,9 +13,28 @@ public class DoctorMedicalRecordController : Controller
         _unitOfWork = unitOfWork;
     }
 
+    //public async Task<IActionResult> Create()
+    //{
+    //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    //    var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+    //    if (user == null || user.Doctor == null)
+    //        return Unauthorized();
+    //    var doctorId = user.Doctor.DoctorID;
+    //    var patients = await _unitOfWork.PatientService.GetPatientsByDoctorId(doctorId);
+    //    ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+    //    return View();
+    //}
     public async Task<IActionResult> Create()
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+        if (user == null || user.Doctor == null)
+            return Unauthorized();
+
+        var doctorId = user.Doctor.DoctorID;
+        var patients = await _unitOfWork.PatientService.GetPatientsByDoctorId(doctorId);
+
+        ViewData["Patients"] = new SelectList(patients, "PatientID", "FullName"); // Filtered patients
         return View();
     }
 
@@ -32,7 +51,7 @@ public class DoctorMedicalRecordController : Controller
 
             var result = await _unitOfWork.MedicalRecordService.AddAsync(model, user.Doctor.DoctorID);
             if (result.Succeeded)
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("MedicalRecords", "Doctor");
             else
             {
                 ModelState.AddModelError("", result.Error);
@@ -47,13 +66,29 @@ public class DoctorMedicalRecordController : Controller
 
     public async Task<IActionResult> Edit(int id)
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+        // Get current doctor's patients
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+        var doctorId = user.Doctor.DoctorID;
+        var patients = await _unitOfWork.PatientService.GetPatientsByDoctorId(doctorId);
+
+        ViewData["Patients"] = new SelectList(patients, "PatientID", "FullName");
 
         var medicalRecord = await _unitOfWork.MedicalRecordService.GetByIdAsync(id);
         if (medicalRecord == null)
             return NotFound();
 
-        return View(medicalRecord);
+        // Map to ViewModel
+        var viewModel = new MedicalRecordEditVM
+        {
+            RecordID = medicalRecord.RecordID,
+            PatientID = medicalRecord.PatientID,
+            Diagnosis = medicalRecord.Diagnosis,
+            Treatment = medicalRecord.Treatment,
+            AdditionalData = medicalRecord.AdditionalData
+        };
+
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -65,7 +100,7 @@ public class DoctorMedicalRecordController : Controller
 
         var result = await _unitOfWork.MedicalRecordService.UpdateAsync(model);
         if (result.Succeeded)
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("MedicalRecords", "Doctor");
         else
         {
             ModelState.AddModelError("", result.Error);
@@ -81,9 +116,9 @@ public class DoctorMedicalRecordController : Controller
         if (!deleted)
         {
             ModelState.AddModelError("", "Error deleting medical record");
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("MedicalRecords", "Doctor");
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("MedicalRecords", "Doctor");
     }
 }

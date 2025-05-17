@@ -17,9 +17,6 @@ public class DoctorController : Controller
 
     public async Task<IActionResult> Index()
     {
-        //Note Abdallah: For Testing, please remove
-        //return View();
-
         if (User.IsInRole("Doctor"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -30,39 +27,8 @@ public class DoctorController : Controller
         return Unauthorized();
     }
 
-    //public async Task<IActionResult> AppointmentsAsync()
-    //{
-    //    //Note Abdallah: For Testing, please remove
-    //    //return View(new List<Reservation> { new Reservation { } });
-
-    //    //return (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-    //    //    ? PartialView("_AppointmentsPartial")
-    //    //        : View();
-    //    //    return PartialView("_AppointmentsPartial");
-    //    //return View("Appointments");
-
-    //    if (User.IsInRole("Doctor"))
-    //    {
-    //        var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-    //        var appointments = _unitOfWork.DoctorService.GetDepartmentReservationsAsync(user.Doctor.DepartmentID); 
-    //        return View(appointments);
-    //    }
-    //    return Unauthorized();
-    //}
-
-    //[HttpPost, ActionName("DeleteAppointment")]
-    //[ValidateAntiForgeryToken]
-    //public async Task<ActionResult> DeleteConfirmed(int id)
-    //{
-    //    var ap = await  _doctorService.
-    //    return RedirectToAction("AppointmentsAsync");
-    //}
-
     public async Task<IActionResult> Patients()
     {
-        //Note Abdallah: For Testing, please remove
-        //return View(new List<Patient> { new Patient { } });
 
         if (User.IsInRole("Doctor"))
         {
@@ -76,12 +42,11 @@ public class DoctorController : Controller
 
     public async Task<IActionResult> Prescriptions()
     {
-        //Note Abdallah: For Testing, please remove
-        //return View(new List<Prescription> { new Prescription { } });
 
         if (User.IsInRole("Doctor"))
         {
             var user = await _unitOfWork.UserService.GetByIdAsync(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
 
             var patients = await _unitOfWork.DoctorService.GetDepartmentPrescriptionsAsync(user.Doctor.DepartmentID);
             return View(patients);

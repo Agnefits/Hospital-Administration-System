@@ -9,7 +9,8 @@
             <h3 class="text-primary mb-0"><i class="fas fa-prescription me-2"></i>New Prescription</h3>
         </div>
         <div class="card-body">
-            <form asp-action="Create">
+            <form asp-action="Create" asp-controller="DoctorPrescription" method="post">
+            @* <form asp-action="Create"> *@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label asp-for="PatientID" class="form-label fw-bold">Patient</label>

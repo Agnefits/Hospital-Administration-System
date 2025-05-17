@@ -58,6 +58,14 @@ public class PatientService : GenericRepository<Patient>, IPatientRepository
             .Where(r => r.PatientID == patientId)
             .ToListAsync();
     }
-
+    public async Task<IEnumerable<Patient>> GetPatientsByDoctorId(int doctorId)
+    {
+        return await _context.Reservations
+            .Include(r => r.Patient)
+            .Where(r => r.DoctorID == doctorId)
+            .Select(r => r.Patient)
+            .Distinct()
+            .ToListAsync();
+    }
 
 }

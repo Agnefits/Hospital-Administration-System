@@ -26,11 +26,11 @@
                 </div>
                 <nav class="nav flex-column">
                     <a class="nav-link" href="@Url.Action("Index", "Doctor")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Dashboard
+                        <i class="fas fa-calendar-check"></i> My Appointments
                     </a>
-                    <a class="nav-link" href="@Url.Action("AppointmentsAsync", "Doctor")" onclick="loadPage(event, this)">
-                        <i class="fas fa-calendar-check"></i> Appointments
-                    </a>
+                    @* <a class="nav-link" href="@Url.Action("AppointmentsAsync", "Doctor")" onclick="loadPage(event, this)"> *@
+                    @*     <i class="fas fa-calendar-check"></i> Appointments *@
+                    @* </a> *@
                     <a class="nav-link" href="@Url.Action("Patients", "Doctor")" onclick="loadPage(event, this)">
                         <i class="fas fa-procedures"></i> Patients
                     </a>

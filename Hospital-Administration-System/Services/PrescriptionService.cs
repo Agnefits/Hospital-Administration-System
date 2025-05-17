@@ -46,6 +46,7 @@ namespace Hospital_Administration_System.Services
 
                 await _context.Prescriptions.AddAsync(prescription);
 
+                await _context.SaveChangesAsync();
                 return new DoctorResponseVM
                 {
                     Succeeded = true,
@@ -84,6 +85,17 @@ namespace Hospital_Administration_System.Services
             prescription.AdditionalData = viewModel.AdditionalData;
             _context.Prescriptions.Update(prescription);
 
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _context.Prescriptions.AnyAsync(p => p.PrescriptionID == viewModel.PrescriptionID))
+                    return new DoctorResponseVM { Succeeded = false, Message = "Prescription not found" };
+                else
+                    throw;
+            }
             return new DoctorResponseVM
             {
                 Succeeded = true,
@@ -99,6 +111,7 @@ namespace Hospital_Administration_System.Services
                 return false;
 
             _context.Prescriptions.Remove(prescription);
+            await _context.SaveChangesAsync();
             return true;
         }
     }

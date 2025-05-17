@@ -8,4 +8,5 @@ public interface IPatientRepository : IRepository<Patient>
     Task<IEnumerable<Analysis>> GetPatientAnalysis(int patientId);
     Task<IEnumerable<Billing>> GetPatientBills(int patientId);
     Task<IEnumerable<Receipt>> GetPatientReceipts(int patientId);
+    Task<IEnumerable<Patient>> GetPatientsByDoctorId(int doctorId);
 }

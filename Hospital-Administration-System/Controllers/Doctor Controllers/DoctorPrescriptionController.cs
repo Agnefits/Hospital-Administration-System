@@ -13,9 +13,25 @@ public class DoctorPrescriptionController : Controller
         _unitOfWork = unitOfWork;
     }
 
+    //public async Task<IActionResult> Create()
+    //{
+    //    ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+    //    return View();
+    //}
     public async Task<IActionResult> Create()
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+
+        if (user == null || user.Doctor == null)
+            return Unauthorized();
+
+        var doctorId = user.Doctor.DoctorID;
+
+        var patients = await _unitOfWork.PatientService.GetPatientsByDoctorId(doctorId);
+
+        ViewData["Patients"] = new SelectList(patients, "PatientID", "FullName");
+
         return View();
     }
 
@@ -32,7 +48,7 @@ public class DoctorPrescriptionController : Controller
 
             var result = await _unitOfWork.PrescriptionService.AddAsync(model, user.Doctor.DoctorID);
             if (result.Succeeded)
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Prescriptions", "Doctor");
             else
             {
                 ModelState.AddModelError("", result.Error);
@@ -45,15 +61,42 @@ public class DoctorPrescriptionController : Controller
         }
     }
 
+    //public async Task<IActionResult> Edit(int id)
+    //{
+    //    ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+
+    //    var prescription = await _unitOfWork.PrescriptionService.GetByIdAsync(id);
+    //    if (prescription == null)
+    //        return NotFound();
+
+    //    return View(prescription);
+    //}
     public async Task<IActionResult> Edit(int id)
     {
-        ViewData["Patients"] = await _unitOfWork.PatientService.GetAllAsync();
+        // Get current doctor's patients (like in Create action)
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _unitOfWork.UserService.GetByIdAsync(userId);
+        var doctorId = user.Doctor.DoctorID;
+        var patients = await _unitOfWork.PatientService.GetPatientsByDoctorId(doctorId);
 
+        ViewData["Patients"] = new SelectList(patients, "PatientID", "FullName");
+
+        // Fetch prescription and map to PrescriptionEditVM
         var prescription = await _unitOfWork.PrescriptionService.GetByIdAsync(id);
         if (prescription == null)
             return NotFound();
 
-        return View(prescription);
+        var viewModel = new PrescriptionEditVM
+        {
+            PrescriptionID = prescription.PrescriptionID,
+            PatientID = prescription.PatientID,
+            MedicationName = prescription.MedicationName,
+            Dosage = prescription.Dosage,
+            Instructions = prescription.Instructions,
+            AdditionalData = prescription.AdditionalData
+        };
+
+        return View(viewModel); // Pass the view model instead of the entity
     }
 
     [HttpPost]
@@ -65,7 +108,7 @@ public class DoctorPrescriptionController : Controller
 
         var result = await _unitOfWork.PrescriptionService.UpdateAsync(model);
         if (result.Succeeded)
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Prescriptions", "Doctor");
         else
         {
             ModelState.AddModelError("", result.Error);
@@ -81,9 +124,9 @@ public class DoctorPrescriptionController : Controller
         if (!deleted)
         {
             ModelState.AddModelError("", "Error deleting prescription record");
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Prescriptions", "Doctor");
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Prescriptions", "Doctor");
     }
 }

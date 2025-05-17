@@ -1,48 +1,4 @@
-﻿@* @model IEnumerable<Prescription> *@
-@* @{ *@
-@*     ViewData["Title"] = "Prescriptions"; *@
-@*     Layout = "_DoctorLayout"; *@
-@* } *@
-
-@* <div class="container-fluid"> *@
-@*     <div class="d-flex justify-content-between align-items-center mb-4"> *@
-@*         <h2 class="text-primary">Prescriptions</h2> *@
-@*         <a asp-controller="DoctorPrescription" asp-action="Create" *@
-@*            class="btn btn-primary">New Prescription</a> *@
-@*     </div> *@
-
-@*     <div class="table-responsive table-medical"> *@
-@*         <table class="table table-hover"> *@
-@*             <thead> *@
-@*                 <tr> *@
-@*                     <th>Patient</th> *@
-@*                     <th>Medication</th> *@
-@*                     <th>Dosage</th> *@
-@*                     <th>Issued Date</th> *@
-@*                     <th>Actions</th> *@
-@*                 </tr> *@
-@*             </thead> *@
-@*             <tbody> *@
-@*                 @foreach (var item in Model) *@
-@*                 { *@
-@*                     <tr> *@
-@*                         <td>@item.Patient?.FullName</td> *@
-@*                         <td>@item.MedicationName</td> *@
-@*                         <td>@item.Dosage</td> *@
-@*                         <td>@item.IssuedDate.ToString("d")</td> *@
-@*                         <td> *@
-@*                             <a asp-controller="DoctorPrescription" asp-action="Edit" *@
-@*                                asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-secondary">Edit</a> *@
-@*                             <a asp-controller="DoctorPrescription" asp-action="Delete" *@
-@*                                asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-danger">Delete</a> *@
-@*                         </td> *@
-@*                     </tr> *@
-@*                 } *@
-@*             </tbody> *@
-@*         </table> *@
-@*     </div> *@
-@* </div> *@
-@model IEnumerable<Prescription>
+﻿@model IEnumerable<Prescription>
 @{
     ViewData["Title"] = "Prescriptions";
     Layout = "_DoctorLayout";
@@ -85,10 +41,12 @@
                                        asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a asp-controller="DoctorPrescription" asp-action="Delete"
-                                       asp-route-id="@item.PrescriptionID" class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </a>
+                                    <form asp-controller="DoctorPrescription" asp-action="Delete"
+                                          asp-route-id="@item.PrescriptionID" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         }

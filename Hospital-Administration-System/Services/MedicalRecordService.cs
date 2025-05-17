@@ -42,6 +42,7 @@ namespace Hospital_Administration_System.Services
                 };
 
                 await _context.MedicalRecords.AddAsync(medicalRecord);
+                await _context.SaveChangesAsync();
 
                 return new DoctorResponseVM
                 {
@@ -79,6 +80,7 @@ namespace Hospital_Administration_System.Services
             medicalRecord.Treatment = viewModel.Treatment;
             medicalRecord.AdditionalData = viewModel.AdditionalData;
             _context.MedicalRecords.Update(medicalRecord);
+            await _context.SaveChangesAsync();
 
             return new DoctorResponseVM
             {
@@ -95,6 +97,7 @@ namespace Hospital_Administration_System.Services
                 return false;
 
             _context.MedicalRecords.Remove(medicalRecord);
+            await _context.SaveChangesAsync();
             return true;
         }
     }
