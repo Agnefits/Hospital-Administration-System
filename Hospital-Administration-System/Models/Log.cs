@@ -16,7 +16,7 @@ public class Log
 
     [Required, MaxLength(255)]
     public string TableName { get; set; }
-    public int? RecordID { get; set; }
+    public string? RecordID { get; set; }
     public DateTime Timestamp { get; set; } = DateTime.Now;
 
     [MaxLength(50)]

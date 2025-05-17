@@ -15,6 +15,8 @@ public class DepartmentService : GenericRepository<Department>, IDepartmentRepos
     {
         return await _context.Departments
             .Include(d => d.Branch)
+            .Include(d => d.HeadDoctor)
+            .ThenInclude(hd=>hd.Doctor)
             .Where(d => !d.Deleted)
             .ToListAsync();
     }

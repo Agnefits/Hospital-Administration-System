@@ -48,14 +48,16 @@ public static class DependencyInjection
                 await roleManager.CreateAsync(new IdentityRole(role));
         }
 
-        var adminUser = await userManager.FindByNameAsync("admin");
+        var adminUser = await userManager.FindByNameAsync("admin@email.com");
 
         if (adminUser == null)
         {
             var user = new User
             {
-                UserName = "admin",
+                Email = "admin@email.com",
+                UserName = "admin@email.com",
                 CreatedAt = DateTime.UtcNow,
+                EmailConfirmed = true,
                 AdditionalData = null,
                 Deleted = false
             };

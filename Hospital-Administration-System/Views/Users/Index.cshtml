@@ -98,11 +98,11 @@
                                        data-bs-toggle="tooltip" title="Edit">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <a asp-action="Details" asp-route-id="@user.Id"
+                                    @*<a asp-action="Details" asp-route-id="@user.Id"
                                        class="btn btn-sm btn-icon btn-outline-info rounded-3"
                                        data-bs-toggle="tooltip" title="Details">
                                         <i class="fas fa-eye"></i>
-                                    </a>
+                                    </a>*@
                                     <form asp-action="Delete" method="post">
                                         <input type="hidden" name="id" value="@user.Id" />
                                         <button type="submit"
