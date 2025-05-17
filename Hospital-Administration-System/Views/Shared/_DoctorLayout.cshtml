@@ -28,9 +28,6 @@
                     <a class="nav-link" href="@Url.Action("Index", "Doctor")" onclick="loadPage(event, this)">
                         <i class="fas fa-calendar-check"></i> My Appointments
                     </a>
-                    @* <a class="nav-link" href="@Url.Action("AppointmentsAsync", "Doctor")" onclick="loadPage(event, this)"> *@
-                    @*     <i class="fas fa-calendar-check"></i> Appointments *@
-                    @* </a> *@
                     <a class="nav-link" href="@Url.Action("Patients", "Doctor")" onclick="loadPage(event, this)">
                         <i class="fas fa-procedures"></i> Patients
                     </a>
@@ -40,6 +37,12 @@
                     <a class="nav-link" href="@Url.Action("MedicalRecords", "Doctor")" onclick="loadPage(event, this)">
                         <i class="fas fa-file-medical"></i> Medical Records
                     </a>
+                    <form asp-controller="Auth" asp-action="Logout" method="post" class="nav-link-form">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
                 </nav>
             </aside>
 
@@ -57,13 +60,15 @@
             document.querySelector(".sidebar").classList.toggle("active");
         }
 
-            function highlightActiveLink() {
+        function highlightActiveLink() {
             const navLinks = document.querySelectorAll('.nav-link');
             const currentPath = window.location.pathname.toLowerCase();
 
             navLinks.forEach(link => {
-                const linkPath = new URL(link.href).pathname.toLowerCase();
-                link.classList.toggle('active', linkPath === currentPath);
+                if (link.href) { // Only process links with an href attribute
+                    const linkPath = new URL(link.href).pathname.toLowerCase();
+                    link.classList.toggle('active', linkPath === currentPath);
+                }
             });
         }
 

@@ -90,9 +90,15 @@ public class DoctorController : Controller
         if (reservation == null)
             return NotFound();
 
-        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+        var model = new ReservationRedirectionVM
+        {
+            OldReservationID = reservation.ReservationID,
+            DoctorID = reservation.DoctorID,
+            AdditionalData = reservation.AdditionalData
+        };
 
-        return View(reservation);
+        ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
+        return View(model);
     }
 
     [HttpPost]
@@ -106,11 +112,11 @@ public class DoctorController : Controller
         }
 
         var result = await _unitOfWork.DoctorService.RedirectReservationAsync(model);
-        if(result.Succeeded)
+        if (result.Succeeded)
             return RedirectToAction(nameof(Index));
         else
         {
-            ModelState.AddModelError("", result.Error);
+            ModelState.AddModelError("", result.Error); // Uses Error as per DoctorResponseVM
             ViewData["Doctors"] = await _unitOfWork.DoctorService.GetDoctorsAsync();
             return View(model);
         }

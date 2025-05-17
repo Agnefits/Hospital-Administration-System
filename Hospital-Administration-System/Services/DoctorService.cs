@@ -6,10 +6,8 @@ namespace Hospital_Administration_System.Services;
 
 public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
 {
-
     public DoctorService(ApplicationDbContext context) : base(context)
     {
-
     }
 
     public async Task<Doctor> GetDoctorByIdAsync(int id)
@@ -122,6 +120,46 @@ public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
         await _context.SaveChangesAsync();
         return new DoctorResponseVM { Succeeded = true, Message = "Reservation status updated successfully.", Reservation = reservation };
     }
+    //public async Task<DoctorResponseVM> RedirectReservationAsync(ReservationRedirectionVM reservationRedirectionVM)
+    //{
+    //    var reservation = await _context.Reservations
+    //        .Include(r => r.Patient)
+    //        .FirstOrDefaultAsync(r => r.ReservationID == reservationRedirectionVM.OldReservationID);
+
+    //    if (reservation == null)
+    //    {
+    //        return new DoctorResponseVM { Succeeded = false, Message = "Old reservation not found." };
+    //    }
+    //    try
+    //    {
+    //        var newReservation = new Reservation
+    //        {
+    //            PatientID = reservation.PatientID,
+    //            DoctorID = reservationRedirectionVM.DoctorID,
+    //            ReservationDate = reservation.ReservationDate,
+    //            Status = ReservationStatus.Pending,
+    //            AdditionalData = reservationRedirectionVM.AdditionalData
+    //        };
+
+    //        await _context.Reservations.AddAsync(newReservation);
+    //        await _context.SaveChangesAsync();
+
+    //        return new DoctorResponseVM
+    //        {
+    //            Succeeded = true,
+    //            Message = "Department updated successfully",
+    //            Reservation = newReservation,
+    //        };
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        return new DoctorResponseVM
+    //        {
+    //            Succeeded = false,
+    //            Message = ex.Message,
+    //        };
+    //    }
+    //}
     public async Task<DoctorResponseVM> RedirectReservationAsync(ReservationRedirectionVM reservationRedirectionVM)
     {
         var reservation = await _context.Reservations
@@ -130,8 +168,14 @@ public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
 
         if (reservation == null)
         {
-            return new DoctorResponseVM { Succeeded = false, Message = "Old reservation not found." };
+            return new DoctorResponseVM { Succeeded = false, Error = "Old reservation not found." };
         }
+
+        if (!await _context.Doctors.AnyAsync(d => d.DoctorID == reservationRedirectionVM.DoctorID))
+        {
+            return new DoctorResponseVM { Succeeded = false, Error = "Selected doctor not found." };
+        }
+
         try
         {
             var newReservation = new Reservation
@@ -144,21 +188,24 @@ public class DoctorService : GenericRepository<Doctor>, IDoctorRepository
             };
 
             await _context.Reservations.AddAsync(newReservation);
+            reservation.Status = ReservationStatus.Cancelled;
+            _context.Reservations.Update(reservation);
             await _context.SaveChangesAsync();
 
             return new DoctorResponseVM
             {
                 Succeeded = true,
-                Message = "Department updated successfully",
-                Reservation = newReservation,
+                Message = "Reservation redirected successfully",
+                Reservation = newReservation
             };
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
+            //_logger.LogError(ex, "Error redirecting reservation {ReservationID}", reservationRedirectionVM.OldReservationID);
             return new DoctorResponseVM
             {
                 Succeeded = false,
-                Message = ex.Message,
+                Error = ex.Message ?? "An error occurred while redirecting the reservation."
             };
         }
     }

@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IEmailRepository, EmailService>();
         services.AddScoped<IAuthRepository, AuthService>();
+        services.AddLogging();
 
         return services;
     }

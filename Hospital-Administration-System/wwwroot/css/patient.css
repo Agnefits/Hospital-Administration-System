@@ -213,3 +213,31 @@ body {
                 color: var(--patient-primary);
             }
 }
+
+.nav-link-form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.65rem 1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logout-btn:hover,
+.logout-btn.active {
+    background: var(--secondary-color);
+    color: #fff;
+}
